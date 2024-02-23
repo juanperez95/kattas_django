@@ -1,0 +1,90 @@
+{% load static %}
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <link rel="stylesheet" href="{% static 'css/registro.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Alkatra:wght@600&display=swap" rel="stylesheet"></link>
+        <title>Agregar Usuario</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"></link>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'></link>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"></link>
+    </head>
+    <body class="bg-custom">
+
+        <div class="logo_imagen" style=" display: flex; align-items: center; justify-content: center; margin-top: 8px; ">
+            <a class="mr-auto" href="index.php"><img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="max-height: 100px;"
+                                                     alt="logo"></img></a>
+        </div>
+
+        <!-- vista alerta -->
+        <form id="registrationForm" class="row g-3 needs-validation bg-custom" style="margin: 40px auto" prependId="false">
+            <h1 style="font-size: 30px;">Agregar usuario</h1>
+
+            <div class="col-md-4">
+                <label for="cedula" class="form-label">N° Documento</label>
+                <input id="cedula" class="form-control rounded-xl" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="nome" class="form-label">Nombres</label>
+                <input id="nome" class="form-control" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="apellido" class="form-label">Apellidos</label>
+                <input id="apellido" class="form-control rounded-xl" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                <input id="fechaNacimiento" type="date" value="" />
+            </div>
+            <div class="col-md-4">
+                <label for="genero" class="form-label">Género</label>
+                <select id="genero" class="form-select" required="true">
+                    <option value="">Escoja un género</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+
+            <div class="col-md-4">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input id="direccion" class="form-control all" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input id="telefono" class="form-control all" maxlength="10" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input id="correo" class="form-control all" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="contraseña1" class="form-label">Cree una contraseña</label>
+                <input id="contraseña1" class="form-control all" type="password" value="" required="true" />
+            </div>
+            <div class="col-md-4">
+                <label for="contraseña2" class="form-label">Confirma tu contraseña</label>
+                <input id="contraseña2" class="form-control" type="password" required="true" />
+            </div>
+            <div class="alert alert-danger" role="alert">
+                ¡Este correo ya existe!
+            </div>
+            <div class="col-12">
+                <button class="btn-custom">¡Registrarse!</button>
+            </div>
+            
+        </form>
+
+        <script src="{% static 'registro.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </body>
+</html>

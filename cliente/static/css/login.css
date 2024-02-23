@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');*{
+  font-family: 'ui-sans-serif', sans-serif;
+}
+*{
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+:root {
+  --color-fondo:#0F0F0F;
+  --color-fondo2: #F6F1F1;
+  --color-fondo3: #38322F;
+  --color-texto: #F3F3F3;
+  --color-texto2: #23434F;
+  --color-texto3: #000000;
+  --color-botonesPrimarios:#C0252A;
+  /*--color-botonesPrimarios:#C21015;*/  
+  /*--color-botonesPrimarios:#CD3415;*/  
+  --color-botonesSecundarios: #F3F3F3; 
+  --color-HoverBotones: #94080d;
+}
+
+h1 {
+  font-family: 'ui-sans-serif', sans-serif;
+  font-size: 42px;
+  line-height: 40px;
+  font-weight: bold;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'ui-sans-serif', sans-serif;
+  font-size: 18px;
+}
+
+p {
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+input {
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+body {
+  background-color: var(--color-fondo);
+  background-color: var(--color-fondo2);
+  background-color: var(--color-botonesPrimarios);
+  background-color: var(--color-botonesSecundarios);
+  color: var(--color-texto);
+  color: var(--color-texto2);
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+  
+  
+  
+  h1 {
+    color: var(--color-texto);
+  }
+  
+  h2 {
+    color: var(--color-texto);
+  }
+  
+  p {
+    color: var(--color-secundario);
+  }
+  
+  .division {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+  
+  .izquierda {
+    position: relative;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    height: 100vh;
+  }
+
+  .izquierda img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .izquierda::after { /*Esto es una capa para que se sobreponga sobre la imagen, aquí se pone la opacidad*/
+    content: ""; /*Contenido vacío */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Ajusta el valor de opacidad aquí */
+}
+
+  .texto{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /*Los elementos empiezan en la izquierda*/
+    justify-content: left; /*Contenido justificado a la izquierda*/
+    text-align: left; /*Texto alineado a la izquierda*/
+    margin-left: 50px; /*Este es el espacio para que no este al borde*/
+    margin-right: 300px;
+    z-index: 1; /*Con esto, la imagen esta encima*/
+  }
+  
+  .texto2{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /*Los elementos empiezan en la izquierda*/
+    justify-content: left; /*Contenido justificado a la izquierda*/
+    text-align: left; /*Texto alineado a la izquierda*/
+    margin-left: 50px; /*Este es el espacio para que no este al borde*/
+    margin-right: 300px;
+    opacity: 0.7;
+    top: 55%;
+    z-index: 1; /*Con esto, la imagen esta encima*/
+  }
+  
+
+    .derecha{
+      position: relative;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .derecha .login-box {
+      position: relative;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:#0F0F0F;
+      color: #fff;
+      height: 100vh;
+      padding: 80px;
+      margin: 0px;
+      
+    }
+  
+  .derecha .login-box h1 {
+  font-size: 40px;
+  font-weight:bold;
+}
+
+  .derecha .login-box h2 {
+    font-size: 15px;
+}
+
+  .texto_login{
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    z-index: 1; /*Con esto, la imagen esta encima*/
+  }
+  
+  .texto_login2{
+    display: flex;
+    align-items: center; /*Los elementos empiezan en el centro*/
+    justify-content: center; /*Contenido justificado en el centro*/
+    text-align: center; /*Texto alineado en el centro*/
+    opacity: 0.7;
+    z-index: 1; /*Con esto, la imagen esta encima*/
+  }
+
+    .derecha .login-box label {
+    font-size: 15px;
+    margin: 15px;
+    text-align: start;
+    padding: 0;
+    display: flex;
+  }
+    .derecha .login-box input{
+    width: 90%;
+    height: 10%;
+    margin: -5%;
+    padding:18px;
+  }
+    .derecha .login-box input[type="email"],
+    .derecha .login-box input[type="password"]{
+    height: 25px;
+    border-radius: 8px;
+    border: none;
+    transition: .25s;
+  }
+
+    .derecha .login-box input[type="submit"]{
+    border-radius: 0px;
+    height: 30px;
+    color: #fff;
+    border: none;
+    transition: .25s;
+    margin-top: 20%;
+  }
+  
+  .derecha .login-box input:hover[type="submit"]{
+  box-shadow: 0px 4px 10px white;
+  }
+  .derecha .login-box input:active{
+  transform: scale(.95);
+  }
+  
+  .buton{
+    margin-top: 30px;
+    border: 0;
+    align-items: center; /*Los elementos empiezan en el centro*/
+    justify-content: center; /*Contenido justificado en el centro*/
+    text-align: center; /*Texto alineado en el centro*/
+    background-color:var(--color-botonesPrimarios);
+    color: #fff;
+    width: 90%;
+    height: 40px;
+    border-radius: 19px;
+    transition: 0.2s;
+  
+  }
+  .buton:hover{
+    background-color:var(--color-HoverBotones);
+  }
+
+  .derecha .login-box a{
+  margin-top: 10%;
+  text-decoration: none;
+  font-size: 15px;
+  color: darkgray;
+  transition: all .4s;
+  align-items: center; /*Los elementos empiezan en el centro*/
+  justify-content: center; /*Contenido justificado en el centro*/
+  text-align: center; /*Texto alineado en el centro*/
+  }
+  
+  .derecha .login-box a:hover{
+  color: #fff;
+  }
+  .alert{
+    text-align: center;
+    background-color: var(--color-texto2);
+    color: var(--color-texto);
+    font-size: 14px;
+    margin-top: 30px;
+    opacity: 0;
+    animation-name: Move;
+    animation-duration: 7s;
+    border-style: none;
+  }
+  @keyframes Move {
+    50%{
+      opacity: 1;
+    }
+    100%{
+      opacity: 0;
+    }
+  }
+  
+
