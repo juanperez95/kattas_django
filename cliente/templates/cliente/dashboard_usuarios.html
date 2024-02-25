@@ -1,0 +1,40 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block title %}Usuarios{% endblock  %}
+
+{% block content %}
+<div>
+    <span>Filtro</span>
+    <i class="pi pi-filter"></i>
+    <input type="text" id="globalFilter" onkeyup="filterTable()" style="width: 300px;" placeholder="Filtrar usuarios" />
+</div>
+<table id="dataTable" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Documento</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo electrónico</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Fecha de Registro</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Documento</td>
+            <td>Nombres</td>
+            <td>Apellidos</td>
+            <td>Correo electrónico</td>
+            <td>Fecha de Nacimiento</td>
+            <td>Fecha de Registro</td>
+            <td>Teléfono</td>
+            <td>Acciones</td>
+        </tr>
+        <!-- Aquí van los datos de los usuarios -->
+    </tbody>
+</table>
+
+
+{% endblock  %}

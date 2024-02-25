@@ -20,7 +20,7 @@
     <body class="bg-custom">
 
         <div class="logo_imagen" style=" display: flex; align-items: center; justify-content: center; margin-top: 8px; ">
-            <a class="mr-auto" href="index.php"><img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="max-height: 100px;"
+            <a class="mr-auto" href="{% url 'inicio' %}"><img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="max-height: 100px;"
                                                      alt="logo"></img></a>
         </div>
 
@@ -75,11 +75,14 @@
                 <label for="contraseña2" class="form-label">Confirma tu contraseña</label>
                 <input id="contraseña2" class="form-control" type="password" required="true" />
             </div>
+            {% comment %} Validar condicion de usuario existente {% endcomment %}
+            {% if num == 0 %}
             <div class="alert alert-danger" role="alert">
                 ¡Este correo ya existe!
             </div>
+            {% endif %}
             <div class="col-12">
-                <button class="btn-custom">¡Registrarse!</button>
+                <button type="submit" class="btn-custom">¡Registrarse!</button>
             </div>
             
         </form>

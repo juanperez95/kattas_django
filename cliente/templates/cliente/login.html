@@ -48,14 +48,17 @@
 
                             <a href="#">¿Olvidaste tu contraseña?</a><br/>
 
-                            <a href="agregarUsuario.xhtml">Crear cuenta nueva</a>
+                            <a href="{% url 'registro_usuarios' %}">Crear cuenta nueva</a>
                         </form>
+                        {% comment %} Validar condicion de correo {% endcomment %}
+                        {% if num == 0 %}
                         <div class="alert alert-danger" role="alert">
                             ¡Oops!, ¿Haz olvidado la contraseña?.
                         </div>
                         <div class="alert alert-danger" role="alert">
                             ¡Este usuario no ha sido habilitado!.
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@
     </style>
     <div class="loading">
         <div class="loading-overlay">
-            <img src="static/images/pizza_loading.gif" alt="loading" />
+            <img src="../static/images/pizza_loading.gif" alt="loading" />
         </div>
     </div>
 
@@ -70,6 +70,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" style="color: var(--color-texto)">Carta</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'registro_usuarios' %}" style="color: var(--color-texto)">Registrarse</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}" style="color: var(--color-texto)">Iniciar sesion</a><br />
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" style="color: var(--color-texto)">Domicilios: Pide en
