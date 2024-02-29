@@ -1,5 +1,7 @@
 {% extends "cliente/dashboard.html" %}
 
+{% block username %}{{ datos.nombre }}{% endblock  %}
+
 {% block title %}Usuarios{% endblock  %}
 
 {% block content %}
@@ -22,16 +24,33 @@
         </tr>
     </thead>
     <tbody>
+        {% if usuarios %}
+        {% for usuario in usuarios %}
         <tr>
-            <td>Documento</td>
-            <td>Nombres</td>
-            <td>Apellidos</td>
-            <td>Correo electrónico</td>
-            <td>Fecha de Nacimiento</td>
-            <td>Fecha de Registro</td>
-            <td>Teléfono</td>
-            <td>Acciones</td>
+            <td>{{ usuario.documento }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellidos }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.fecha_nacimiento }}</td>
+            <td>{{ usuario.fecha_registro }}</td>
+            <td>{{ usuario.telefono }}</td>
+            <td>
+                {% if datos.perfil.id == 1 %}
+                <button type="button" class="btn btn-primary">U</button>
+                <button type="button" class="btn btn-danger">D</button>
+                {% comment %} Inhabilitar esos botones {% endcomment %}
+                {% else %} 
+                <button type="button" class="btn btn-primary" disabled>U</button>
+                <button type="button" class="btn btn-danger" disabled>D</button>
+                {% endif %}
+            </td>
+        </tr>        
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="8">¡No hay registros!</td>
         </tr>
+        {% endif %}
         <!-- Aquí van los datos de los usuarios -->
     </tbody>
 </table>

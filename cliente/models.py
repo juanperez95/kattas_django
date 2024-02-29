@@ -24,6 +24,9 @@ class Usuario(models.Model):
     fecha_nacimiento = models.DateField(null=False)
     genero = models.CharField(max_length=30,null=False)
     telefono = models.CharField(max_length=10,null=False)
+    direccion = models.CharField(max_length=50,null=False)
+    
+
 
     
     

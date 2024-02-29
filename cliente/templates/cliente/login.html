@@ -37,9 +37,11 @@
                         <div class="texto_login2">
                             <h2>Inicia sesión o regístrate para ingresar</h2>
                         </div>
-                        <form class="form" method="post" action="#">
-                            <label for="email">Correo electrónico</label>
-                            <input type="text" id="email" class="email" name="email"/>
+
+                        <form class="form" method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <label for="email">N° Documento</label>
+                            <input type="text" id="documento" class="documento" name="documento"/>
 
                             <label for="con">Contraseña</label>
                             <input type="password" id="con" name="clave"/>
@@ -51,12 +53,17 @@
                             <a href="{% url 'registro_usuarios' %}">Crear cuenta nueva</a>
                         </form>
                         {% comment %} Validar condicion de correo {% endcomment %}
-                        {% if num == 0 %}
+                        {% if mensaje == 0 %}
                         <div class="alert alert-danger" role="alert">
-                            ¡Oops!, ¿Haz olvidado la contraseña?.
+                            ¡Oops!, ¿Haz olvidado la contraseña?
                         </div>
+                        {% elif mensaje == 2 %}
                         <div class="alert alert-danger" role="alert">
-                            ¡Este usuario no ha sido habilitado!.
+                            ¡Este usuario no ha sido habilitado!
+                        </div>
+                        {% elif mensaje == 1 %}
+                        <div class="alert alert-danger" role="alert">
+                            ¡Ha ocurrido un error en la validacion!
                         </div>
                         {% endif %}
                     </div>

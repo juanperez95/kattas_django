@@ -23,6 +23,7 @@
             <img src="{% static 'images/Logoicono.png' %}" />
         </div>
         <ul class="menu">
+            
             <li>
                 <a href="{% url 'dashboard_usuarios' %}">
                     <i class="fa-solid fa-user"></i>
@@ -61,11 +62,9 @@
                 </a>
             </li>
             <li class="logout">
-                <a href="#">
+                <a href="{% url 'cerrar_sesion' %}">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <form>
-                        <input type="submit" value="Cerrar sesión" />
-                    </form>
+                    <span>Cerrar Sesion</span>
                 </a>
             </li>
         </ul>
