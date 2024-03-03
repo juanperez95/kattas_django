@@ -4,6 +4,54 @@
 
 {% block title %}Usuarios{% endblock  %}
 
+{% block menu %}
+
+<!-- Mostrar a los usuarios estas opciones diferentes al perfil de cliente -->
+
+<li>
+    <a href="{% url 'dashboard_productos' %}">
+        <i class="fa-solid fa-truck-fast"></i>
+        <span>Productos</span>
+    </a>
+</li>
+
+{% if datos.perfil.id == 2 %}
+<li>
+    <a href="{% url 'dashboard_usuarios' %}">
+        <i class="fa-solid fa-user"></i>
+        <span>Usuarios</span>
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Ventas</span>
+    </a>
+</li>
+{% endif %}
+    
+<li>
+    <a href="{% url 'dashboard_insumo' %}">
+        <i class="fa-solid fa-store"></i>
+        <span>Insumos</span>
+    </a>
+</li>
+
+<li>
+    <a href="#">
+        <i class="fa-solid fa-gears"></i>
+        <span>Configuración</span>
+    </a>
+</li>
+<li class="logout">
+    <a href="{% url 'cerrar_sesion' %}">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Cerrar Sesion</span>
+    </a>
+</li>
+
+{% endblock  %}
+
 {% block content %}
 <div>
     <span>Filtro</span>
@@ -16,10 +64,10 @@
             <th>Documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <th>Correo electrónico</th>
-            <th>Fecha de Nacimiento</th>
+            <th>Correo electrónico</th>            
             <th>Fecha de Registro</th>
             <th>Teléfono</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -31,13 +79,19 @@
             <td>{{ usuario.nombre }}</td>
             <td>{{ usuario.apellidos }}</td>
             <td>{{ usuario.email }}</td>
-            <td>{{ usuario.fecha_nacimiento }}</td>
             <td>{{ usuario.fecha_registro }}</td>
             <td>{{ usuario.telefono }}</td>
+            <td>{{ usuario.habilitado.nombre_habilitado }}</td>
             <td>
                 {% if datos.perfil.id == 1 %}
-                <button type="button" class="btn btn-primary">U</button>
-                <button type="button" class="btn btn-danger">D</button>
+                <a href="{% url 'actualizar_usuario' usuario.documento %}" class="btn btn-primary">U</a>
+                
+                {% if usuario.habilitado.id == 1 %}
+                <a href="{% url 'deshabilitar_usuario' usuario.documento %}" class="btn btn-danger">D</a>
+                {% else %}
+                <a href="{% url 'habilitar_usuario' usuario.documento %}" class="btn btn-success">H</a>
+                {% endif %}
+                    
                 {% comment %} Inhabilitar esos botones {% endcomment %}
                 {% else %} 
                 <button type="button" class="btn btn-primary" disabled>U</button>

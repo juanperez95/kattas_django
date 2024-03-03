@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'Kattas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kattasweb',
+        'NAME': 'kattaswebs',
         'USER': 'root',
         'PASSWORD': '',
         'PORT': '3306',
@@ -115,5 +115,14 @@ STATICFILES_DIRS = [(os.path.join(BASE_DIR,"cliente/static"))]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+
+# Configurar correo
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "jplesmes19@gmail.com"
+EMAIL_HOST_PASSWORD = "evtnedekusklvsxv"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

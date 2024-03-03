@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from ..models import Usuario,Perfil,Habilitado,Cargo
+from cliente.models import Usuario,Perfil,Habilitado,Cargo
 import hashlib as h
+from django.core.mail import send_mail,EmailMultiAlternatives
+import random as r
 
 def loginView(request):
     data = {'mensaje':0}
@@ -9,14 +11,14 @@ def loginView(request):
             usuario = Usuario.objects.get(documento=int(request.POST['documento']))
             password = h.sha1(request.POST['clave'].encode()).hexdigest() # Encriptar clave
             # Validar si la contraseña coincide, esta habilitado y es administrador o empleado
-            if password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 1 or usuario.perfil.id == 2:
+            if password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 1 or usuario.perfil.id == 2: # Vista administradores
                 request.session['user'] = str(usuario.documento) # Crear session
                 informacion = {
                     'datos':usuario,
                     'usuarios':Usuario.objects.all()
                                }
                 return render(request,"cliente/dashboard_usuarios.html",informacion)
-            elif password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 3:
+            elif password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 3: # Vista cliente
                 informacion = {
                     'datos':usuario
                     }
@@ -35,6 +37,57 @@ def loginView(request):
 
 def indexView(request):
     return render(request, "cliente/index.html")
+
+def recuperar_pass(request):
+    if request.method == "POST":
+        data = {'m':0}
+        correo = request.POST['email']
+        codigo_generado = r.randint(1000,9999) # Generar contraseña por el sistema de 4 digitos
+        html_content = """
+        <html>
+        <head>
+            <style>
+                /* Definición de estilos CSS */
+                body {font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                }
+                h1 {
+                    color: #333;
+                }
+                p {
+                    font-size: 16px;
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body> 
+            <img src='https://i.postimg.cc/GhrDCHvp/Logokatta-s-sin-fondo.png' / style="float: left; width: 300px;">
+            <h1>Contraseña KattasWEB</h1>
+            <p>Utilice la contraseña """+str(codigo_generado)+""" para ingresar a la plataforma.</p>
+        </body>
+        </html>
+        """
+        msg = EmailMultiAlternatives(
+            subject="Contraseña KattasWEB",
+            body="",
+            from_email="jplesmes19@gmail.com",
+            to=[correo]
+        )
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        try:
+            usuario = Usuario.objects.get(email=correo)
+            encryptada = h.sha1(str(codigo_generado).encode()).hexdigest()
+            usuario.password = encryptada
+            usuario.save()
+            
+        except Exception as err:
+            data['m'] = 1
+            print(err)
+            pass
+
+        return render(request,"cliente/recuperarContraseña.html",data)
+    return render(request,"cliente/recuperarContraseña.html")
 
 # Registro usuarios
 def registroView(request):
@@ -57,7 +110,7 @@ def registroView(request):
             usuario = Usuario(
                 documento=documento,
                 habilitado=Habilitado.objects.get(id=1),
-                perfil=Perfil.objects.get(id=3),
+                perfil=Perfil.objects.get(id=1),
                 cargo=Cargo.objects.get(id=3),
                 password=password,
                 nombre=nombre,
@@ -68,6 +121,39 @@ def registroView(request):
                 telefono=telefono,
                 direccion=direccion
             )
+            html_content = """
+            <html>
+            <head>
+                <style>
+                    /* Definición de estilos CSS */
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f0f0f0;
+                    }
+                    h1 {
+                        color: #333;
+                    }
+                    p {
+                        font-size: 16px;
+                        color: #666;
+                    }
+                </style>
+            </head>
+            <body> 
+                <img src='https://i.postimg.cc/GhrDCHvp/Logokatta-s-sin-fondo.png' / style="float: left; width: 300px;">
+                <h1>¡Bienvenido!</h1>
+                <p>Gracias por formar parte de nuestra comunidad.</p>
+            </body>
+            </html>
+            """
+            msg = EmailMultiAlternatives(
+                subject="Correo con Estilos CSS",
+                body="",
+                from_email="jplesmes19@gmail.com",
+                to=["spinzonramirez@gmail.com"]
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
             usuario.save()
         return redirect('login')
     return render(request,'cliente/registro.html')
@@ -80,4 +166,6 @@ def cerrar_sesion(request):
     except KeyError: # Si no llega a encontrar la clave
         pass
     return redirect('inicio')
+
+
     

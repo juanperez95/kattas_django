@@ -12,4 +12,10 @@ urlpatterns = [
     path("insumo_admin/", view_dashboard.dashboard_insumos,name="dashboard_insumo"),
     path("users_admin/", view_dashboard.dashboard_usuarios,name="dashboard_usuarios"),
     path("productos_admin/", view_dashboard.dashboard_productos,name="dashboard_productos"),
+    path('actualizar_usuario/<str:id>',view_dashboard.actualizar_usuario,name="actualizar_usuario"),
+    path('deshabilitar_user/<str:documento>',view_dashboard.deshabilitar,name="deshabilitar_usuario"),
+    path('habilitar_user/<str:documento>',view_dashboard.habilitar,name="habilitar_usuario"),
+    path('recuperar_pass/',view_login.recuperar_pass,name="recuperar_pass"),
+    
+
 ]

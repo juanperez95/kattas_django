@@ -1,0 +1,169 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block username %}{{ login.nombre }}{% endblock  %}
+
+{% block title %}Usuarios{% endblock  %}
+
+{% block menu %}
+
+<!-- Mostrar a los usuarios estas opciones diferentes al perfil de cliente -->
+
+<li>
+    <a href="{% url 'dashboard_productos' %}">
+        <i class="fa-solid fa-truck-fast"></i>
+        <span>Productos</span>
+    </a>
+</li>
+
+{% if datos.perfil.id == 2 %}
+<li>
+    <a href="{% url 'dashboard_usuarios' %}">
+        <i class="fa-solid fa-user"></i>
+        <span>Usuarios</span>
+    </a>
+</li>
+<li>
+    <a href="#">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Ventas</span>
+    </a>
+</li>
+{% endif %}
+    
+<li>
+    <a href="{% url 'dashboard_insumo' %}">
+        <i class="fa-solid fa-store"></i>
+        <span>Insumos</span>
+    </a>
+</li>
+
+<li>
+    <a href="#">
+        <i class="fa-solid fa-gears"></i>
+        <span>Configuración</span>
+    </a>
+</li>
+<li class="logout">
+    <a href="{% url 'cerrar_sesion' %}">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Cerrar Sesion</span>
+    </a>
+</li>
+
+{% endblock  %}
+
+{% block content %}
+<div class="container">
+    <div class="contact__wrapper shadow-lg mt-n9">
+        <div class="row no-gutters justify-content-center"> <!-- Modificación aquí -->
+    
+            <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1">
+                <div class="row justify-content-center text-center" style="margin-bottom: 30px">
+                    <h1>Editar Usuario</h1>
+                </div>
+                <form class="contact-form form-validate" novalidate="novalidate" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="documento">Documento</label>
+                                <input type="text" class="form-control" id="documento" name="documento"  value="{{ persona.documento }}" style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="Nombre" name="Nombre"  value="{{ persona.nombre }}" style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="apellidos">Apellidos</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido"  value="{{ persona.apellidos }}" style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="direccion">Dirección</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion"  value="{{ persona.direccion }}" style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="email">Correo Electronico</label>
+                                <input type="text" class="form-control" id="email" name="email" value="{{ persona.email }}"  style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="telefono">Telefono</label>
+                                <input type="text" class="form-control" id="telefono" name="telefono"  value="{{ persona.telefono }}" style="background-color: white; border-style: none">
+                            </div>                           
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="select1">Habilitado</label>
+                                    <select class="form-control" id="select1" name="habilitado">
+                                        {% for h in hab %}
+                                        <option value="{{ h.id }}" 
+                                        {% if h.id == persona.habilitado.id %}
+                                            selected
+                                        {% endif %}
+                                            >{{ h.nombre_habilitado }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="select2">Perfil</label>
+                                    <select class="form-control" id="select2" name="perfil">
+                                        {% for p in perfil %}
+                                        <option value="{{ p.id }}"
+                                        {% if p.id == persona.perfil.id %}
+                                            selected
+                                        {% endif %}>{{ p.nombre_perfil }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="select3">Cargo</label>
+                                    <select class="form-control" id="select3" name="cargo">
+                                        {% for c in cargo %}
+                                        <option value="{{ c.id }}"
+                                        {% if c.id == persona.cargo.id %}
+                                            selected
+                                        {% endif %}>{{ c.nombre_cargo }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+    
+                        
+    
+                        <div class="row justify-content-center" style="padding-top: 20px; margin-bottom: 0px" >
+                            <div class="col-sm-12 mb-3 text-center" >
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End Contact Form Wrapper -->
+    
+        </div>
+    </div>
+</div>
+{% endblock  %}
