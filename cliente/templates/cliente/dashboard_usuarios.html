@@ -4,59 +4,16 @@
 
 {% block title %}Usuarios{% endblock  %}
 
-{% block menu %}
-
-<!-- Mostrar a los usuarios estas opciones diferentes al perfil de cliente -->
-
-<li>
-    <a href="{% url 'dashboard_productos' %}">
-        <i class="fa-solid fa-truck-fast"></i>
-        <span>Productos</span>
-    </a>
-</li>
-
-{% if datos.perfil.id == 2 %}
-<li>
-    <a href="{% url 'dashboard_usuarios' %}">
-        <i class="fa-solid fa-user"></i>
-        <span>Usuarios</span>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span>Ventas</span>
-    </a>
-</li>
-{% endif %}
-    
-<li>
-    <a href="{% url 'dashboard_insumo' %}">
-        <i class="fa-solid fa-store"></i>
-        <span>Insumos</span>
-    </a>
-</li>
-
-<li>
-    <a href="#">
-        <i class="fa-solid fa-gears"></i>
-        <span>Configuración</span>
-    </a>
-</li>
-<li class="logout">
-    <a href="{% url 'cerrar_sesion' %}">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Cerrar Sesion</span>
-    </a>
-</li>
-
-{% endblock  %}
 
 {% block content %}
 <div>
-    <span>Filtro</span>
-    <i class="pi pi-filter"></i>
-    <input type="text" id="globalFilter" onkeyup="filterTable()" style="width: 300px;" placeholder="Filtrar usuarios" />
+    <form method="post" >
+        {% csrf_token %}
+        <span>Filtro</span>
+        <i class="pi pi-filter"></i>
+        <input type="text" id="globalFilter" style="width: 300px;" name="documento" placeholder="Filtrar usuarios por documento" />
+        <input type="submit" id="globalFil" style="width: 160px;" value="Buscar" class="btn btn-success"  />
+    </form>
 </div>
 <table id="dataTable" cellpadding="0" cellspacing="0">
     <thead>
@@ -72,8 +29,8 @@
         </tr>
     </thead>
     <tbody>
-        {% if usuarios %}
-        {% for usuario in usuarios %}
+        {% if entidad %}
+        {% for usuario in entidad %}
         <tr>
             <td>{{ usuario.documento }}</td>
             <td>{{ usuario.nombre }}</td>
@@ -84,12 +41,12 @@
             <td>{{ usuario.habilitado.nombre_habilitado }}</td>
             <td>
                 {% if datos.perfil.id == 1 %}
-                <a href="{% url 'actualizar_usuario' usuario.documento %}" class="btn btn-primary">U</a>
+                <a href="{% url 'actualizar_usuario' usuario.documento %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
                 
                 {% if usuario.habilitado.id == 1 %}
-                <a href="{% url 'deshabilitar_usuario' usuario.documento %}" class="btn btn-danger">D</a>
+                <a href="{% url 'deshabilitar_usuario' usuario.documento %}" class="btn btn-danger"><i class="fa-solid fa-user-slash"></i></a>
                 {% else %}
-                <a href="{% url 'habilitar_usuario' usuario.documento %}" class="btn btn-success">H</a>
+                <a href="{% url 'habilitar_usuario' usuario.documento %}" class="btn btn-success"><i class="fa-solid fa-user-check"></i></a>
                 {% endif %}
                     
                 {% comment %} Inhabilitar esos botones {% endcomment %}
@@ -108,6 +65,8 @@
         <!-- Aquí van los datos de los usuarios -->
     </tbody>
 </table>
+
+
 
 
 {% endblock  %}

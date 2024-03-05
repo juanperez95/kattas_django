@@ -25,7 +25,14 @@ class Usuario(models.Model):
     genero = models.CharField(max_length=30,null=False)
     telefono = models.CharField(max_length=10,null=False)
     direccion = models.CharField(max_length=50,null=False)
+
+
+class Insumo(models.Model):
+    class Meta:
+        db_table = "insumos"
+    pass
     
+
 
 
     

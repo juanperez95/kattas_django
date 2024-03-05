@@ -4,6 +4,40 @@ import hashlib as h
 from django.core.mail import send_mail,EmailMultiAlternatives
 import random as r
 
+def html_correo(titulo,asunto, contenido, correo):
+    html_content = """
+        <html>
+        <head>
+            <style>
+                /* Definición de estilos CSS */
+                body {font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                }
+                h1 {
+                    color: #333;
+                }
+                p {
+                    font-size: 16px;
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body> 
+            <img src='https://i.postimg.cc/GhrDCHvp/Logokatta-s-sin-fondo.png' / style="float: left; width: 300px;">
+            <h1>"""+titulo+"""</h1>
+            <p>"""+str(contenido)+"""</p>
+        </body>
+        </html>
+        """
+    msg = EmailMultiAlternatives(
+                subject=asunto,
+                body="",
+                from_email="jplesmes19@gmail.com",
+                to=[correo]
+            )
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
 def loginView(request):
     data = {'mensaje':0}
     if request.method == "POST":
@@ -43,40 +77,10 @@ def recuperar_pass(request):
         data = {'m':0}
         correo = request.POST['email']
         codigo_generado = r.randint(1000,9999) # Generar contraseña por el sistema de 4 digitos
-        html_content = """
-        <html>
-        <head>
-            <style>
-                /* Definición de estilos CSS */
-                body {font-family: Arial, sans-serif;
-                    background-color: #f0f0f0;
-                }
-                h1 {
-                    color: #333;
-                }
-                p {
-                    font-size: 16px;
-                    color: #666;
-                }
-            </style>
-        </head>
-        <body> 
-            <img src='https://i.postimg.cc/GhrDCHvp/Logokatta-s-sin-fondo.png' / style="float: left; width: 300px;">
-            <h1>Contraseña KattasWEB</h1>
-            <p>Utilice la contraseña """+str(codigo_generado)+""" para ingresar a la plataforma.</p>
-        </body>
-        </html>
-        """
-        msg = EmailMultiAlternatives(
-            subject="Contraseña KattasWEB",
-            body="",
-            from_email="jplesmes19@gmail.com",
-            to=[correo]
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        mensaje = f"Su contraseña es {codigo_generado} para ingresar a la plataforma"
         try:
             usuario = Usuario.objects.get(email=correo)
+            html_correo("Recuperar contraseña Kattas WEB","Recuperar Contraseña",mensaje,correo)
             encryptada = h.sha1(str(codigo_generado).encode()).hexdigest()
             usuario.password = encryptada
             usuario.save()
@@ -88,6 +92,7 @@ def recuperar_pass(request):
 
         return render(request,"cliente/recuperarContraseña.html",data)
     return render(request,"cliente/recuperarContraseña.html")
+
 
 # Registro usuarios
 def registroView(request):
@@ -121,39 +126,8 @@ def registroView(request):
                 telefono=telefono,
                 direccion=direccion
             )
-            html_content = """
-            <html>
-            <head>
-                <style>
-                    /* Definición de estilos CSS */
-                    body {
-                        font-family: Arial, sans-serif;
-                        background-color: #f0f0f0;
-                    }
-                    h1 {
-                        color: #333;
-                    }
-                    p {
-                        font-size: 16px;
-                        color: #666;
-                    }
-                </style>
-            </head>
-            <body> 
-                <img src='https://i.postimg.cc/GhrDCHvp/Logokatta-s-sin-fondo.png' / style="float: left; width: 300px;">
-                <h1>¡Bienvenido!</h1>
-                <p>Gracias por formar parte de nuestra comunidad.</p>
-            </body>
-            </html>
-            """
-            msg = EmailMultiAlternatives(
-                subject="Correo con Estilos CSS",
-                body="",
-                from_email="jplesmes19@gmail.com",
-                to=["spinzonramirez@gmail.com"]
-            )
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            message = "Gracias por formar parte de nuestra comunidad."
+            html_correo("¡Bienvenido!","Registro Exitoso",message,correo)
             usuario.save()
         return redirect('login')
     return render(request,'cliente/registro.html')
