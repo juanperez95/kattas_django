@@ -47,25 +47,20 @@ def loginView(request):
             # Validar si la contraseña coincide, esta habilitado y es administrador o empleado
             if password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 1 or usuario.perfil.id == 2: # Vista administradores
                 request.session['user'] = str(usuario.documento) # Crear session
-                informacion = {
-                    'datos':usuario,
-                    'usuarios':Usuario.objects.all()
-                               }
-                return render(request,"cliente/dashboard_usuarios.html",informacion)
+                return redirect('dashboard_usuarios')
             elif password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 3: # Vista cliente
-                informacion = {
-                    'datos':usuario
-                    }
-                return render(request,"cliente/dashboard_usuarios.html",informacion)
+
+                return redirect('dashboard_usuarios')
             elif password == usuario.password and usuario.habilitado.id == 2:
                 data['mensaje'] = 2
                 return render(request,"cliente/login.html",data)
             elif password != usuario.password and usuario.habilitado.id == 1:
                 data['mensaje'] = 0
                 return render(request,"cliente/login.html",data)
+            return redirect('dashboard_usuarios')
         except Exception as err:
             data['mensaje'] = 1
-        return render(request,"cliente/login.html",data)
+        return redirect('login')
             
     return render(request, "cliente/login.html")
 
@@ -116,7 +111,7 @@ def registroView(request):
                 documento=documento,
                 habilitado=Habilitado.objects.get(id=1),
                 perfil=Perfil.objects.get(id=1),
-                cargo=Cargo.objects.get(id=3),
+                cargo=Cargo.objects.get(id=4),
                 password=password,
                 nombre=nombre,
                 apellidos=apellido,

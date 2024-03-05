@@ -15,7 +15,7 @@ def dashboard_usuarios(request):
     if request.method == "POST":
         usuarios = Usuario.objects.filter(documento__icontains=request.POST['documento'])
     usuario =  Usuario.objects.get(documento=request.session.get('user'))
-    paginacion = Paginator(usuarios,7)
+    paginacion = Paginator(usuarios,8)
     pagina = request.GET.get('pagina')
     paginador = paginacion.get_page(pagina)
     return render(request,"cliente/dashboard_usuarios.html",{'entidad':paginador,'datos':usuario})
