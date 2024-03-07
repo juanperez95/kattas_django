@@ -71,14 +71,9 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=40, null=False)
     tamaño = models.CharField(max_length=40, null=False)
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    insumos = models.ManyToManyField(Insumo,related_name="productos")
     
-# Tabla de rompimiento    
-class Producto_Insumos(models.Model):
-    class Meta:
-        db_table = "productos_insumos"
-        
-    fk_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    fk_insumo = models.ForeignKey(Insumo, on_delete=models.CASCADE)
+
     
     
     

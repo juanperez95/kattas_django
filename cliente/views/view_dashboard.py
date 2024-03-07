@@ -7,8 +7,12 @@ def dashboard_base(request):
     return render(request,"cliente/dashboard.html")
 
 def dashboard_insumos(request):
+    data={}
     usuario = Usuario.objects.get(documento=request.session.get('user'))
-    return render(request,"cliente/dashboard_insumo.html",{'datos':usuario})
+    categorias = Categoria.objects.all()
+    data['datos']=usuario
+    data['categorias']=categorias
+    return render(request,"cliente/dashboard_insumo.html",data)
 
 def dashboard_usuarios(request):
     usuarios = Usuario.objects.all()
