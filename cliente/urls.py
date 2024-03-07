@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import view_dashboard, view_catalogo, view_login
+from .views import view_dashboard, view_catalogo, view_login, view_pdf
 
 urlpatterns = [
     # Registros, logueo e inicio de la pagina
@@ -16,6 +16,10 @@ urlpatterns = [
     path('deshabilitar_user/<str:documento>',view_dashboard.deshabilitar,name="deshabilitar_usuario"),
     path('habilitar_user/<str:documento>',view_dashboard.habilitar,name="habilitar_usuario"),
     path('recuperar_pass/',view_login.recuperar_pass,name="recuperar_pass"),
+    path('reporte/', view_pdf.reporte_pdf,name="pdf_dashboard"),
+    path('registrar_insumo/',view_dashboard.registrar_insumo,name="registrar_insumo"),
+    path('entrada_insumo/<str:id>',view_dashboard.entrada_insumo,name="entrada_insumo"),
+    path('dashboard_entrada/',view_dashboard.dashboard_entrada,name="dashboard_entrada")
     
 
 ]

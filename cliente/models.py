@@ -57,8 +57,7 @@ class Insumo(models.Model):
         
     fk_categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
     fk_estado = models.ForeignKey(Estado,on_delete=models.CASCADE)
-    nombre_insumo = models.CharField(max_length=30)
-    fecha_vencimiento = models.DateField()
+    nombre_insumo = models.CharField(max_length=30)    
     cantidad_existente = models.IntegerField(null=False)
     cantidad_minimo = models.IntegerField(null=False)
     
@@ -72,6 +71,16 @@ class Producto(models.Model):
     tamaño = models.CharField(max_length=40, null=False)
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     insumos = models.ManyToManyField(Insumo,related_name="productos")
+    
+class Entrada_Insumo(models.Model):
+    class Meta:
+        db_table= "entradaInsumo"
+        
+    fk_insumo = models.ForeignKey(Insumo, on_delete=models.CASCADE)
+    cantidad_entrada= models.BigIntegerField(null = False)
+    fecha_entrada= models.DateField(null=False,default=timezone.now)
+    fecha_vencimiento=models.DateField(null=False)
+    estado_vencido=models.CharField(max_length=30 , null=False)
     
 
     

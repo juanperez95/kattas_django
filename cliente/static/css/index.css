@@ -15,11 +15,11 @@
   --color-texto: #F3F3F3;
   --color-texto2: #23434F;
   --color-texto3: #000000;
-  --color-botonesPrimarios:#C0252A;
+  --color-botonesPrimarios:#C0252A, ;
   /*--color-botonesPrimarios:#C21015;*/  
   /*--color-botonesPrimarios:#CD3415;*/  
   --color-botonesSecundarios: #F3F3F3; 
-  --color-HoverBotones: #94080d;
+  --color-HoverBotones: #94080d,;
 }
 
 
