@@ -4,53 +4,6 @@
 
 {% block title %}Usuarios{% endblock  %}
 
-{% block menu %}
-
-<!-- Mostrar a los usuarios estas opciones diferentes al perfil de cliente -->
-
-<li>
-    <a href="{% url 'dashboard_productos' %}">
-        <i class="fa-solid fa-truck-fast"></i>
-        <span>Productos</span>
-    </a>
-</li>
-
-{% if datos.perfil.id == 2 %}
-<li>
-    <a href="{% url 'dashboard_usuarios' %}">
-        <i class="fa-solid fa-user"></i>
-        <span>Usuarios</span>
-    </a>
-</li>
-<li>
-    <a href="#">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span>Ventas</span>
-    </a>
-</li>
-{% endif %}
-    
-<li>
-    <a href="{% url 'dashboard_insumo' %}">
-        <i class="fa-solid fa-store"></i>
-        <span>Insumos</span>
-    </a>
-</li>
-
-<li>
-    <a href="#">
-        <i class="fa-solid fa-gears"></i>
-        <span>Configuración</span>
-    </a>
-</li>
-<li class="logout">
-    <a href="{% url 'cerrar_sesion' %}">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Cerrar Sesion</span>
-    </a>
-</li>
-
-{% endblock  %}
 
 {% block content %}
 <div class="container">

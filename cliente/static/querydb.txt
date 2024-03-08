@@ -1,0 +1,25 @@
+/*-------------Estados-------------------------*/
+INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('1', 'En stock');
+INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('2', 'Bajo stock');
+INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('3', 'Sin stock');
+
+/*--------------------Habilitado----------------*/
+INSERT INTO `kattaswebs`.`habilitado` (`id`, `nombre_habilitado`) VALUES ('1', 'Habilitado');
+INSERT INTO `kattaswebs`.`habilitado` (`id`, `nombre_habilitado`) VALUES ('2', 'Habilitado');
+
+/*----------------Perfil------------------*/
+INSERT INTO `kattaswebs`.`perfil` (`id`, `nombre_perfil`) VALUES ('1', 'Administrador');
+INSERT INTO `kattaswebs`.`perfil` (`id`, `nombre_perfil`) VALUES ('2', 'Empleado');
+INSERT INTO `kattaswebs`.`perfil` (`id`, `nombre_perfil`) VALUES ('3', 'Cliente');
+
+/*----------------Cargo------------------*/
+INSERT INTO `kattaswebs`.`cargo` (`id`, `nombre_cargo`) VALUES ('1', 'Mesero');
+INSERT INTO `kattaswebs`.`cargo` (`id`, `nombre_cargo`) VALUES ('2', 'Cajero');
+INSERT INTO `kattaswebs`.`cargo` (`id`, `nombre_cargo`) VALUES ('3', 'Cliente');
+INSERT INTO `kattaswebs`.`cargo` (`id`, `nombre_cargo`) VALUES ('4', 'Ninguno');
+
+/*----------------Categoria------------------*/
+INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('1', 'Carnes');
+INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('2', 'Salsas');
+INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('3', 'Quesos');
+INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('4', 'Vegetales');

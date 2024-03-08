@@ -1,0 +1,74 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block title %}Insumos{% endblock %}
+
+{% block username %}{{ datos.nombre }}{% endblock  %}
+
+{% block content %}
+<div>
+  <form method="post" >
+      {% csrf_token %}
+      <div style="display:flex; align-items:center">
+      <i class="pi pi-filter"></i>
+      <div>
+        <label>ID</label>
+        <input type="text" class="filtrodash" id="globalFilter" style="width:300px; margin-left:0px; margin-right:50px; margin-top:0px" name="id_entrada" placeholder="Filtrar ID" />
+      </div>
+       <div style="margin-left:50px">
+        <label>Fecha de vencimiento</label>
+        <input type="date" class="filtrodash" id="globalFilter" style="width:300px; margin-left:0px;  margin-right:50px; margin-top:0px"  name="f_vencimiento" />
+      </div>
+      <div>
+        <label>Fecha de entrada</label>
+        <input type="date" class="filtrodash" id="globalFilter" style="width:300px; margin-left:0px; margin-right:50px; margin-top:0px" name="f_entrada"  />
+      </div>
+      <div>
+        <label>Estado vencimiento</label>
+        <select name="estado_vencido" class="filtrodash" style="width:300px; height: 37px; margin-left:0px; margin-right:50px; margin-top:0px">
+          <option value="">Escoja una opcion</option>
+          <option value="Vigente">Vigente</option>
+          <option value="Vencido">Vencido</option>
+        </select>
+      </div>
+      <div>
+      <input type="submit" id="globalFil" style="width: 160px;height:50%" value="Buscar" class="btn btn-success"  />
+      </div>
+    </div>
+    </form>
+</div>
+<table id="datatable">
+    <thead>
+        <tr>
+            <th class="cabecera">N° Entrada</th>            
+            <th class="cabecera">Cantidad de Entrada</th>
+            <th class="cabecera">Fecha de vencimiento</th>
+            <th class="cabecera">Fecha de entrada</th>
+            <th class="cabecera">Estado Vencimiento</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% if entidad %}
+        {% for entrada in entidad %}
+        <tr>
+          <td>{{entrada.id}}</td>
+          
+          <td>{{entrada.cantidad_entrada}}</td>
+
+          <td>{{entrada.fecha_vencimiento}}</td>
+          <td>{{entrada.fecha_entrada}}</td>
+          <td>{{entrada.estado_vencido}}</td>                     
+        </tr>
+        {% endfor %}
+      
+
+    {% else %}
+    <td colspan="5">¡No hay registros!</td>
+    </tbody>
+    {% endif %}
+
+
+
+    
+</table>
+{% endblock %}

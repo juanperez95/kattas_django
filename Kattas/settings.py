@@ -16,6 +16,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# CORS_ALLOW_CREDENTIALS = True
+
+# CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ALLOW_CREDENTIALS = True
+
+# CSRF_TRUSTED_ORIGINS = ['https://5919-152-200-176-22.ngrok-free.app']
+
 
 # Application definition
 
@@ -124,5 +132,9 @@ EMAIL_HOST_USER = "jplesmes19@gmail.com"
 EMAIL_HOST_PASSWORD = "evtnedekusklvsxv"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+
+# Configurar archivos
+MEDIA_ROOT = os.path.join(BASE_DIR,"media")
+MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

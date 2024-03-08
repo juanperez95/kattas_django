@@ -1,33 +1,43 @@
 {% extends "cliente/dashboard.html" %}
 
-{% block title %}Productos{% endblock  %}
+{% block title %}Productos{% endblock %}
+
+{% block username %}{{ datos.nombre }}{% endblock  %}
 
 {% block content %}
-<table id="datatable" cellpadding="0" cellspacing="0">
+<a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary">Registrar insumos</button> </a>
+
+<table id="datatable">
     <thead>
         <tr>
-            <th style="border-top-left-radius: 10px;">Id</th>
-            <th>Nombre Producto</th>
-            <th>Precio</th>
-            <th>Tamaño</th>
-            <th>Estado</th>
-            <th>Imagen</th>
-            <th style="border-top-right-radius: 10px;">Acciones</th>
+            <th class="cabecera">Nombre Producto</th>            
+            <th class="cabecera">Tamaño</th>
+            <th class="cabecera">Precio</th>
+            <th class="cabecera">Estado</th>
+            <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
         </tr>
     </thead>
     <tbody>
-        <!-- Aquí van los datos de los productos -->
+      
+        {% for producto in entidad %}
         <tr>
-            <td>Id del producto</td>
-            <td>Nombre del producto</td>
-            <td>Precio del producto</td>
-            <td>Tamaño del producto</td>
-            <td>Estado del producto</td>
-            <td>Imagen del producto</td>
-            <td>Acciones</td>
-        </tr>
+          <td>{{producto.nombre_producto}}</td>
+          <td>{{producto.tamaño}}</td>
+          <td>{{producto.precio}}</td>      
+          <td>{{producto.fk_estado.tipo_estado}}</td>      
+          <td> <a  class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
+            <a  class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
+        
+          </tr>
+        
+        {% endfor %}
+      
+
+
     </tbody>
+
+
+
+    
 </table>
-
-
-{% endblock  %}
+{% endblock %}

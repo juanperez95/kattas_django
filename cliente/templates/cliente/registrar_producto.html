@@ -1,0 +1,75 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block username %}{{ datos.nombre }}{% endblock  %}
+
+{% block title %}Productos{% endblock  %}
+
+
+{% block content %}
+<div class="container">
+    <div class="contact__wrapper shadow-lg mt-n9" style="height:678px;">
+        <div class="row no-gutters justify-content-center" style="padding:0;"> <!-- Modificación aquí -->
+            <a style="color:black;" href="{% url 'dashboard_usuarios' %}"><i class="fa-solid fa-arrow-left" style="position:relative; top:50px; left:50px;cursor: pointer; font-size:25px"></i></a>
+            <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1" style="padding-top: 1px;height:100%;    ">
+                
+                <div class="row justify-content-center text-center" style="margin-bottom: 30px">
+                    <h1 style="font-weight:bold; font-size:40px: overflow-y: hidden;">Registrar Producto</h1>
+                </div>
+                <form class="contact-form form-validate" method="post" style="display:block" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="n_producto">Nombre producto:</label>
+                                <input type="text" class="form-control" id="n_producto" name="n_producto"  value="{{ persona.documento }}" style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="nombre">Descripción:</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion"  value="{{ persona.nombre }}" style="background-color: white; border-style: none"></textarea>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="tamaño">Tamaño</label>
+                                <select class="form-control" id="tamano" name="tamano">                                    
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Individual">Individual</option>
+                                    <option value="Familiar">Familiar</option>
+                                </select>                            
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="precio">Precio</label>
+                                <input type="number" class="form-control" id="precio" name="precio"  value="{{ persona.direccion }}" style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="archivo">Carga imagen:</label>
+                                <input type="file" class="form-control" id="archivo" name="archivo"  style="background-color: white; border-style: none">
+                            </div>
+                        </div>
+
+
+                        
+                        <div class="row justify-content-center" style="padding-top: 20px; margin-bottom: 0px" >
+                            <div class="col-sm-12 mb-3 text-center" >
+                                <button type="submit" name="submit" class="btn btn-primary">Registrar producto</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End Contact Form Wrapper -->
+    
+        </div>
+    </div>
+</div>
+{% endblock  %}

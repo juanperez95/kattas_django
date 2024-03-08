@@ -5,13 +5,52 @@
 {% block username %}{{ datos.nombre }}{% endblock  %}
 
 {% block content %}
+<div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Registrar insumos</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar insumo</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="{% url 'registrar_insumo' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="n_insumo" class="col-form-label">Nombre insumo:</label>
+                  <input type="text" name="n_insumo" class="form-control">
+                </div>                
+                <div class="mb-3">
+                  <label for="c_minima" class="col-form-label">Cantidad minima:</label>
+                  <input type="text" name="c_minima" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="col-form-label">Categoria insumo:</label>
+                    <select name="categoria" class="form-control">
+                        <option value="#">Escoga una opcion</option>
+                        {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" >Send message</button>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>    
 <table id="datatable">
     <thead>
         <tr>
-            <th class="cabecera" style="border-top-left-radius: 10px;">Id</th>
-            <th class="cabecera">Nombre Insumo</th>
-            <th class="cabecera">Ult. Fecha de entrada</th>
-            <th class="cabecera">Fecha de vencimiento</th>
+            <th class="cabecera">Nombre Insumo</th>            
             <th class="cabecera">Cantidad Existente</th>
             <th class="cabecera">Categoria</th>
             <th class="cabecera">Estado</th>
@@ -19,13 +58,32 @@
         </tr>
     </thead>
     <tbody>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      
+        {% for insumo in entidad %}
+        <tr>
+          <td>{{insumo.nombre_insumo}}</td>
+          <td>{{insumo.cantidad_existente}}</td>
+          <td>{{insumo.fk_categoria.nombre_categoria}}</td>      
+          {% if insumo.fk_estado.id == 1 %}  
+          <td><a style="background-color:#70c88e; color:#095020;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
+          {% elif insumo.fk_estado.id == 2 %}  
+          <td><a style="background-color:#ede3a0; color:#71670f;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
+          {% elif insumo.fk_estado.id == 3 %} 
+          <td><a style="background-color:#e48387; color:#94080d;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
+          {% endif %}  
+          <td> <a href="{% url 'dashboard_entrada' insumo.id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
+            <a href="{% url 'entrada_insumo' insumo.id %}" class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
+        
+          </tr>
+        
+        {% endfor %}
+      
+
+
     </tbody>
+
+
+
+    
 </table>
 {% endblock %}
