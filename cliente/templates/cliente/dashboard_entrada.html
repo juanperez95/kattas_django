@@ -6,6 +6,7 @@
 
 {% block content %}
 <div>
+<<<<<<< HEAD
   <form method="post" >
       {% csrf_token %}
       <div style="display:flex; align-items:center">
@@ -58,14 +59,82 @@
           <td>{{entrada.fecha_vencimiento}}</td>
           <td>{{entrada.fecha_entrada}}</td>
           <td>{{entrada.estado_vencido}}</td>                     
+=======
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Registrar insumos</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar insumo</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="{% url 'registrar_insumo' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="n_insumo" class="col-form-label">Nombre insumo:</label>
+                  <input type="text" name="n_insumo" class="form-control">
+                </div>                
+                <div class="mb-3">
+                  <label for="c_minima" class="col-form-label">Cantidad minima:</label>
+                  <input type="text" name="c_minima" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="col-form-label">Categoria insumo:</label>
+                    <select name="categoria" class="form-control">
+                        <option value="#">Escoga una opcion</option>
+                        {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" >Send message</button>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>    
+<table id="datatable">
+    <thead>
+        <tr>
+            <th class="cabecera">Nombre Insumo</th>            
+            <th class="cabecera">Cantidad Existente</th>
+            <th class="cabecera">Categoria</th>
+            <th class="cabecera">Estado</th>
+            <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        {% for insumo in entidad %}
+        <tr>
+          <td>{{insumo.nombre_insumo}}</td>
+          <td>{{insumo.cantidad_existente}}</td>
+          <td>{{insumo.fk_categoria.nombre_categoria}}</td>        
+          <td>{{insumo.fk_estado.tipo_estado}}</td>
+          <td> <a class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
+            <a href="{% url 'entrada_insumo' insumo.id %}" class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
+>>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
         </tr>
         {% endfor %}
       
 
+<<<<<<< HEAD
     {% else %}
     <td colspan="5">¡No hay registros!</td>
     </tbody>
     {% endif %}
+=======
+
+    </tbody>
+>>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
 
 
 

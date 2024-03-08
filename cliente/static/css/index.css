@@ -18,11 +18,19 @@
   --color-texto: #F3F3F3;
   --color-texto2: #23434F;
   --color-texto3: #000000;
+<<<<<<< HEAD
   --color-botonesPrimarios: #C0252A, ;
   /*--color-botonesPrimarios:#C21015;*/
   /*--color-botonesPrimarios:#CD3415;*/
   --color-botonesSecundarios: #F3F3F3, #71670f;
   --color-HoverBotones: #94080d, #ede3a0;
+=======
+  --color-botonesPrimarios:#C0252A, ;
+  /*--color-botonesPrimarios:#C21015;*/  
+  /*--color-botonesPrimarios:#CD3415;*/  
+  --color-botonesSecundarios: #F3F3F3; 
+  --color-HoverBotones: #94080d,;
+>>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
 }
 
 /*inicio*/
