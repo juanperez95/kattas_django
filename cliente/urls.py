@@ -1,10 +1,6 @@
 from django.urls import path
-<<<<<<< HEAD
 from django.conf.urls.static import static
 from django.conf import settings
-
-=======
->>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
 from .views import view_dashboard, view_catalogo, view_login, view_pdf
 
 urlpatterns = [
@@ -22,18 +18,15 @@ urlpatterns = [
     path('deshabilitar_user/<str:documento>',view_dashboard.deshabilitar,name="deshabilitar_usuario"),
     path('habilitar_user/<str:documento>',view_dashboard.habilitar,name="habilitar_usuario"),
     path('recuperar_pass/',view_login.recuperar_pass,name="recuperar_pass"),
-<<<<<<< HEAD
     #path('reporte/', view_pdf.reporte_pdf,name="pdf_dashboard"),
     path('registrar_insumo/',view_dashboard.registrar_insumo,name="registrar_insumo"),
     path('entrada_insumo/<str:id>',view_dashboard.entrada_insumo,name="entrada_insumo"),
     path('dashboard_entrada/<str:id>',view_dashboard.dashboard_entrada,name="dashboard_entrada"),
-    path('registrar_producto',view_dashboard.registrar_productos,name="registrar_producto")
-=======
+    path('registrar_producto',view_dashboard.registrar_productos,name="registrar_producto"),
     path('reporte/', view_pdf.reporte_pdf,name="pdf_dashboard"),
     path('registrar_insumo/',view_dashboard.registrar_insumo,name="registrar_insumo"),
     path('entrada_insumo/<str:id>',view_dashboard.entrada_insumo,name="entrada_insumo"),
     path('dashboard_entrada/',view_dashboard.dashboard_entrada,name="dashboard_entrada")
->>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

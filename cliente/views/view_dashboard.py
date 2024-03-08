@@ -1,8 +1,5 @@
 from datetime import date, datetime
-<<<<<<< HEAD
 import os
-=======
->>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
 from django.shortcuts import render, redirect
 from django.conf import settings
 from cliente.models import *
@@ -99,12 +96,9 @@ def registrar_insumo(request):
         insumo.save()
     return redirect('dashboard_insumo')
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
 def entrada_insumo(request, id):
     login = Usuario.objects.get(documento=request.session.get('user'))
     insumo=Insumo.objects.get(id=id)
@@ -141,7 +135,6 @@ def entrada_insumo(request, id):
     
     return render(request,'cliente/entrada_insumo.html',data)
 
-<<<<<<< HEAD
 def dashboard_entrada(request,id):
     login = Usuario.objects.get(documento=request.session.get('user'))    
     insumo=Insumo.objects.get(id=id)
@@ -195,9 +188,7 @@ def registrar_productos(request):
         producto.save()
         return redirect('dashboard_productos')
     return render(request,"cliente/registrar_producto.html",{'datos':request.session.get('user')})
-=======
 def dashboard_entrada(request):
     
     return render(request, 'cliente/dashboard_entrada.html')
->>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
     
