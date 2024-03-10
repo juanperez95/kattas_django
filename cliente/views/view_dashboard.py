@@ -139,12 +139,18 @@ def entrada_insumo(request, id):
         entrada_insumo.save()
         insumo.cantidad_existente += int(c_entrada)
         insumo.save()
+        
         if insumo.cantidad_existente > insumo.cantidad_minimo:
             insumo.fk_estado=Estado.objects.get(id=1)
         elif insumo.cantidad_existente < insumo.cantidad_minimo:
             insumo.fk_estado=Estado.objects.get(id=2)
-        elif insumo.cantidad_existente == 0:
-            insumo.fk_estado=Estado.objects.get(id=3)            
+            print("hola")
+            
+        if insumo.cantidad_existente == 0:
+            insumo.fk_estado=Estado.objects.get(id=3)    
+            print("hola222")      
+            
+              
         insumo.save()
         return redirect('dashboard_insumo')
     
