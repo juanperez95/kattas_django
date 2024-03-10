@@ -65,21 +65,13 @@
           <td>{{insumo.cantidad_existente}}</td>
           <td>{{insumo.fk_categoria.nombre_categoria}}</td>      
           {% if insumo.fk_estado.id == 1 %}  
-          <td><a style="background-color:#70c88e; color:#095020;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
+          <td><p style="background-color:#70c88e; color:#095020;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</p></td>
           {% elif insumo.fk_estado.id == 2 %}  
-<<<<<<< HEAD
-          <td><a style="background-color:#ede3a0; color:#71670f;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
+          <td><p style="background-color:#ede3a0; color:#71670f;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</p></td>
           {% elif insumo.fk_estado.id == 3 %} 
-          <td><a style="background-color:#e48387; color:#94080d;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
+          <td><p style="background-color:#e48387; color:#94080d;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</p></td>
           {% endif %}  
           <td> <a href="{% url 'dashboard_entrada' insumo.id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
-=======
-          <td><a style="background-color:#e9f17a; color:#c0b233;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
-          {% elif insumo.fk_estado.id == 3 %} 
-          <td><a style="background-color:#e48387; color:#94080d;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
-          {% endif %}  
-          <td> <a class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
->>>>>>> c192ec2292ca4d599e3da134799b79e723449ca9
             <a href="{% url 'entrada_insumo' insumo.id %}" class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
         
           </tr>

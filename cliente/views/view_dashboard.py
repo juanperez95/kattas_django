@@ -7,6 +7,23 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 
 
+# Insumos para productos
+global datos_insumo
+datos_insumo = {}
+
+
+def limpiar_lista(request):
+    datos_insumo.clear()
+    return redirect('registrar_producto')
+
+def borrar_insumo_p(request,key):
+    datos_insumo.pop(key)
+    return redirect('registrar_producto')
+
+def agregar_insumo_p(request):
+    datos_insumo[request.POST['n_insumo']] = request.POST['c_insumo']
+    return redirect('registrar_producto')
+
 def dashboard_base(request):
     return render(request,"cliente/dashboard.html")
 
@@ -135,9 +152,9 @@ def entrada_insumo(request, id):
     
     return render(request,'cliente/entrada_insumo.html',data)
 
-def dashboard_entrada(request,id):
+def dashboard_entrada(request,ids):
     login = Usuario.objects.get(documento=request.session.get('user'))    
-    insumo=Insumo.objects.get(id=id)
+    insumo=Insumo.objects.get(id=ids)
     entradas= Entrada_Insumo.objects.filter(fk_insumo=insumo)
     if request.method == "POST":
         if request.POST.get('id_entrada'):
@@ -167,28 +184,48 @@ def dashboard_entrada(request,id):
 
 # ----------------------------------------------------------------- productos-----------------------------------------------------------------
 def registrar_productos(request):
+    ob_insumos= [(k,v) for k, v in datos_insumo.items()]
+    paginacion = Paginator(ob_insumos,3)
+    pagina = request.GET.get('pagina')
+    paginador = paginacion.get_page(pagina)
+    data = {
+        'datos':request.session.get('user'),
+        'insumos':Insumo.objects.all(),
+        'insumos_productos':paginador
+        }
     if request.method == "POST":
         nombre_producto = request.POST['n_producto']
         descripcion = request.POST['descripcion']
         tamano = request.POST['tamano']
         precio = request.POST['precio']
         imagen = request.FILES['archivo']
-        print(imagen.name)
-        with open(os.path.join(settings.MEDIA_ROOT,imagen.name),"wb") as archivo:
-            for megas in imagen.chunks():
-                archivo.write(megas)
 
         producto = Producto(
                 fk_estado=Estado.objects.get(id=3),
                 nombre_producto=nombre_producto,
                 descripcion=descripcion,
                 tamaño=tamano,
-                precio=precio
+                precio=precio,
+                foto_p=imagen
             )
         producto.save()
+        # Buscar producto
+        producto = Producto.objects.get(nombre_producto=nombre_producto)
+
+        # Iterar el diccionario
+        for insumos_p, cantidad in datos_insumo.items():
+
+            prod_ins = Producto_Insumo(
+                insumos=Insumo.objects.get(nombre_insumo=insumos_p),
+                productos=producto,
+                cantidad=cantidad
+                )
+            prod_ins.save()
+        
+        datos_insumo.clear()
+
         return redirect('dashboard_productos')
-    return render(request,"cliente/registrar_producto.html",{'datos':request.session.get('user')})
-def dashboard_entrada(request):
-    
-    return render(request, 'cliente/dashboard_entrada.html')
+    return render(request,"cliente/registrar_producto.html",data)
+
+
     

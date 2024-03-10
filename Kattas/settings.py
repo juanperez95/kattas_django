@@ -22,7 +22,7 @@ ALLOWED_HOSTS = []
 
 # CORS_ALLOW_CREDENTIALS = True
 
-# CSRF_TRUSTED_ORIGINS = ['https://5919-152-200-176-22.ngrok-free.app']
+
 
 
 # Application definition

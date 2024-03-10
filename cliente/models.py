@@ -71,6 +71,7 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=40, null=False) # Pendiente arreglar
     tamaño = models.CharField(max_length=40, null=False) 
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    foto_p = models.ImageField(upload_to="imagenes_productos",null=True)
     
 class Producto_Insumo(models.Model):
     class Meta:
@@ -80,11 +81,7 @@ class Producto_Insumo(models.Model):
     productos = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
 
-    nombre_producto = models.CharField(max_length=40, null=False)
-    descripcion = models.CharField(max_length=40, null=False)
-    tamaño = models.CharField(max_length=40, null=False)
-    precio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
-    insumos = models.ManyToManyField(Insumo,related_name="productos")
+    
     
 class Entrada_Insumo(models.Model):
     class Meta:

@@ -20,6 +20,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'/>
+    <script src="https://kit.fontawesome.com/b06d3acf28.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -38,21 +39,28 @@
     </div>
 
     <div class="content">
-        <div class=""></div>
-        <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 12%;">
+        <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 12%;display:flex;justify-content:space-between">
+            <div>
+            <button class="menu_desplegable navbar-toggler mx-auto"
+                    style="color: var(--color-fondo2); font-size: 200%;"
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+                    aria-controls="offcanvasDarkNavbar">
+                    <i class="fa-solid fa-bars" style=" margin-left:20px"></i>
+                </button>
+            </div>
             <div class="navega flex-colum flex-md-row">
                 <a class="navbar-brand mr-auto" style="top: 0;" href="#">
                     <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="top: 0; max-height: 100px;" />
 
-                <a class="" href="#"><i class="fa-solid fa-user"></i></a>
+                
+                </a>
+            </div>
+            <div class="iconoIniciarSesion" style= "display:flex;justify-content:center">
+                <a href="{% url 'login' %}"  style="display: flex; margin-right:60px; color: var(--color-texto);text-decoration: none; align-items:center">
+                    <i class="fa-solid fa-user" style="margin-right:10px"></i>Iniciar sesion</a>
 
-
-                <button class="menu_desplegable navbar-toggler mx-auto"
-                    style="color: var(--color-fondo2); font-size: 150%;background-color: var(--color-fondo2);border-radius: 100px;;"
-                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
-                    aria-controls="offcanvasDarkNavbar">
-                    <span><i class="fa-solid fa-bars fa-lg"></i></span>
-                </button>
+                <a href="{% url 'registro_usuarios' %}"  style="display: flex; margin-right:60px; color: var(--color-texto);text-decoration: none; align-items:center">
+                    <i class="fa-solid fa-user" style="margin-right:10px"></i>Registrarse</a>
             </div>
             <div class="offcanvas offcanvas-start text-bg-dark justify-content-start w-20" tabindex="-1"
                 id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">

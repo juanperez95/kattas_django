@@ -4,6 +4,9 @@ import hashlib as h
 from django.core.mail import send_mail,EmailMultiAlternatives
 import random as r
 
+
+
+
 def html_correo(titulo,asunto, contenido, correo):
     html_content = """
         <html>

@@ -21,12 +21,12 @@ urlpatterns = [
     #path('reporte/', view_pdf.reporte_pdf,name="pdf_dashboard"),
     path('registrar_insumo/',view_dashboard.registrar_insumo,name="registrar_insumo"),
     path('entrada_insumo/<str:id>',view_dashboard.entrada_insumo,name="entrada_insumo"),
-    path('dashboard_entrada/<str:id>',view_dashboard.dashboard_entrada,name="dashboard_entrada"),
-    path('registrar_producto',view_dashboard.registrar_productos,name="registrar_producto"),
-    path('reporte/', view_pdf.reporte_pdf,name="pdf_dashboard"),
-    path('registrar_insumo/',view_dashboard.registrar_insumo,name="registrar_insumo"),
-    path('entrada_insumo/<str:id>',view_dashboard.entrada_insumo,name="entrada_insumo"),
-    path('dashboard_entrada/',view_dashboard.dashboard_entrada,name="dashboard_entrada")
+    path('dashboard_entrada/<str:ids>',view_dashboard.dashboard_entrada,name="dashboard_entrada"),
+    path('registrar_producto/',view_dashboard.registrar_productos,name="registrar_producto"),
+    path('add_insumo_p/',view_dashboard.agregar_insumo_p,name="add_insumo_p"),
+    path('del_insumo_p/<str:key>',view_dashboard.borrar_insumo_p,name="del_insumo_p"),
+    path('limpiar/',view_dashboard.limpiar_lista,name="limpiar"),
+    
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

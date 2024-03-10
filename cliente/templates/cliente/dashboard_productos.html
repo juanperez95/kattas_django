@@ -14,6 +14,7 @@
             <th class="cabecera">Tamaño</th>
             <th class="cabecera">Precio</th>
             <th class="cabecera">Estado</th>
+            <th class="cabecera">Foto</th>
             <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
         </tr>
     </thead>
@@ -25,6 +26,7 @@
           <td>{{producto.tamaño}}</td>
           <td>{{producto.precio}}</td>      
           <td>{{producto.fk_estado.tipo_estado}}</td>      
+          <td><img src="{{producto.foto_p.url}}" width="50px" height="25px"></td>      
           <td> <a  class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
             <a  class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
         
