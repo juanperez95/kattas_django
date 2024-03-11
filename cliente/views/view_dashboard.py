@@ -34,7 +34,7 @@ def dashboard_insumos(request):
     insumos=Insumo.objects.all()
     data['datos']=usuario
     data['categorias']=categorias    
-    paginacion = Paginator(insumos,8)
+    paginacion = Paginator(insumos,7)
     pagina = request.GET.get('pagina')
     paginador = paginacion.get_page(pagina)
     data['entidad']=paginador
@@ -144,11 +144,11 @@ def entrada_insumo(request, id):
             insumo.fk_estado=Estado.objects.get(id=1)
         elif insumo.cantidad_existente < insumo.cantidad_minimo:
             insumo.fk_estado=Estado.objects.get(id=2)
-            print("hola")
+            
             
         if insumo.cantidad_existente == 0:
             insumo.fk_estado=Estado.objects.get(id=3)    
-            print("hola222")      
+                  
             
               
         insumo.save()
@@ -195,7 +195,7 @@ def registrar_productos(request):
     pagina = request.GET.get('pagina')
     paginador = paginacion.get_page(pagina)
     data = {
-        'datos':request.session.get('user'),
+        'datos':Usuario.objects.get(documento=request.session.get('user')),
         'insumos':Insumo.objects.all(),
         'insumos_productos':paginador
         }
@@ -233,5 +233,27 @@ def registrar_productos(request):
         return redirect('dashboard_productos')
     return render(request,"cliente/registrar_producto.html",data)
 
+def insumos_productos(request,id_producto,id_p_i):
+    paginacion = Paginator(Producto_Insumo.objects.filter(productos=Producto.objects.get(id=id_producto)),8)
+    pagina = request.GET.get('pagina')
+    paginador = paginacion.get_page(pagina)
+    data={
+        'entidad':paginador,
+        'datos':Usuario.objects.get(documento=request.session.get('user')),
+        'producto':Producto.objects.get(id=id_producto)
+        }
+    try:
+        producto_insumo = Producto_Insumo.objects.get(id=id_p_i)
+        data['id'] = producto_insumo
+    except Exception as err:
+        pass
+    return render(request,"cliente/dashboard_insumo_producto.html",data)
 
-    
+
+
+
+def editar_insumo_producto(request,id):
+    p_i = Producto_Insumo.objects.get(id=id)
+    p_i.cantidad = request.POST['cantidad']
+    p_i.save()
+    return redirect("insumos_productos",p_i.productos.id,0)

@@ -5,10 +5,14 @@
 {% block username %}{{ datos.nombre }}{% endblock  %}
 
 {% block content %}
-<a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary">Registrar insumos</button> </a>
+<div style="display:flex; justify-content: space-between; align-items: flex-end">
+  <h1 style="font-size: 50px; font-weight:bold">Productos</h1>
+  <a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary" style="margin-bottom: 15px; height:45px; background-color: #078d65">Registrar producto</button> </a>
+</div>
+
 
 <table id="datatable">
-    <thead>
+    <thead style="background-color: #23434F">
         <tr>
             <th class="cabecera">Nombre Producto</th>            
             <th class="cabecera">Tamaño</th>
@@ -27,9 +31,9 @@
           <td>{{producto.precio}}</td>      
           <td>{{producto.fk_estado.tipo_estado}}</td>      
           <td><img src="{{producto.foto_p.url}}" width="50px" height="25px"></td>      
-          <td> <a  class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
-            <a  class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
-        
+          <td> 
+            <a href="{% url 'insumos_productos' producto.id 0 %}" style="background-color: #23434F" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
+            <a style="background-color:#078d65" class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>        
           </tr>
         
         {% endfor %}

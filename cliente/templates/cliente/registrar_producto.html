@@ -12,6 +12,100 @@
             <div>
                 <a style="color:black;" href="{% url 'dashboard_usuarios' %}"><i class="fa-solid fa-arrow-left" style="position:relative; top:50px; left:50px;cursor: pointer; font-size:25px"></i></a>
             </div>
+
+            <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1" style="padding-top: 1px;height:650px; width: 50%">
+                
+                <div style="height:420px;">
+                    <div style="display: flex; justify-content:space-between;padding-bottom:30px">                    
+                        <h1 style="font-weight:bold; font-size:40px: overflow-y: hidden;">Insumos Añadidos</h1>
+                        <a href="{% url 'limpiar' %}" class="btn btn-danger" style="height:35px;background-color: #C0252A">Limpiar lista</a>
+                    </div>
+                    <table id="datatable" >
+                        <thead style="background-color: #23434F">
+                            <tr>
+                                <th class="cabecera">Nombre Insumo</th>            
+                                <th class="cabecera">Cantidad</th>
+
+                                <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {% if insumos_productos %}
+                                
+                            
+                                
+                            {% for insumo in insumos_productos %}
+                            <tr>
+                                <td>{{insumo.0}}</td>
+                                <td>{{insumo.1}}</td>
+                                <td>
+                                    <a style="background-color: #C0252A" class="btn btn-danger" href="{% url 'del_insumo_p' insumo.0 %}">-</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            
+                            {% else %}
+                            <tr>
+                                <td colspan="3">¡No hay registro de insumos!</td>
+                            </tr>
+                            {% endif %}          
+                        </tbody>
+                    
+                                       
+                        
+                    </table> 
+                    <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
+                        <ul class="pagination" style="gap:5px">
+                            {% if page_obj.has_previous %}
+                                <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>
+                                <li><a class="btn btn-dark" href="?pagina={{ insumos_productos.previous_page_number }}">&lsaquo; Anterior</a></li>
+                            {% endif %}
+                            {% for num in insumos_productos.paginator.page_range %}
+                                {% if insumos_productos.number == num %}
+                                    <li class="btn btn-primary" style="background-color: #078d65"><span>{{ num }}</span></li>
+                                {% else %}
+                                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if insumos_productos.has_next %}
+                                <li><a  style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ insumos_productos.next_page_number }}">Siguiente &rsaquo;</a></li>
+                                <li><a  style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ insumos_productos.paginator.num_pages }}">Última &raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                    
+                <div style="padding:100">
+                        <form action="{% url 'add_insumo_p' %}" method="post">
+                            {% csrf_token %}
+                            <div  style="display: flex; gap:20px; overflow-y: auto; " >
+                                <label for="n_insumo">Insumos disponibles:</label>
+                                <select class="form-control" name="n_insumo" style="width: 50%; " required>                                    
+                                    
+                                    <option  value="">Escoja una opcion</option> 
+                                    {% for insumo in insumos %}
+                                    
+                                    {% if insumo.fk_estado.id == 1 or insumo.fk_estado.id == 2 %}
+                                        <option  value="{{insumo.nombre_insumo}}">{{insumo.nombre_insumo}}</option>                                       
+                                    {% endif %}
+                                        
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div  style="display: flex; gap:20px; margin-top: 20px;" >
+                                <label for="c_insumo">Cantidad insumo:</label>
+                                <input type="number" class="form-control" name="c_insumo" style="width: 50%" required>
+                            </div>
+                            <div class="col-sm-12 mb-3 text-center" style="padding-top:10px" >
+                                <input style="background-color: #23434F" type="submit" value="Añadir Insumo" class="btn btn-success">
+                            </div>
+                        </form>
+                </div>
+                
+            </div>
+
             <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1" style="padding-top: 1px;height:500px; width: 50%">
                 
                 <form class="contact-form form-validate" method="post" style="display:block" enctype="multipart/form-data">
@@ -59,7 +153,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 mb-3 text-center" style="padding-top:18px">
-                            <button type="submit" name="submit" class="btn btn-primary">Registrar producto</button>
+                            <button  style="background-color: #078d65" type="submit" name="submit" class="btn btn-primary">Registrar producto</button>
                         </div>
 
 
@@ -69,98 +163,7 @@
                 </form>    
             </div>
 
-            <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1" style="padding-top: 1px;height:650px; width: 50%">
-                
-                <div style="height:420px;">
-                    <div style="display: flex; justify-content:space-between;padding-bottom:30px">                    
-                        <h1 style="font-weight:bold; font-size:40px: overflow-y: hidden;">Insumos Añadidos</h1>
-                        <a href="{% url 'limpiar' %}" class="btn btn-danger" style="height:35px;">Limpiar lista</a>
-                    </div>
-                    <table id="datatable" >
-                        <thead>
-                            <tr>
-                                <th class="cabecera">Nombre Insumo</th>            
-                                <th class="cabecera">Cantidad</th>
-
-                                <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            {% if insumos_productos %}
-                                
-                            
-                                
-                            {% for insumo in insumos_productos %}
-                            <tr>
-                                <td>{{insumo.0}}</td>
-                                <td>{{insumo.1}}</td>
-                                <td>
-                                    <a class="btn btn-danger" href="{% url 'del_insumo_p' insumo.0 %}">-</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            
-                            {% else %}
-                            <tr>
-                                <td colspan="3">¡No hay registro de insumos!</td>
-                            </tr>
-                            {% endif %}          
-                        </tbody>
-                    
-                                       
-                        
-                    </table> 
-                    <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
-                        <ul class="pagination" style="gap:5px">
-                            {% if page_obj.has_previous %}
-                                <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>
-                                <li><a class="btn btn-dark" href="?pagina={{ insumos_productos.previous_page_number }}">&lsaquo; Anterior</a></li>
-                            {% endif %}
-                            {% for num in insumos_productos.paginator.page_range %}
-                                {% if insumos_productos.number == num %}
-                                    <li class="btn btn-primary"><span>{{ num }}</span></li>
-                                {% else %}
-                                    <li><a class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                            {% if insumos_productos.has_next %}
-                                <li><a class="btn btn-dark" href="?pagina={{ insumos_productos.next_page_number }}">Siguiente &rsaquo;</a></li>
-                                <li><a class="btn btn-dark" href="?pagina={{ insumos_productos.paginator.num_pages }}">Última &raquo;</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-                
-                    
-                <div style="padding:100">
-                        <form action="{% url 'add_insumo_p' %}" method="post">
-                            {% csrf_token %}
-                            <div  style="display: flex; gap:20px; overflow-y: auto; " >
-                                <label for="n_insumo">Insumos disponibles:</label>
-                                <select class="form-control" name="n_insumo" style="width: 50%; " required>                                    
-                                    
-                                    <option  value="">Escoja una opcion</option> 
-                                    {% for insumo in insumos %}
-                                    
-                                    {% if insumo.fk_estado.id == 1 or insumo.fk_estado.id == 2 %}
-                                        <option  value="{{insumo.nombre_insumo}}">{{insumo.nombre_insumo}}</option>                                       
-                                    {% endif %}
-                                        
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div  style="display: flex; gap:20px; margin-top: 20px;" >
-                                <label for="c_insumo">Cantidad insumo:</label>
-                                <input type="number" class="form-control" name="c_insumo" style="width: 50%" required>
-                            </div>
-                            <div class="col-sm-12 mb-3 text-center" style="padding-top:10px" >
-                                <input type="submit" value="Añadir Insumo" class="btn btn-success">
-                            </div>
-                        </form>
-                </div>
-                
-            </div>
+            
             
             
 

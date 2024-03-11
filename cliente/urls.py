@@ -26,6 +26,8 @@ urlpatterns = [
     path('add_insumo_p/',view_dashboard.agregar_insumo_p,name="add_insumo_p"),
     path('del_insumo_p/<str:key>',view_dashboard.borrar_insumo_p,name="del_insumo_p"),
     path('limpiar/',view_dashboard.limpiar_lista,name="limpiar"),
+    path('insumos_productos/<str:id_producto>/<str:id_p_i>',view_dashboard.insumos_productos,name="insumos_productos"),
+    path('editar_insumo_producto/<str:id>',view_dashboard.editar_insumo_producto,name="editar_insumo_producto"),
     
     
 

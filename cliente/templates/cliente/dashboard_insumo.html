@@ -6,7 +6,10 @@
 
 {% block content %}
 <div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Registrar insumos</button>
+    <div style="display:flex; justify-content: space-between; align-items: flex-end">
+      <h1 style="font-size: 50px; font-weight:bold">Insumos</h1>
+      <button style="background-color:#078d65;margin-bottom: 15px; height:45px" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Registrar insumos</button>
+    </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -35,7 +38,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary" >Send message</button>
+                <button type="submit"  style="background-color:#078d65;" class="btn btn-primary" >Registrar insumo</button>
 
               </form>
             </div>
@@ -47,10 +50,10 @@
       </div>
 
 </div>    
-<table id="datatable">
-    <thead>
+<table >
+    <thead style="background-color: #23434F">
         <tr>
-            <th class="cabecera">Nombre Insumo</th>            
+            <th class="cabecera" style="border-top-left-radius: 10px;">Nombre Insumo</th>            
             <th class="cabecera">Cantidad Existente</th>
             <th class="cabecera">Categoria</th>
             <th class="cabecera">Estado</th>
@@ -65,15 +68,15 @@
           <td>{{insumo.cantidad_existente}}</td>
           <td>{{insumo.fk_categoria.nombre_categoria}}</td>      
           {% if insumo.fk_estado.id == 1 %}  
-          <td><p style="background-color:#70c88e; color:#095020;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</p></td>
+          <td><a style="background-color:#70c88e; color:#095020;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
           {% elif insumo.fk_estado.id == 2 %}  
-          <td><p style="background-color:#ede3a0; color:#71670f;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</p></td>
+          <td><a style="background-color:#ede3a0; color:#71670f;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
           {% elif insumo.fk_estado.id == 3 %} 
-          <td><p style="background-color:#e48387; color:#94080d;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</p></td>
+          <td><a style="background-color:#e48387; color:#94080d;padding:15px;border-radius:30px; font-weight:bold">{{insumo.fk_estado.tipo_estado}}</a></td>
           {% endif %}  
-          <td> <a href="{% url 'dashboard_entrada' insumo.id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>             
-            <a href="{% url 'entrada_insumo' insumo.id %}" class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
-        
+          <td> 
+            <a style="background-color: #23434F" href="{% url 'dashboard_entrada' insumo.id %}" class="btn btn-dark"><i class="fa-solid fa-eye"></i></a>             
+            <a style="background-color:#078d65;" href="{% url 'entrada_insumo' insumo.id %}" class="btn btn-success"><i class="fa-solid fa-plus"></i></a></td>
           </tr>
         
         {% endfor %}

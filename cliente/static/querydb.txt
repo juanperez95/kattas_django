@@ -5,7 +5,7 @@ INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('3', 'Sin stock
 
 /*--------------------Habilitado----------------*/
 INSERT INTO `kattaswebs`.`habilitado` (`id`, `nombre_habilitado`) VALUES ('1', 'Habilitado');
-INSERT INTO `kattaswebs`.`habilitado` (`id`, `nombre_habilitado`) VALUES ('2', 'Habilitado');
+INSERT INTO `kattaswebs`.`habilitado` (`id`, `nombre_habilitado`) VALUES ('2', 'Deshabilitado');
 
 /*----------------Perfil------------------*/
 INSERT INTO `kattaswebs`.`perfil` (`id`, `nombre_perfil`) VALUES ('1', 'Administrador');
