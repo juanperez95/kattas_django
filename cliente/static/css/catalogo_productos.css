@@ -1,0 +1,437 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');*{
+  font-family: 'ui-sans-serif', sans-serif;
+}
+*{
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+
+
+:root {
+  --color-fondo:#0F0F0F;
+  --color-fondo2: #F6F1F1;
+  --color-fondo3: #38322F;
+  --color-texto: #F3F3F3;
+  --color-texto2: #23434F;
+  --color-texto3: #000000;
+  --color-botonesPrimarios:#C0252A;
+  /*--color-botonesPrimarios:#C21015;
+  /*--color-botonesPrimarios:#CD3415;*/  
+  --color-botonesSecundarios: #F3F3F3; 
+  --color-HoverBotones: #94080d;
+  --color-botonesAgregar: #18a07c;
+  --color-HoverBotonesAgregar: #057452;
+}
+
+
+h1 {
+  font-family: 'ui-sans-serif', sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: bold;
+  font-size: 500%;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'ui-sans-serif', sans-serif;
+  font-weight: bold;
+  font-size: 300%;
+}
+
+p {
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+
+body {
+  background-color: var(--color-fondo);
+  background-color: var(--color-fondo2);
+  background-color: var(--color-botonesPrimarios);
+  background-color: var(--color-botonesSecundarios);
+  color: var(--color-texto);
+  color: var(--color-texto2);
+  font-family: 'ui-sans-serif', sans-serif;
+}
+
+
+
+h1 {
+  color: var(--color-texto3);
+}
+
+h2 {
+  color: var(--color-texto3);
+}
+
+p {
+  color: var(--color-texto3);
+}
+  
+
+  .contenedor-barra {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-fondo);
+    height: 150px;
+  }
+
+  .contenedor-barra .titulo{
+    position: relative;
+    top: 15px;
+    font-size: 60px;
+
+    color: var(--color-texto);
+  }
+
+  .contenedor-barra .icono-carrito{
+    position: relative;
+    top: 70px;
+    left: 320px;
+    font-size: 20px;
+    color: var(--color-texto);
+  }
+  
+  .productos {
+    display: flex;
+    flex-wrap: wrap;
+    /*Si no caben se bajan*/
+    justify-content: space-around;
+  }
+  
+  .producto {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 50px;
+    width: 38%;
+    height: 30vh;
+    margin: 10px;
+    overflow: hidden;
+  
+  }
+
+  .producto h2{
+    font-size: 30px;
+    margin-top: 0;
+    padding: 0 0;
+    width: 100%;
+    border-radius: 15px;
+    text-align: start;
+  
+  }
+  
+  .producto img {
+    object-fit: cover;
+    width: 200px;
+    border-radius: 15px;
+    justify-content: end;
+  
+  }
+  
+  .producto button {
+    bottom: 100px;
+    position: relative;
+    left: 25%;
+    /*Posición del botón*/
+    bottom: 0;
+    /*Posición del botón abajo*/
+    width: 50%;
+    margin: 18px;
+    padding: 15px;
+    border-radius: 18px;
+    background-color: var(--color-botonesAgregar);
+    color: var(--color-texto);
+    border: none;
+  }
+
+  .producto button:hover{
+    background-color: var(--color-HoverBotonesAgregar);
+    transition: 0.5s;
+    border: none;
+  }
+
+.page-content button {
+  font-family: inherit;
+  cursor: pointer;
+  background: #101012;
+  color: #f9f9f9;
+  border: 0;
+  border-radius: 8px;
+  padding: 20px 36px;
+  font-size: 16px;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+body.open .background {
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes modal-in {
+  0%,
+  50% {
+    width: 118px;
+    border-radius: 50%;
+  }
+  55%,
+  100% {
+    right: 50%;
+  }
+  60% {
+    width: 300px;
+    border-radius: 12px;
+  }
+  75% {
+    translate: 50% -50%;
+  }
+}
+
+.page-content,
+.modal,
+.background {
+  transition: 0.5s;
+}
+
+.division {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  right: -800px;
+  translate: 50% -50%;
+  background: white;
+  color: black;
+  width: 1400px;
+  height: 450px;
+  border-radius: 12px;
+  
+}
+
+.modal p {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+.derecha{
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.derecha h2 {
+  margin: 0; /* Eliminar el margen inferior para evitar espacios innecesarios */
+  font-weight: bold;
+  font-size: 36px; /* Reducir el tamaño del título */
+  color: #23434F; /* Color de texto */
+}
+
+.derecha .scroll-derecha{
+  max-height: 420px; /* Establece una altura máxima para el contenido derecho */
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical al contenido derecho */
+}
+
+.derecha h2{
+  position: relative;
+  text-align: start;
+  margin: 0 0 8px;
+  margin-left: 20px; /*Espacio para que no quede pegada a la imagen*/
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.derecha p {
+  font-size: 18px; /* Reducir el tamaño del texto */
+  color: #555; /* Color de texto */
+  margin-bottom: 15px; /* Añadir un espacio inferior */
+}
+
+.derecha label {
+  font-size: 18px; /* Reducir el tamaño de la etiqueta */
+  margin-bottom: 8px; /* Añadir un espacio inferior */
+}
+
+.product-options,
+.product-additions {
+  margin-top: 20px;
+}
+
+.product-options h3,
+.product-additions h3 {
+  font-size: 24px; /* Reducir el tamaño del título */
+  margin-bottom: 10px;
+}
+.product-options ul,
+.product-additions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-options ul,
+.product-additions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-options input[type="checkbox"],
+.product-additions input[type="checkbox"] {
+  margin-right: 10px; /* Ajustar el espacio entre el checkbox y el texto */
+}
+
+.product-options input,
+.product-additions input {
+  margin-right: 8px; /*Posición de la letra al lado del checkbox*/
+}
+
+/*Inicio de grid, de títulos, listas, párrafos e iconos*/
+
+/*Final de grid*/
+
+
+.derecha .agregarPedido{
+  background-color: white;
+  border: 1px solid rgba(24, 17, 17, 0.226);
+  height: 25%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 30px; /*Espaciado entre cada ícono*/
+}
+
+.derecha .agregarPedido .botonAgregar{
+  background-color: rgb(17, 139, 78);
+  font-family: inherit;
+  cursor: pointer;
+  color: #f9f9f9;
+  border: 0;
+  border-radius: 8px;
+  width: 50%;
+  padding: 15px 25px;
+  font-size: 16px;
+}
+
+.derecha .agregarPedido .botonAgregar:hover{
+  background-color: rgb(4, 88, 46);
+  transition: 0.5s;
+}
+
+
+
+.agregarPedido .botonAumentar,
+.agregarPedido .botonRestar {
+  background-color: var(--color-botonesAgregar); /* Cambiar el color de los botones de incrementar/decrementar */
+  color: #fff; /* Color del texto */
+  border-radius: 50%; /* Hacer los botones redondos */
+  border: none;
+  font-size: 20px; /* Ajustar el tamaño del texto */
+  width: 40px; /* Ajustar el tamaño de los botones */
+  height: 40px; /* Ajustar el tamaño de los botones */
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  cursor: pointer;
+}
+
+.derecha .agregarPedido button:hover{
+  background-color: rgb(4, 88, 46);
+  transition: 0.5s;
+}
+.agregarPedido .contadorNumero {
+  font-size: 18px; /* Reducir el tamaño del texto */
+  margin: -20px; /* Eliminar el margen */
+}
+
+.derecha .agregarPedido .total{
+  margin: -20px;
+  font-size: 23px;
+  
+}
+
+
+/*Empieza la izquierda*/
+.izquierda {
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(164, 128, 197);
+}
+
+ .izquierda img{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+@keyframes modal-content-in {
+  0%,
+  75% {
+    opacity: 0;
+  }
+  85%,
+  100% {
+    opacity: 1;
+  }
+}
+
+body.open .modal-content {
+  animation: modal-content-in 1s both;
+}
+
+body.open > .page-content {
+  scale: 0.75;
+}
+
+body.open .modal {
+  animation: modal-in 1s both;
+}
+
+.alerta {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #f44336;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  display: none;
+}
+
+.cerrar {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

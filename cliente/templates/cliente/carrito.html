@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrito</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/carrito.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/b06d3acf28.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="contenedor-barra">
+      <h1 class="titulo">Katta's Pizza</h1>
+      <div class="contenedor-opciones">
+        <div class="icono-carrito"><i class="fa-solid fa-cart-shopping"></i></div>
+      </div>
+    </div>
+    
+    
+    <div class="tituloCarrito">
+        <a style="color:black;" href="{% url 'catalogo_productos' 0 %}"><i class="fa-solid fa-arrow-left" style="position:relative; top:50px; left:50px;cursor: pointer; font-size:25px"></i></a>
+
+        <h1>Carrito de compras</h1>
+
+    </div>
+
+    <div class="cart">
+        <div class="product-table">
+            <div class="product-row header">
+                <div class="product-cell">Producto</div>
+                <div class="product-cell">Precio</div>
+                <div class="product-cell">Cantidad</div>
+                <div class="product-cell">Total</div>
+                <div class="product-cell"></div>
+            </div>
+            
+            {% if carrito %} 
+              
+            {% for product in carrito %}
+            <div class="product-row">
+                <div class="product-cell">
+                    <img src="{{product.1.0.foto_p.url}}" alt="Producto 1" class="product-image">
+                    <span class="product-name">{{product.1.0.nombre_producto}}</span>
+                </div>
+                <div class="product-cell">${{product.1.0.precio}}</div>
+                <div class="product-cell">
+                      <a href="{% url 'aumentar_carrito' product.0 %}"><button class="botonAumentar">
+                        <i class="fa-solid fa-plus"></i>
+                      </button></a>
+                      <span class="contadorNumero">{{product.1.1}}</span>
+                      <a href="{% url 'restar_carrito' product.0 %}"><button class="botonRestar">
+                        <i class="fa-solid fa-minus"></i>
+                      </button></a> 
+                </div>
+                <div class="product-cell">${{product.1.2}}</div>
+                <div class="product-cell">
+                  <button class="quitarPro">
+                    <a href="{% url 'borrar_carrito' product.0 %}"><i class="fa-solid fa-xmark"></i></a>
+                  </button>
+                </div> 
+            </div>
+            {% endfor %}
+            {% else %}
+            <div>
+              <h3>¡No hay productos en el carrito!</h3>
+            </div>
+            {% endif %}
+            <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
+              <ul class="pagination" style="gap:5px">
+                  {% if page_obj.has_previous %}
+                      <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>
+                      <li><a class="btn btn-dark" href="?pagina={{ carrito.previous_page_number }}">&lsaquo; Anterior</a></li>
+                  {% endif %}
+                  {% for num in carrito.paginator.page_range %}
+                      {% if carrito.number == num %}
+                          <li style="background-color: #078d65" class="btn btn-secondary"><span>{{ num }}</span></li>
+                      {% else %}
+                          <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
+                      {% endif %}
+                  {% endfor %}
+                  {% if carrito.has_next %}
+                      <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ carrito.next_page_number }}">Siguiente &rsaquo;</a></li>
+                      <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ carrito.paginator.num_pages }}">Última &raquo;</a></li>
+                  {% endif %}
+              </ul>
+          </div>
+          </div>
+          
+        <div class="checkout-card">
+            <h3>Resumen de la compra</h3>
+            <div class="total-cost">
+                <div class="total-cost-item">
+                    <span>Subtotal:</span>
+                    <span>$130.000</span>
+                </div>
+                <div class="total-cost-item">
+                    <span>Impuestos:</span>
+                    <span>$15.600</span>
+                </div>
+                <div class="total-cost-item">
+                    <span>Total:</span>
+                    <span>$145.600</span>
+                </div>
+            </div>
+            <button class="checkout-button">Finalizar Compra</button>
+            <a href="index.html">Seguir comprando</a>
+        </div> 
+
+    </div>
+  </body>
+</html>

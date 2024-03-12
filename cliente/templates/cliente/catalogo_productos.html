@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprar</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/catalogo_productos.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/b06d3acf28.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="contenedor-barra">
+      <h1 class="titulo">Carrito de Compras</h1>
+      <div class="contenedor-opciones">
+        <div class="icono-carrito" onclick="toggleModal()">
+            <a href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></a>
+            <!-- Contador del carrito -->
+            
+            <span class="contador-carrito">{{n_productos}}</span>            
+        </div>
+    </div>
+      
+    </div>
+    <div class="productos">
+      
+        {% for producto in entidad %}
+          <div class="producto">
+            <div class="page-content"></div>
+            <h2>{{producto.nombre_producto}}</h2>
+            <p>{{producto.descripcion}}</p>
+            <p>{{producto.precio}}</p>
+            <img src="{{producto.foto_p.url}}" width="10%" height="10%">
+              <form action="{% url 'catalogo_productos' producto.id %}" method="post">
+                {% csrf_token %}
+                
+                  <input style="background: none; border: none; width: 40px;" class="contadorNumero" type="number" id="contador" name="cantidad" value="0">
+                  
+                <input type="submit" class="btn btn-success" value="Agregar al carrito">
+              </form>
+              
+            </div>
+            
+        {% endfor %}
+        <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
+            <ul class="pagination" style="gap:5px">
+                {% if page_obj.has_previous %}
+                    <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>
+                    <li><a class="btn btn-dark" href="?pagina={{ entidad.previous_page_number }}">&lsaquo; Anterior</a></li>
+                {% endif %}
+                {% for num in entidad.paginator.page_range %}
+                    {% if entidad.number == num %}
+                        <li style="background-color: #078d65" class="btn btn-secondary"><span>{{ num }}</span></li>
+                    {% else %}
+                        <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if entidad.has_next %}
+                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.next_page_number }}">Siguiente &rsaquo;</a></li>
+                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.paginator.num_pages }}">Última &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+            
+            
+            
+              
+        </div>
+        <script src="carta.js"></script>
+        
+        <script
+          src="https://kit.fontawesome.com/b06d3acf28.js"
+          crossorigin="anonymous"
+        ></script>
+        <script src="{% static "js/catalogo_productos.js" %}"></script>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -28,7 +28,11 @@ urlpatterns = [
     path('limpiar/',view_dashboard.limpiar_lista,name="limpiar"),
     path('insumos_productos/<str:id_producto>/<str:id_p_i>',view_dashboard.insumos_productos,name="insumos_productos"),
     path('editar_insumo_producto/<str:id>',view_dashboard.editar_insumo_producto,name="editar_insumo_producto"),
-    
+    path('catalogo_productos/<str:id>',view_catalogo.catalogo_productos,name='catalogo_productos'),
+    path('carrito/',view_catalogo.carrito,name='carrito'),
+    path('borrar_carrito/<int:id>',view_catalogo.quitar_producto,name='borrar_carrito'),
+    path('aumentar_carrito/<int:id>',view_catalogo.aumentar_cantidad_carrito,name='aumentar_carrito'),
+    path('restar_carrito/<int:id>',view_catalogo.restar_cantidad_carrito,name='restar_carrito'),
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
