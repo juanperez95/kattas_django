@@ -17,28 +17,131 @@
         <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
     </head>
     <body>
-        <div class="division">
-            <div class="izquierda">
-                <img src="{% static "images/fondo_login2.jpg" %}" class="img-fluid imagen"/>
-                <div class="texto">
-                    <h1>¡Bienvenidos a Katta's Pizza!</h1>
-                    <br/>
-                </div>
-                <div class="texto2">
-                    <h2>Únete hoy mismo y descubre por qué somos el destino preferido de los verdaderos amantes de la pizza, regístrate o inicia sesión y comienza a disfrutar de una experiencia única. <br/> ¡Te esperamos con una deliciosa pizza recién salida del horno!</h2>
+
+        <div class="container" id="container">
+            <div class="form-container sign-up">
+                <form action="{% url 'registro_usuarios' %}" id="registrationForm" method="post" prependId="false">
+                    {% csrf_token %}
+                    
+                    <!-- Sección: Información Personal -->
+                    <div id="personal-section">
+                        <h1>Registrarse</h1>
+                        <h4>Información Personal:</h4>
+                        <label for="cedula">N° Documento</label>
+                        <input id="cedula" name="documento" value="" required="true" />
+                        
+                        <label for="nome">Nombres</label>
+                        <input id="nome" name="nombres" value="" required="true" />
+                        
+                        <label for="apellido" class="form-label">Apellidos</label>
+                        <input id="apellido" name="apellidos" value="" required="true" />
+                        
+                        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                        <input id="fechaNacimiento" name="f_nacimiento" type="date" value="" />
+                        
+                        <label for="genero">Género</label>
+                        <select id="genero" name="genero" required="true">
+                            <option value="">Escoja un género</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <button type="button" class="botones">Siguiente</button>
+                    </div>
+                    
+                    <!-- Sección: Información de Contacto -->
+                    <div id="contacto-section" hidden>
+                        <h4>Información de Contacto:</h4>
+                        <label for="direccion">Dirección</label>
+                        <input id="direccion" name="direccion" value="" required="true" />
+                        
+                        <label for="telefono">Teléfono</label>
+                        <input id="telefono" name="telefono" maxlength="10" value="" required="true" />
+                        
+                        <label for="email">Correo Electrónico</label>
+                        <input id="correo" name="correo" value="" required="true" />
+                        <button type="button" class="botones">Anterior</button>
+                        <button type="button" class="botones">Siguiente</button>
+                    </div>
+                    
+                    <!-- Sección: Configuración de la Cuenta -->
+                    <div id="contrasena-section" hidden>
+                        <h4>Configuración de la Cuenta:</h4>
+            
+                        <label for="contraseña1" class="form-label">Cree una contraseña</label>
+                        <input id="contraseña1" name="pass" type="password" value="" required="true" />
+                        <label for="contraseña2" >Confirma tu contraseña</label>
+                        <input id="contraseña2"  type="password" required="true" />
+                        {% if mensaje == 0 %}
+                        <div class="alert alert-danger" role="alert">
+                            ¡Este correo ya existe!
+                        </div>
+                        {% endif %}
+                            <button type="button" class="botones" >Anterior</button>
+                            <button type="submit" class="botones">¡Registrarse!</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-container sign-in">
+                <form class="form" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <h1>Iniciar sesión</h1>
+                    <span for="email">N° Documento</span>
+                    <input type="text" id="documento" class="documento" name="documento"/>
+                    
+                    <label for="con">Contraseña</label>
+                    <input type="password" id="con" name="clave"/>
+
+                    <a href="{% url 'recuperar_pass' %}">¿Olvidaste tu contraseña?</a><br/>
+                    <input type="submit" value="Iniciar sesión" class="botones" style="font-size: 15px" />
+                </form>
+
+                {% if mensaje == 0 %}
+                <script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "¡Contraseña incorrecta!",
+                      });
+                </script>
+                {% elif mensaje == 2 %}
+                <script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "¡Este usuario se encuentra inhabilitado!",
+                        });
+                </script>
+                {% elif mensaje == 1 %}
+                <script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "¡Error en la validación de la base de datos!",
+                        });
+                </script>
+                {% endif %}
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="display:flex; position:relative;bottom:60px; max-height: 100px;" />
+                        <h1>¡Bienvenido de nuevo!</h1>
+                        <p>Ingresa tus datos personales para iniciar sesión</p>
+                        <button class="hidden" id="login">Iniciar sesión</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="display:flex; position:relative;bottom:60px; max-height: 100px;" />
+                        <h1>Forma parte de la familia Katta's Pizza</h1>
+                        <p>Registrar tus datos personales</p>
+                        <button class="hidden" id="register">Registrarse</button>
+                    </div>
                 </div>
             </div>
-            <div class="derecha">
-                <div class="login-box">
-                    <div style="top: 0;">
-                        <div class="texto_login">
-                            <h1>Katta´s Pizza</h1>
-                        </div>
-                        <div class="texto_login2">
-                            <h2>Inicia sesión o regístrate para ingresar</h2>
-                        </div>
+        </div>
 
-                        <form class="form" method="post" action="{% url 'login' %}">
+                        {% comment %} <form class="form" method="post" action="{% url 'login' %}">
                             {% csrf_token %}
                             <label for="email">N° Documento</label>
                             <input type="text" id="documento" class="documento" name="documento"/>
@@ -51,17 +154,26 @@
                             <a href="{% url 'recuperar_pass' %}">¿Olvidaste tu contraseña?</a><br/>
 
                             <a href="{% url 'registro_usuarios' %}">Crear cuenta nueva</a>
-                        </form>
+                        </form> {% endcomment %}
                         {% comment %} Validar condicion de correo {% endcomment %}
-                        {% if mensaje %}
+                        {% comment %} {% if mensaje == 0 %}
                         <div class="alert alert-danger" role="alert">
-                            ¡Oops!, {{mensaje}}
+                            ¡Oops!, ¿Haz olvidado la contraseña?
+                        </div>
+                        {% elif mensaje == 2 %}
+                        <div class="alert alert-danger" role="alert">
+                            ¡Este usuario no ha sido habilitado!
+                        </div>
+                        {% elif mensaje == 1 %}
+                        <div class="alert alert-danger" role="alert">
+                            ¡Ha ocurrido un error en la validacion!
                         </div>
                         {% endif %}
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
         </div>
+        <script src="../static/js/login.js"></script>
         <script src="../static/js/login.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>

@@ -39,10 +39,10 @@
     </div>
 
     <div class="content">
-        <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 12%;display:flex;justify-content:space-between">
+        <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 15%;display:flex;justify-content:space-between">
             <div>
             <button class="menu_desplegable navbar-toggler mx-auto"
-                    style="color: var(--color-fondo2); font-size: 200%;"
+                    style="color: var(--color-fondo2); font-size: 150%;"
                     type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
                     aria-controls="offcanvasDarkNavbar">
                     <i class="fa-solid fa-bars" style=" margin-left:20px"></i>
@@ -56,10 +56,10 @@
                 </a>
             </div>
             <div class="iconoIniciarSesion" style= "display:flex;justify-content:center">
-                <a href="{% url 'login' %}"  style="display: flex; margin-right:60px; color: var(--color-texto);text-decoration: none; align-items:center">
+                <a href="{% url 'login' %}"  style="display: flex; font-size:14px; margin-right:60px; color: var(--color-texto);text-decoration: none; align-items:center">
                     <i class="fa-solid fa-user" style="margin-right:10px"></i>Iniciar sesion</a>
 
-                <a href="{% url 'registro_usuarios' %}"  style="display: flex; margin-right:60px; color: var(--color-texto);text-decoration: none; align-items:center">
+                <a href="{% url 'registro_usuarios' %}"  style="display: flex; font-size:14px; margin-right:60px; color: var(--color-texto);text-decoration: none; align-items:center">
                     <i class="fa-solid fa-user" style="margin-right:10px"></i>Registrarse</a>
             </div>
             <div class="offcanvas offcanvas-start text-bg-dark justify-content-start w-20" tabindex="-1"
@@ -86,11 +86,7 @@
                             <a class="nav-link" href="{% url 'login' %}" style="color: var(--color-texto)">Iniciar sesion</a><br />
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" style="color: var(--color-texto)">Domicilios: Pide en
-                                línea</a><br />
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" style="color: var(--color-texto)">Nuestro trabajo</a><br />
+                            <a class="nav-link" href="#" style="color: var(--color-texto)">Realiza tus pedidos en línea</a><br />
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" style="color: var(--color-texto)">¿Quiénes somos?</a><br />
@@ -195,9 +191,9 @@
                     </video>
                     <div class="carousel-caption d-none d-md-block">
                         <h1 style="font-size: 650%; font-family: 'ui-sans-serif', sans-serif; font-weight: bold;">
-                            Domicilios: Pide en línea</h1>
+                            Realiza tus pedidos en línea</h1>
                         <button type="button" class="boton1 btn-lg" data-toggle="collapse" data-target="#texto-oculto"
-                            aria-controls="texto-oculto" style="color: var(--color-texto)">
+                            aria-controls="texto-oculto" style="color: var(--color-texto);background-color: var(--color-botonesPrimarios);">
                             Ver más
                         </button>
                         <div id="texto-oculto" class="collapse">
@@ -216,7 +212,7 @@
                         <h1 style="font-size: 650%; font-family: 'ui-sans-serif', sans-serif; font-weight: bold;">
                             Nuestra carta</h1>
                         <button type="button" class="boton1 btn-lg" data-toggle="collapse" data-target="#texto-oculto"
-                            aria-controls="texto-oculto" style="color: var(--color-texto)">
+                            aria-controls="texto-oculto" style="color: var(--color-texto);background-color: var(--color-botonesPrimarios);">
                             Ver más
                         </button>
                         <p style="font-family: 'ui-sans-serif', sans-serif;">innovación en el arte de la cocina</p>

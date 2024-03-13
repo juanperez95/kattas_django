@@ -16,12 +16,16 @@
     <script src="https://kit.fontawesome.com/b06d3acf28.js" crossorigin="anonymous"></script>
 </head>
 <body> 
-    <div>
-        <!-- Left content -->
-    </div>
+
     <div class="sidebar">
         <div class="logo">
-            <img src="{% static 'images/Logoicono.png' %}" />
+            <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" />
+        </div>
+        <div class="user--info">
+            <img src="{% static 'images/usuario.jpg' %}" />
+        </div>
+        <div class="header--title">
+            <a>Bienvenido/a, {% block username %}name_user{% endblock %}</a>
         </div>
         <ul class="menu">
             
@@ -69,16 +73,6 @@
         </ul>
     </div>
     <div class="main--content">
-        <div class="header--wrapper">
-            <div class="header--title">
-                <h2>Katta' pizza - Bienvenido/a {% block username %}name_user{% endblock %}</h2>
-            </div>
-            <div class="user--info">
-                <div class="search--box">
-                </div>
-                <img src="{% static 'images/usuario.jpg' %}" />
-            </div>
-        </div>
         <!-- Content -->
         {% block content %}{% endblock %}
 
@@ -101,9 +95,6 @@
                 {% endif %}
             </ul>
         </div>
-
     </div>
-
-    
 </body>
 </html>
