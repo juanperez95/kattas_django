@@ -5,8 +5,6 @@ from django.core.mail import send_mail,EmailMultiAlternatives
 import random as r
 
 
-
-
 def html_correo(titulo,asunto, contenido, correo):
     html_content = """
         <html>
@@ -42,30 +40,26 @@ def html_correo(titulo,asunto, contenido, correo):
     msg.send()
 
 def loginView(request):
-    data = {'mensaje':0}
+    data = {'mensaje':False}
     if request.method == "POST":
+        password = h.sha1(request.POST['clave'].encode()).hexdigest() # Encriptar clave
         try:
-            usuario = Usuario.objects.get(documento=int(request.POST['documento']))
-            password = h.sha1(request.POST['clave'].encode()).hexdigest() # Encriptar clave
             # Validar si la contraseña coincide, esta habilitado y es administrador o empleado
-            if password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 1 or usuario.perfil.id == 2: # Vista administradores
-                request.session['user'] = str(usuario.documento) # Crear session
+            usuario = Usuario.objects.get(
+                documento=int(request.POST['documento']),
+                habilitado=Habilitado.objects.get(id=1),
+                password=password
+                )
+            # Crear la sesion del usuario
+            request.session['user'] = usuario.documento
+            if usuario.perfil.id == 1 or usuario.perfil.id == 2:
                 return redirect('dashboard_usuarios')
-            elif password == usuario.password and usuario.habilitado.id == 1 and usuario.perfil.id == 3: # Vista cliente
-
-                return redirect('dashboard_usuarios')
-            elif password == usuario.password and usuario.habilitado.id == 2:
-                data['mensaje'] = 2
-                return render(request,"cliente/login.html",data)
-            elif password != usuario.password and usuario.habilitado.id == 1:
-                data['mensaje'] = 0
-                return render(request,"cliente/login.html",data)
-            return redirect('dashboard_usuarios')
+            else:
+                return redirect('inicio')
         except Exception as err:
-            data['mensaje'] = 1
-        return redirect('login')
+            data['mensaje'] = '¡Usuario o contraseña incorrecta!'
             
-    return render(request, "cliente/login.html")
+    return render(request, "cliente/login.html",data)
 
 def indexView(request):
     return render(request, "cliente/index.html")
@@ -85,7 +79,6 @@ def recuperar_pass(request):
             
         except Exception as err:
             data['m'] = 1
-            print(err)
             pass
 
         return render(request,"cliente/recuperarContraseña.html",data)

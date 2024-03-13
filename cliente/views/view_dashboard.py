@@ -11,7 +11,6 @@ from django.db.models import Q
 global datos_insumo
 datos_insumo = {}
 
-
 def limpiar_lista(request):
     datos_insumo.clear()
     return redirect('registrar_producto')
@@ -25,9 +24,13 @@ def agregar_insumo_p(request):
     return redirect('registrar_producto')
 
 def dashboard_base(request):
+    if request.session.get('user') is None:
+        return redirect('login')
     return render(request,"cliente/dashboard.html")
 
 def dashboard_insumos(request):
+    if request.session.get('user') is None:
+        return redirect('login')
     data={}
     usuario = Usuario.objects.get(documento=request.session.get('user'))
     categorias = Categoria.objects.all()
@@ -41,6 +44,8 @@ def dashboard_insumos(request):
     return render(request,"cliente/dashboard_insumo.html",data)
 
 def dashboard_usuarios(request):
+    if request.session.get('user') is None:
+        return redirect('login')
     usuarios = Usuario.objects.all()
     if request.method == "POST":
         usuarios = Usuario.objects.filter(documento__icontains=request.POST['documento'])
@@ -51,6 +56,8 @@ def dashboard_usuarios(request):
     return render(request,"cliente/dashboard_usuarios.html",{'entidad':paginador,'datos':usuario})
 
 def dashboard_productos(request):
+    if request.session.get('user') is None:
+        return redirect('login')
     login = Usuario.objects.get(documento=request.session.get('user'))
     paginacion = Paginator(Producto.objects.all(),8)
     pagina = request.GET.get('pagina')
@@ -62,6 +69,8 @@ def dashboard_productos(request):
     return render(request,"cliente/dashboard_productos.html",data)
     
 def actualizar_usuario(request, id):
+    if request.session.get('user') is None:
+        return redirect('login')
     login = Usuario.objects.get(documento=request.session.get('user'))
     if request.method == 'POST':
         usuario = Usuario.objects.get(documento=id)
@@ -117,6 +126,8 @@ def registrar_insumo(request):
 
 
 def entrada_insumo(request, id):
+    if request.session.get('user') is None:
+        return redirect('login')
     login = Usuario.objects.get(documento=request.session.get('user'))
     insumo=Insumo.objects.get(id=id)
     now = datetime.now()
@@ -159,6 +170,8 @@ def entrada_insumo(request, id):
     return render(request,'cliente/entrada_insumo.html',data)
 
 def dashboard_entrada(request,ids):
+    if request.session.get('user') is None:
+        return redirect('login')
     login = Usuario.objects.get(documento=request.session.get('user'))    
     insumo=Insumo.objects.get(id=ids)
     entradas= Entrada_Insumo.objects.filter(fk_insumo=insumo)

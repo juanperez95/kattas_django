@@ -53,17 +53,9 @@
                             <a href="{% url 'registro_usuarios' %}">Crear cuenta nueva</a>
                         </form>
                         {% comment %} Validar condicion de correo {% endcomment %}
-                        {% if mensaje == 0 %}
+                        {% if mensaje %}
                         <div class="alert alert-danger" role="alert">
-                            ¡Oops!, ¿Haz olvidado la contraseña?
-                        </div>
-                        {% elif mensaje == 2 %}
-                        <div class="alert alert-danger" role="alert">
-                            ¡Este usuario no ha sido habilitado!
-                        </div>
-                        {% elif mensaje == 1 %}
-                        <div class="alert alert-danger" role="alert">
-                            ¡Ha ocurrido un error en la validacion!
+                            ¡Oops!, {{mensaje}}
                         </div>
                         {% endif %}
                     </div>
