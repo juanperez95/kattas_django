@@ -3,9 +3,20 @@ from ..models import *
 from django.core.paginator import Paginator
 
 
-global productos
+global productos,totales
+totales=0
 productos = {}
 
+
+def paginacion(request,clase,cantidad):
+    paginacion = Paginator(clase.objects.all(),cantidad)
+    pagina = request.GET.get('pagina')
+    paginador = paginacion.get_page(pagina)
+    return paginador
+
+
+def sesion(request):
+    return Usuario.objects.get(documento=request.session['user'])
 
 def indexView(request):
     return render(request, ("cliente/index.html"))
@@ -26,9 +37,9 @@ def catalogo_productos(request,id=0):
         
     except Exception as err:
         pass
-    if request.method == "POST":
+    if request.method == "POST":        
         producto = Producto.objects.get(id=id)
-        if int(request.POST['cantidad']) >= 0: # Validar que no se agreguen valores en cero.
+        if int(request.POST['cantidad']) >= 1: # Validar que no se agreguen valores en cero.
             productos[producto.id]=[producto,int(request.POST['cantidad']),producto.precio*int(request.POST['cantidad'])]
             data['n_productos'] = len(productos)
     return render(request,'cliente/catalogo_productos.html',data)
@@ -38,8 +49,14 @@ def carrito(request):
     producto = [(k,v) for k,v in productos.items()]
     paginacion = Paginator(producto,4)
     pagina = request.GET.get('pagina')
+    data={}
+    totales=0
     paginador = paginacion.get_page(pagina)
-    return render(request,"cliente/carrito.html",{'carrito':paginador})
+    data['carrito']=paginador
+    for total in productos.values():
+            totales += total[2]
+    data['total']=totales
+    return render(request,"cliente/carrito.html",data)
 
 def quitar_producto(request,id):
     productos.pop(id)
@@ -59,4 +76,61 @@ def restar_cantidad_carrito(request,id):
     else:
         datos[2] = datos[1] * datos[0].precio
     return redirect("carrito")
+
+def crear_pedido(request,total):
+    if request.session.get('user') is None:
+        return redirect('login')
+    if len(productos) == 0:
+        return redirect('catalogo_productos',0)
+    print(totales)
+    pedido=Pedido(
+        fk_documento=sesion(request),
+        total=float(total),
+        fk_estado=Estado_Pedido.objects.get(id=3)
+        )
+    pedido.save()
+    for producto in productos.values():
+        pedido_producto = Pedido_Producto(
+                fk_pedido=pedido,
+                fk_producto=producto[0],
+                cantidad_producto=producto[1],
+                precio_producto=producto[2]
+            )
+        pedido_producto.save()
+
+    # quitar de inventario
+        
+    for prod in productos.values():    
+        insumo_producto = Producto_Insumo.objects.filter(productos=prod[0])
+        for ins in insumo_producto:
+            insumo = Insumo.objects.get(id=ins.insumos.id)
+            insumo.cantidad_existente -= (ins.cantidad*prod[1])
+            if insumo.cantidad_existente >= 0:
+                print("Se guardo")
+                if insumo.cantidad_existente > insumo.cantidad_minimo:
+                    insumo.fk_estado=Estado.objects.get(id=1)
+                elif insumo.cantidad_existente < insumo.cantidad_minimo:
+                    insumo.fk_estado=Estado.objects.get(id=2)
+            
+            
+                if insumo.cantidad_existente == 0:
+                    insumo.fk_estado=Estado.objects.get(id=3) 
+
+                insumo.save()
+            else:
+                print("no se guardo")
+
+
+    productos.clear()
+    return redirect('catalogo_productos',0)
+    
+
+def dashboard_pedidos(request):
+    
+    data = {
+        'entidad': paginacion(request,Pedido,8),
+        'datos':sesion(request)
+        }
+
+    return render(request,"cliente/dashboard_pedido.html",data)
 

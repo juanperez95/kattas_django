@@ -93,26 +93,26 @@ p {
     color: var(--color-texto);
   }
 
-  .tituloCarrito{
+  /* .tituloCarrito{
     display: flex;
     position: relative;
     justify-content: start;
     margin-left: 20px;
     font-size: 8px;
-  }
+  } */
 
   .cart {
     display: grid;
     grid-template-columns: 1fr 2fr; /* Dividir en dos columnas de igual tamaño */
     grid-column-gap: 20px; /* Espacio entre las columnas */
-    width: 1500px;
+    width: 1300px;
     padding: 20px;
     background-color:var(--color-fondo2);
     border-radius: 8px;
 }
 
     .product-table {
-      width: 1350px;
+      
       flex: 1;
       margin-right: 0px;
     }
@@ -239,7 +239,8 @@ p {
 
     .checkout-card a {
         display: flex;
-        justify-content: end;
+        justify-content: center;
+        text-align: center;
         font-size: 1.1em;
         margin-top: 40px;
         margin-bottom: 30px;

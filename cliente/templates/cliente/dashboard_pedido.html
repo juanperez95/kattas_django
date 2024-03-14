@@ -1,0 +1,44 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block title %}Productos{% endblock %}
+
+{% block username %}{{ datos.nombre }}{% endblock  %}
+
+{% block content %}
+<div style="display:flex; justify-content: space-between; align-items: flex-end">
+  <h1 style="font-size: 50px; font-weight:bold">Productos</h1>
+  <a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary" style="margin-bottom: 15px; height:45px; background-color: #078d65">Registrar producto</button> </a>
+</div>
+
+
+<table id="datatable">
+    <thead style="background-color: #23434F">
+        <tr>
+            <th class="cabecera">N° Pedido</th>            
+            <th class="cabecera">Fecha Pedido</th>
+            <th class="cabecera">Estado Pedido</th>
+            <th class="cabecera">Total</th>
+            <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        {% for pedido_producto in entidad %}
+        <tr>
+          <td>{{pedido_producto.id}}</td>
+          <td>{{pedido_producto.fecha_pedido}}</td>
+          <td>{{pedido_producto.fk_estado.tipo_estado}}</td>
+          <td>{{pedido_producto.total}}</td>
+          <td>
+            <button style="background-color:#078d65;margin-bottom: 15px; height:45px" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{pedido_producto.id}}" data-bs-whatever="@mdo" disbaled>Registrar insumos</button>
+        </td>
+        </tr>
+
+    </tbody>
+
+{% endfor %}
+
+    
+</table>
+
+{% endblock %}

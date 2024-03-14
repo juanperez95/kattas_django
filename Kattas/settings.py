@@ -15,13 +15,12 @@ SECRET_KEY = 'django-insecure-6t-6m*%&m=vaugcxj3n%v8th2doz613vej4f@j5s9cb)*7bv)7
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 # CORS_ALLOW_CREDENTIALS = True
 
 # CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ALLOW_CREDENTIALS = True
-
+# CSRF_TRUSTED_ORIGINS = []
 
 
 

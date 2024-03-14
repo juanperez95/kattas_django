@@ -68,7 +68,7 @@ class Producto(models.Model):
     fk_estado = models.ForeignKey(Estado,on_delete=models.CASCADE)
     
     nombre_producto = models.CharField(max_length=40, null=False)
-    descripcion = models.CharField(max_length=40, null=False) # Pendiente arreglar
+    descripcion = models.TextField()
     tamaño = models.CharField(max_length=40, null=False) 
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     foto_p = models.ImageField(upload_to="imagenes_productos",null=True)
@@ -94,13 +94,39 @@ class Entrada_Insumo(models.Model):
     estado_vencido=models.CharField(max_length=30 , null=False)
     
 
+#--------------------------Pedido y Ventas----------------------------------------
     
-    
-    
+class Estado_Pedido(models.Model):
+    class Meta:
+        db_table = "estados_pedido"
+    tipo_estado = models.CharField(max_length=20)
 
 
 
+class Pedido(models.Model):
+    class Meta:
+            db_table= "pedido"
 
+    fk_documento=models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    total=models.DecimalField(max_digits=10, decimal_places=2, null= False)
+    fecha_pedido=models.DateField(auto_now=True)
+    fk_estado=models.ForeignKey(Estado_Pedido, on_delete=models.CASCADE)
     
+    
+class Pedido_Producto(models.Model):
+    class Meta:
+            db_table= "pedido_producto"
+
+    fk_pedido=models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    fk_producto=models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad_producto=models.IntegerField()
+    precio_producto=models.DecimalField(max_digits=15, decimal_places=2)
+
+
+class Venta(models.Model):
+    class Meta:
+            db_table= "venta"
+
+    fk_pedido=models.ForeignKey(Pedido, on_delete=models.CASCADE)
     
     

@@ -20,23 +20,29 @@
     <script src="https://kit.fontawesome.com/b06d3acf28.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="contenedor-barra">
-      <h1 class="titulo">Katta's Pizza</h1>
-      <div class="contenedor-opciones">
-        <div class="icono-carrito"><i class="fa-solid fa-cart-shopping"></i></div>
+    <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 15%;display:flex; justify-content: center;position: relative; ">
+      
+      <div class="navega flex-colum flex-md-row" style="display:flex;justify-content:space-around;  width:71%;align-items:center">
+          <a class="navbar-brand mr-auto" style="top: 0; text-align: center;" href="#">
+              <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="top: 0; max-height: 100px; margin: auto;" />          
+          </a>
+          
+      </div>   
       </div>
-    </div>
+  </nav>
     
     
-    <div class="tituloCarrito">
-        <a style="color:black;" href="{% url 'catalogo_productos' 0 %}"><i class="fa-solid fa-arrow-left" style="position:relative; top:50px; left:50px;cursor: pointer; font-size:25px"></i></a>
-
-        <h1>Carrito de compras</h1>
-
+    <div class="tituloCarrito" style="display:flex; align-items:center;width:30%;justify-content:space-around;margin-top:20px" >
+        
+        <a style="color:black; " href="{% url 'catalogo_productos' 0 %}"><i class="fa-solid fa-arrow-left" style="cursor: pointer; font-size:25px"></i></a>
+      
+      
+        <h1 style="margin:0px;">Carrito de compras</h1>
+      
     </div>
 
     <div class="cart">
-        <div class="product-table">
+        <div class="product-table" style="width:1200px">
             <div class="product-row header">
                 <div class="product-cell">Producto</div>
                 <div class="product-cell">Precio</div>
@@ -100,20 +106,15 @@
         <div class="checkout-card">
             <h3>Resumen de la compra</h3>
             <div class="total-cost">
-                <div class="total-cost-item">
-                    <span>Subtotal:</span>
-                    <span>$130.000</span>
-                </div>
-                <div class="total-cost-item">
-                    <span>Impuestos:</span>
-                    <span>$15.600</span>
-                </div>
+                
                 <div class="total-cost-item">
                     <span>Total:</span>
-                    <span>$145.600</span>
+                    <span>${{total}}</span>
                 </div>
             </div>
-            <button class="checkout-button">Finalizar Compra</button>
+            <div style="display:flex; justify-content:center; margin:0px;padding:0px">
+            <a  style="margin:0px;" href="{% url 'crear_pedido' total %}" class="btn btn-success">Finalizar Compra</a>
+            </div>
             <a href="index.html">Seguir comprando</a>
         </div> 
 

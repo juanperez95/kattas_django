@@ -1,4 +1,4 @@
-/*-------------Estados-------------------------*/
+/*-------------Estados Insumos-------------------------*/
 INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('1', 'En stock');
 INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('2', 'Bajo stock');
 INSERT INTO `kattaswebs`.`estados` (`id`, `tipo_estado`) VALUES ('3', 'Sin stock');
@@ -23,3 +23,9 @@ INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('1', 'Ca
 INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('2', 'Salsas');
 INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('3', 'Quesos');
 INSERT INTO `kattaswebs`.`categoria` (`id`, `nombre_categoria`) VALUES ('4', 'Vegetales');
+
+/*----------------Estados Pedido------------------*/
+INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('1', 'Entregado');
+INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('2', 'En espera');
+INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('3', 'Preparando');
+INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('4', 'Cancelado');
