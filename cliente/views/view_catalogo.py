@@ -9,7 +9,7 @@ productos = {}
 
 
 def paginacion(request,clase,cantidad):
-    paginacion = Paginator(clase.objects.all(),cantidad)
+    paginacion = Paginator(clase,cantidad)
     pagina = request.GET.get('pagina')
     paginador = paginacion.get_page(pagina)
     return paginador
@@ -78,10 +78,31 @@ def restar_cantidad_carrito(request,id):
     return redirect("carrito")
 
 def crear_pedido(request,total):
+
+
     if request.session.get('user') is None:
         return redirect('login')
+    
+
+    producto=Producto.objects.all()
+    paginacion = Paginator(producto,4)
+    pagina = request.GET.get('pagina')
+    paginador = paginacion.get_page(pagina)
+    data={
+            'entidad':paginador,
+            'n_productos':len(productos),
+        }
+    try:
+        
+        p_catalogo=Producto.objects.get(id=id)
+        data['p_catalogo']=p_catalogo
+        
+    except Exception as err:
+        pass
+
     if len(productos) == 0:
-        return redirect('catalogo_productos',0)
+        data['notificacion'] = 1
+        return render(request,'cliente/catalogo_productos.html',data)
     print(totales)
     pedido=Pedido(
         fk_documento=sesion(request),
@@ -117,20 +138,27 @@ def crear_pedido(request,total):
                     insumo.fk_estado=Estado.objects.get(id=3) 
 
                 insumo.save()
+
+                producto_insumo = Producto_Insumo.objects.filter(productos=prod[0])
+                producto = prod[0]
+
+                for cantidades_insumo in producto_insumo:
+                    if cantidades_insumo.cantidad > cantidades_insumo.insumos.cantidad_existente:
+                        producto.fk_estado = Estado.objects.get(id=3)
+                        break
+                    else:
+                        producto.fk_estado = Estado.objects.get(id=1)
+
+                producto.save()
+                data['notificacion'] = 0
+                
             else:
-                print("no se guardo")
+                data['notificacion'] = 1
+
+
 
 
     productos.clear()
-    return redirect('catalogo_productos',0)
+    return render(request,'cliente/catalogo_productos.html',data)
     
-
-def dashboard_pedidos(request):
-    
-    data = {
-        'entidad': paginacion(request,Pedido,8),
-        'datos':sesion(request)
-        }
-
-    return render(request,"cliente/dashboard_pedido.html",data)
 

@@ -35,8 +35,25 @@
       </div>   
       </div>
   </nav>
-
-
+    
+    {% if notificacion == 0 %}
+    <script>
+      Swal.fire({
+          icon: "success",
+          title: "¡Hurra!",
+          text: "¡Tu compra ha sido exitosa!",
+          });
+    </script>
+    {% elif notificacion == 1 %}
+    <script>
+      Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "¡No haz agregado nada al carrito!",
+          });
+    </script>
+    {% endif %}
+      
 
 
     
@@ -91,6 +108,8 @@
 
            
         {% endfor %}
+
+
         <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
             <ul class="pagination" style="gap:5px">
                 {% if page_obj.has_previous %}

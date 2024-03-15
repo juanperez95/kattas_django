@@ -10,19 +10,19 @@
 
 
 :root {
-  --color-fondo:#0F0F0F;
-  --color-fondo2: #F6F1F1;
-  --color-fondo3: #38322F;
+  --color-fondo: #0F0F0F;
+  --color-fondo2: #F3F3F3;
+  --color-fondo3: #E4E4E4;
   --color-texto: #F3F3F3;
   --color-texto2: #23434F;
-  --color-texto3: #000000;
-  --color-botonesPrimarios:#C0252A;
+  --color-texto3: #0F0F0F;
+  --color-botonesPrimarios: #C0252A;
   /*--color-botonesPrimarios:#C21015;
-  /*--color-botonesPrimarios:#CD3415;*/  
-  --color-botonesSecundarios: #F3F3F3; 
-  --color-HoverBotones: #94080d;
-  --color-botonesAgregar: #18a07c;
-  --color-HoverBotonesAgregar: #057452;
+  
+  /*--color-botonesPrimarios:#CD3415;*/
+  --color-botonesSecundarios: #17a17c;
+  --color-HoverBotones: #127e5d;
+  --color-iconos: #0F0F0F;
 }
 
 

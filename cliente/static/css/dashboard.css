@@ -17,6 +17,7 @@
   /*No habrá contorno alrededor de ningún elemento*/
   box-sizing: border-box;
   /*Controla el ancho y la altura del elemento*/
+  overflow:hidden;
 }
 
 :root {
@@ -30,8 +31,8 @@
   /*--color-botonesPrimarios:#C21015;
   
   /*--color-botonesPrimarios:#CD3415;*/
-  --color-botonesSecundarios: #01C38E;
-  --color-HoverBotones: #078d65;
+  --color-botonesSecundarios: #17a17c;
+  --color-HoverBotones: #127e5d;
   --color-iconos: #0F0F0F;
 }
 
@@ -79,6 +80,7 @@ body {
   color: var(--color-texto2);
   font-family: 'ui-sans-serif', sans-serif;
   display: flex;
+  
 }
 
 
@@ -100,11 +102,11 @@ option {
 
 
 .sidebar {
-  position: sticky;
+  position: relative;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 110px;
+  width: 280px;
   /*Anchura de la barra de navegación*/
   height: 100vh;
   /*Altura de la barra de navegación*/
@@ -115,40 +117,80 @@ option {
 }
 
 .sidebar:hover {
-  width: 240px;
+  width: 280px;
   /*Se pone en el tamaño normal la barra*/
   transition: 0.5s;
 }
 
 .sidebar img { /*Logo*/
   font-size: 3px;
-  height: 100px;
+  height: 80px;
   padding: 0;
-  margin: 10px -10px;
+  margin: 11px -5px;
+  margin-right: 11px;
+}
 
+.sidebar .header--title, 
+.sidebar .user--info{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.header--wrapper img {
+  object-fit: cover;
+  /*La imagen se ajusta al contenedor*/
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.user--info img {
+    object-fit: cover;
+    /*La imagen se ajusta al contenedor*/
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user--info {
+  display: flex;
+  align-items: center;
+  /*Los alinea de forma horizontal en el centro*/
+  gap: 1rem;
+  padding: 4px 12px;
+  margin-bottom: 18px;
 }
 
 .menu {
-  height: 80%;
-  position: relative;
-  list-style: none;
-  /*Quita el estilo de los puntos al lado de la lista*/
-  padding: 0;
-}
+    height: 60%;
+    position: relative;
+    list-style: none;
+    /*Quita el estilo de los puntos al lado de la lista*/
+    padding: 0;
+    text-align: center;
+  }
 
 .menu li {
-  padding: 1rem;
-  margin: 10px 0;
-  /*Espacio entre cada icono*/
-  border-radius: 8px;
-  transition: all 0.5s ease-in-out;
-  /*Cambios de estilo cuando se producen transiciones*/
+    display: flex;
+    justify-content: start;
+    padding: 1rem;
+    margin: 10px 30px;    /*Espacio entre cada icono*/
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+    /*Cambios de estilo cuando se producen transiciones*/
+  
 }
 
 .menu li:hover,
 .active {
   /*Active es para estar todo el tiempo de ese color*/
   background: var(--color-botonesPrimarios);
+  padding: 1rem;
 }
 
 .menu a {
@@ -157,6 +199,7 @@ option {
   text-decoration: none;
   display: flex;
   align-items: center;
+  justify-content:center;
   gap: 1.5rem;
   /*Controla el espacio entre filas y columnas*/
 
@@ -171,11 +214,11 @@ option {
   /*Espacio*/
 }
 
+
 .logout {
   position: absolute;
-  bottom: 0;
+  bottom: 15px;
   left: 0;
-  width: 100%;
 }
 
 
@@ -185,49 +228,6 @@ option {
   background: var(--color-fondo3);
   width: 100%;
   padding: 1rem;
-}
-
-.header--wrapper img {
-  object-fit: cover;
-  /*La imagen se ajusta al contenedor*/
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.header--wrapper {
-  display: flex;
-  justify-content: space-between;
-  /*Los elementos se distribuyen de lado a lado*/
-  align-items: center;
-  flex-wrap: wrap;
-  background: var(--color-fondo2);
-  border-radius: 10px;
-  padding: 15px 2rem;
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-.header--title h1{
-  font-family: 'ui-sans-serif', sans-serif;
-  font-size: 36px;
-  line-height: 40px;
-  font-weight: bold;
-  font-size: 200%;
-}
-
-.header--title img {
-  width: 150px;
-  object-fit: cover;
-}
-
-.user--info {
-  display: flex;
-  align-items: center;
-  /*Los alinea de forma horizontal en el centro*/
-  gap: 1rem;
-  padding: 4px 12px;
 }
 
 /*Editar la caja de buscar*/
@@ -312,6 +312,60 @@ label {
   outline: none;
 }
 
+
+/*Tarjetas o cards*/
+
+.grupoCards {
+  display: flex;
+  align-items: center;
+}
+
+.cards1,
+.cards2 {
+  display: flex;
+  flex-direction: column; /* Cambia la dirección del flexbox a columna */
+  justify-content: space-between; /* Alinear los elementos a los extremos */
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 12px;
+  width: 170px;
+  height: 105px; 
+  padding: 10px;
+  margin: 10px;
+  background-color: var(--color-botonesSecundarios);/*#d84f2c;*/
+  color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.cards1 i,
+.cards2 i {
+  font-size: 20px;
+  margin-bottom: 5px; 
+}
+
+.cards1 h1,
+.cards2 h1 {
+  font-size: 16px; /* Tamaño del texto del título */
+  font-weight: bold;
+  margin-top: auto; /* Mueve el número abajo */
+  text-align: center; 
+}
+
+.cards1:hover,
+.cards2:hover {
+  transform: scale(0.95); /* Reducimos el tamaño al 95% cuando pasamos el mouse */
+  cursor: pointer;
+}
+
+
+.grupoCards p {
+  margin: 2px 0; /* Establece el margen superior e inferior */
+  font-weight: 100;
+  text-align: center; /* Alinea el texto al centro */
+  color: var(--color-texto);
+}
+
 /*
 input[type="date"] {
   background-color: transparent;
@@ -367,10 +421,9 @@ table {
   border-collapse: collapse;
 }
 
-thead {
-  /*fila*/
-  background-color: #23434F;
+thead th{
   color: var(--color-texto);
+  background-color: #0F0F0F;
 }
 
 .fecha1 {
@@ -586,6 +639,6 @@ tfoot td {
 }   
 
 thead .cabecera {
-    background-color: var(--color-texto2);
+    background-color: var(--color-fondo);
     color: white;
 }

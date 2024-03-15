@@ -34,7 +34,11 @@ urlpatterns = [
     path('aumentar_carrito/<int:id>',view_catalogo.aumentar_cantidad_carrito,name='aumentar_carrito'),
     path('restar_carrito/<int:id>',view_catalogo.restar_cantidad_carrito,name='restar_carrito'),
     path('crear_pedido/<str:total>',view_catalogo.crear_pedido,name='crear_pedido'),
-    path('dashboard_pedidos/',view_catalogo.dashboard_pedidos,name='dashboard_pedidos'),
+    path('dashboard_pedidos/',view_dashboard.dashboard_pedidos,name='dashboard_pedidos'),
+    path('dashboard_pedidos_producto/<str:id>',view_dashboard.dashboard_pedido_producto,name='dashboard_pedidos_producto'),
+    path('estado_pedido/<str:id>',view_dashboard.actualizar_estado_pedido,name='estado_pedido'),
+    path('mis_pedidos/',view_dashboard.mis_pedidos,name='mis_pedidos'),
+    path('configuracion/',view_dashboard.actualizar_estado_pedido,name='configuracion'),
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

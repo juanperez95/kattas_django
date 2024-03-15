@@ -20,20 +20,20 @@
 }
 
 :root {
-  --color-fondo: #0F0F0F;
-  --color-fondo2: #F3F3F3;
-  --color-fondo3: #E4E4E4;
-  --color-texto: #F3F3F3;
-  --color-texto2: #23434F;
-  --color-texto3: #0F0F0F;
-  --color-botonesPrimarios: #C0252A;
-  /*--color-botonesPrimarios:#C21015;
-  
-  /*--color-botonesPrimarios:#CD3415;*/
-  --color-botonesSecundarios: #01C38E;
-  --color-HoverBotones: #078d65;
-  --color-iconos: #0F0F0F;
-}
+    --color-fondo: #0F0F0F;
+    --color-fondo2: #F3F3F3;
+    --color-fondo3: #E4E4E4;
+    --color-texto: #F3F3F3;
+    --color-texto2: #23434F;
+    --color-texto3: #0F0F0F;
+    --color-botonesPrimarios: #C0252A;
+    /*--color-botonesPrimarios:#C21015;
+    
+    /*--color-botonesPrimarios:#CD3415;*/
+    --color-botonesSecundarios: #17a17c;
+    --color-HoverBotones: #127e5d;
+    --color-iconos: #0F0F0F;
+  }
 
 h1 {
   font-family: 'ui-sans-serif', sans-serif;

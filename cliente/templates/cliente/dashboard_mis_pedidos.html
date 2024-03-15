@@ -1,0 +1,60 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block title %}Mis Pedidos{% endblock %}
+
+{% block username %}{{ datos.nombre }}{% endblock  %}
+
+{% block content %}
+<div style="display:flex; justify-content: space-between; align-items: flex-end">
+  <h1 style="font-size: 50px; font-weight:bold">Pedidos</h1>
+  <a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary" style="margin-bottom: 15px; height:45px; background-color: #078d65">Registrar producto</button> </a> 
+</div>
+<div>
+    <form method="post" action=>
+        {% csrf_token %}
+        <div style="display:flex; justify-content: space-between; align-items: flex-end">
+            <div>
+                <span>Filtro</span>
+                <i class="pi pi-filter"></i>
+                <input type="text" class="filtrodash" id="globalFilter" style="width: 300px;" name="filtro_pedido" placeholder="Filtrar usuarios por documento" />
+                <input  style="background-color: #23434F" type="submit" id="globalFil" style="width: 160px;" value="Buscar" class="btn btn-success"  />
+            </div>
+          </div>
+        
+    </form>
+</div>
+<table id="datatable">
+    <thead style="background-color: #23434F">
+        <tr>
+            <th class="cabecera">N° Pedido</th>            
+            <th class="cabecera">Fecha Pedido</th>
+            <th class="cabecera">Estado Pedido</th>
+            <th class="cabecera">Total</th>
+            <th class="cabecera" style="border-top-right-radius: 10px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    {% for pedido_cliente in entidad %}
+        <tr>
+          <td>{{pedido_cliente.id}}</td>
+          <td>{{pedido_cliente.fecha_pedido}}</td>
+          <td>
+            {{pedido_cliente.fk_estado.tipo_estado}}
+          </td>
+          <td>{{pedido_cliente.total}}</td>
+          <td>
+
+            <a style="background-color: #23434F" href="{% url 'dashboard_pedidos_producto' pedido_cliente.id %}" class="btn btn-dark"><i class="fa-solid fa-eye"></i></a>        
+            
+        </td>
+        </tr>
+    </tbody>
+
+
+{% endfor %}
+
+    
+</table>
+
+{% endblock %}

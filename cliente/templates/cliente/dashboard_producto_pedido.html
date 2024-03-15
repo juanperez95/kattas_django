@@ -1,0 +1,41 @@
+{% extends "cliente/dashboard.html" %}
+
+{% block title %}Productos{% endblock %}
+
+{% block username %}{{ datos.nombre }}{% endblock  %}
+
+{% block content %}
+<div style="display:flex; justify-content: space-between; align-items: flex-end">
+  <h1 style="font-size: 50px; font-weight:bold">Pedido: N° {{entidad.0.fk_pedido.id}} / {{entidad.0.fk_pedido.fk_documento.nombre}} {{entidad.0.fk_pedido.fk_documento.apellidos}} </h1>
+  <a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary" style="margin-bottom: 15px; height:45px; background-color: #078d65">Registrar producto</button> </a>
+</div>
+
+
+
+
+<table id="datatable">
+    <thead style="background-color: #23434F">
+        <tr>
+            <th class="cabecera">Producto</th>            
+            <th class="cabecera">Cantidad producto pedido</th>
+            <th class="cabecera">Precio del producto</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        {% for pedido_producto in entidad %}
+        <tr>
+          <td>{{pedido_producto.fk_producto.nombre_producto}}</td>
+          <td>{{pedido_producto.cantidad_producto}}</td>
+          <td>{{pedido_producto.precio_producto}}</td>
+            
+        </tr>
+
+    </tbody>
+
+{% endfor %}
+
+    
+</table>
+
+{% endblock %}

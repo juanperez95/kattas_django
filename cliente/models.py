@@ -106,10 +106,12 @@ class Estado_Pedido(models.Model):
 class Pedido(models.Model):
     class Meta:
             db_table= "pedido"
+            ordering = ['-id'] 
 
     fk_documento=models.ForeignKey(Usuario, on_delete=models.CASCADE)
     total=models.DecimalField(max_digits=10, decimal_places=2, null= False)
-    fecha_pedido=models.DateField(auto_now=True)
+    fecha_pedido=models.DateTimeField(auto_now=True)
+    
     fk_estado=models.ForeignKey(Estado_Pedido, on_delete=models.CASCADE)
     
     

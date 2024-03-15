@@ -5,6 +5,7 @@ from django.conf import settings
 from cliente.models import *
 from django.core.paginator import Paginator
 from django.db.models import Q
+from .view_catalogo import sesion, paginacion
 
 
 # Insumos para productos
@@ -31,7 +32,11 @@ def dashboard_base(request):
 def dashboard_insumos(request):
     if request.session.get('user') is None:
         return redirect('login')
-    data={}
+    data={
+        'n_insumos':Insumo.objects.count(),
+        'n_disponibles':len(Insumo.objects.filter(fk_estado=Estado.objects.get(id=1))),
+        'n_vencido':len(Entrada_Insumo.objects.filter(estado_vencido="Vencido")),
+        }
     usuario = Usuario.objects.get(documento=request.session.get('user'))
     categorias = Categoria.objects.all()
     insumos=Insumo.objects.all()
@@ -53,7 +58,16 @@ def dashboard_usuarios(request):
     paginacion = Paginator(usuarios,8)
     pagina = request.GET.get('pagina')
     paginador = paginacion.get_page(pagina)
-    return render(request,"cliente/dashboard_usuarios.html",{'entidad':paginador,'datos':usuario})
+    data={
+        'entidad':paginador,
+        'datos':usuario,
+        'n_usuarios':Usuario.objects.count(),
+        'n_deshabilitados':len(Usuario.objects.filter(habilitado=Habilitado.objects.get(id=2))),
+        'n_clientes':len(Usuario.objects.filter(perfil=Perfil.objects.get(id=3))),
+        'n_empleados':len(Usuario.objects.filter(perfil=Perfil.objects.get(id=2))),
+        }
+    
+    return render(request,"cliente/dashboard_usuarios.html",data)
 
 def dashboard_productos(request):
     if request.session.get('user') is None:
@@ -64,7 +78,9 @@ def dashboard_productos(request):
     paginador = paginacion.get_page(pagina)
     data={
         'datos':login,
-        'entidad':paginador
+        'entidad':paginador,
+        'n_productos':Producto.objects.count(),
+        'n_disponibles':len(Producto.objects.filter(fk_estado=Estado.objects.get(id=1)))
         }
     return render(request,"cliente/dashboard_productos.html",data)
     
@@ -83,8 +99,6 @@ def actualizar_usuario(request, id):
         usuario.habilitado = Habilitado.objects.get(id=request.POST['habilitado'])
         usuario.perfil = Perfil.objects.get(id=request.POST['perfil'])
         usuario.cargo = Cargo.objects.get(id=request.POST['cargo'])
-        
-
         usuario.save()
         return redirect('dashboard_usuarios')    
     persona = Usuario.objects.get(documento=id)
@@ -163,6 +177,7 @@ def entrada_insumo(request, id):
             
               
         insumo.save()
+
         return redirect('dashboard_insumo')
     
     
@@ -240,6 +255,19 @@ def registrar_productos(request):
                 cantidad=cantidad
                 )
             prod_ins.save()
+
+        # Actualzar estado del producto
+            
+        producto_insumo = Producto_Insumo.objects.filter(productos=producto)
+
+        for cantidades_insumo in producto_insumo:
+            if cantidades_insumo.cantidad == 0:
+                producto.fk_estado = Estado.objects.get(id=3)
+                break
+            else:
+                producto.fk_estado = Estado.objects.get(id=1)
+
+        producto.save()
         
         datos_insumo.clear()
 
@@ -270,3 +298,56 @@ def editar_insumo_producto(request,id):
     p_i.cantidad = request.POST['cantidad']
     p_i.save()
     return redirect("insumos_productos",p_i.productos.id,0)
+
+def dashboard_pedidos(request):
+    
+    data = {
+        'entidad': paginacion(request,Pedido.objects.all(),8),
+        'datos':sesion(request),
+        'estados':Estado_Pedido.objects.all(),
+        }    
+    if request.method == "POST":
+        try:
+            data['entidad'] = paginacion(request,Pedido.objects.filter(id=int(request.POST['filtro_pedido'])),8)
+        except Exception as err:
+            pass
+
+    return render(request,"cliente/dashboard_pedido.html",data)
+
+def dashboard_pedido_producto(request,id):
+    data={
+        'entidad':paginacion(request,Pedido_Producto.objects.filter(fk_pedido=Pedido.objects.get(id=id)),8),
+        'datos':sesion(request)
+        }
+    return render(request,"cliente/dashboard_producto_pedido.html",data)
+
+def actualizar_estado_pedido(request,id):
+    data = {
+        'entidad': paginacion(request,Pedido.objects.filter(id=id),1),
+        'datos':sesion(request),
+        'estados':Estado_Pedido.objects.all(),
+        'id':Pedido.objects.get(id=id)
+        }    
+    
+    pagina = request.GET.get('pagina',2)
+    if request.method == "POST":
+        pedido = Pedido.objects.get(id=id)
+        pedido.fk_estado = Estado_Pedido.objects.get(id=request.POST['estado_pedido'])
+        pedido.save()
+        return redirect('dashboard_pedidos')
+    return render(request,f'cliente/dashboard_pedido.html',data)
+
+# ----------------------------------------------------- Dashboard cliente---------------------------
+def mis_pedidos(request):
+    data={
+        'datos':sesion(request),
+        'entidad':paginacion(request,Pedido.objects.filter(fk_documento=sesion(request)),8),
+        }
+    if request.method == "POST":
+        try:
+            data['entidad'] = paginacion(request,Pedido.objects.filter(id=int(request.POST['filtro_pedido'])),1)
+        except Exception as err:
+            pass
+
+
+    return render(request,"cliente/dashboard_mis_pedidos.html",data)

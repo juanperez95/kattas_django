@@ -40,7 +40,7 @@ def html_correo(titulo,asunto, contenido, correo):
     msg.send()
 
 def loginView(request):
-    data = {'mensaje':False}
+    data = {'mensaje':10}
     if request.method == "POST":
         password = h.sha1(request.POST['clave'].encode()).hexdigest() # Encriptar clave
         try:
@@ -57,7 +57,7 @@ def loginView(request):
             else:
                 return redirect('inicio')
         except Exception as err:
-            data['mensaje'] = '¡Usuario o contraseña incorrecta!'
+            data['mensaje'] = 0
             
     return render(request, "cliente/login.html",data)
 
@@ -92,7 +92,7 @@ def registroView(request):
         try:
             usuario = Usuario.objects.get(documento=request.POST['documento'])
             if usuario != None:
-                return render(request,"cliente/registro.html",{'mensaje':0})
+                return render(request,"cliente/registro.html",{'mensaje':3})
         except Exception as err:  # Si no llega a encontrar el documento procede con el registro
             documento = request.POST['documento']
             nombre = request.POST['nombres']
@@ -106,7 +106,7 @@ def registroView(request):
             usuario = Usuario(
                 documento=documento,
                 habilitado=Habilitado.objects.get(id=1),
-                perfil=Perfil.objects.get(id=1),
+                perfil=Perfil.objects.get(id=3),
                 cargo=Cargo.objects.get(id=4),
                 password=password,
                 nombre=nombre,

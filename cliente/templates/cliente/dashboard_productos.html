@@ -10,6 +10,24 @@
   <a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary" style="margin-bottom: 15px; height:45px; background-color: #078d65">Registrar producto</button> </a>
 </div>
 
+<div class="grupoCards">
+  <div class="cards1">
+    <i class="fa-solid fa-cart-arrow-down"></i>
+      <p>Productos registrados</p>
+
+      <h1>{{n_productos}}</h1>
+      
+
+  </div>
+  <div class="cards2">
+    <i class="fa-solid fa-chart-simple"></i>
+      <p>Productos disponibles</p>
+      <h1>{{n_disponibles}}</h1>
+      
+
+  </div>
+</div>
+
 
 <table id="datatable">
     <thead style="background-color: #23434F">

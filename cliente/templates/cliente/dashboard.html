@@ -43,7 +43,8 @@
                 </a>
             </li> {% endcomment %}
             {% endif %}
-
+            
+            {% if datos.perfil.id == 1 or datos.perfil.id == 2 %}              
             <li>
                 <a href="{% url 'dashboard_insumo' %}">
                     <i class="fa-solid fa-store"></i>
@@ -58,10 +59,23 @@
             </li>
             <li>
                 <a href="{% url 'dashboard_pedidos' %}">
-                    <i class="fa-solid fa-truck-fast"></i>
-                    <span>Pedidos</span>
+                    <i class="fa-solid fa-clipboard"></i>                   
+                     <span>Pedidos</span>
                 </a>
             </li>
+            {% endif %}
+                
+            
+            {% if datos.perfil.id == 3 %}
+                <li>
+                    <a href="{% url 'mis_pedidos' %}">
+                        <i class="fa-solid fa-clipboard"></i>
+                        <span> Mis pedidos</span>
+                    </a>
+                </li>
+                
+            {% endif %}
+                
         
             <li>
                 <a href="#">
@@ -90,17 +104,18 @@
                 {% endif %}
                 {% for num in entidad.paginator.page_range %}
                     {% if entidad.number == num %}
-                        <li style="background-color: #078d65" class="btn btn-secondary"><span>{{ num }}</span></li>
+                        <li style="background-color: var(--color-fondo);border:none" class="btn btn-secondary"><span>{{ num }}</span></li>
                     {% else %}
-                        <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
+                        <li><a style="background-color: var(--color-fondo)" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
                     {% endif %}
                 {% endfor %}
                 {% if entidad.has_next %}
-                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.next_page_number }}">Siguiente &rsaquo;</a></li>
-                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.paginator.num_pages }}">Última &raquo;</a></li>
+                    <li><a style="background-color: var(--color-fondo)" class="btn btn-dark" href="?pagina={{ entidad.next_page_number }}">Siguiente &rsaquo;</a></li>
+                    <li><a style="background-color: var(--color-fondo)" class="btn btn-dark" href="?pagina={{ entidad.paginator.num_pages }}">Última &raquo;</a></li>
                 {% endif %}
             </ul>
         </div>
     </div>
+
 </body>
 </html>
