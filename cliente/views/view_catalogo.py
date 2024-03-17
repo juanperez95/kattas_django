@@ -19,7 +19,12 @@ def sesion(request):
     return Usuario.objects.get(documento=request.session['user'])
 
 def indexView(request):
-    return render(request, ("cliente/index.html"))
+    data={}
+    if request.session.get('user') is None:
+        pass
+    else:
+        data['datos'] = Usuario.objects.get(documento=request.session.get('user'))
+    return render(request, ("cliente/index.html"),data)
 
 def catalogo_productos(request,id=0):
     producto=Producto.objects.all()

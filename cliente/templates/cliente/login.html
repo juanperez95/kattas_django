@@ -97,42 +97,26 @@
                     <input type="submit" value="Iniciar sesión" class="botones" style="font-size: 15px" />
                 </form>
 
-                {% if mensaje == 0 %}
+                {% if mensaje %}
                 <script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "¡Contraseña incorrecta!",
+                    Swal.fire({ 
+                        icon: "{{icono}}",
+                        title: "{{title}}",
+                        text: "{{mensaje}}",
                       });
-                </script>
-                {% elif mensaje == 2 %}
-                <script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "¡Este usuario se encuentra inhabilitado!",
-                        });
-                </script>
-                {% elif mensaje == 1 %}
-                <script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "¡Error en la validación de la base de datos!",
-                        });
                 </script>
                 {% endif %}
             </div>
             <div class="toggle-container">
                 <div class="toggle">
                     <div class="toggle-panel toggle-left">
-                        <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="display:flex; position:relative;bottom:60px; max-height: 100px;" />
+                        <a href="{% url 'inicio' %}"><img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="display:flex; position:relative;bottom:60px; max-height: 100px;" /></a>
                         <h1>¡Bienvenido de nuevo!</h1>
                         <p>Ingresa tus datos personales para iniciar sesión</p>
                         <button class="hidden" id="login">Iniciar sesión</button>
                     </div>
                     <div class="toggle-panel toggle-right">
-                        <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="display:flex; position:relative;bottom:60px; max-height: 100px;" />
+                        <a href="{% url 'inicio' %}"><img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="display:flex; position:relative;bottom:60px; max-height: 100px;" /></a>
                         <h1>Forma parte de la familia Katta's Pizza</h1>
                         <p>Registrar tus datos personales</p>
                         <button class="hidden" id="register">Registrarse</button>

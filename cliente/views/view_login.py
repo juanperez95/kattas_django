@@ -47,17 +47,24 @@ def loginView(request):
             # Validar si la contraseña coincide, esta habilitado y es administrador o empleado
             usuario = Usuario.objects.get(
                 documento=int(request.POST['documento']),
-                habilitado=Habilitado.objects.get(id=1),
                 password=password
                 )
-            # Crear la sesion del usuario
-            request.session['user'] = usuario.documento
-            if usuario.perfil.id == 1 or usuario.perfil.id == 2:
-                return redirect('dashboard_usuarios')
-            else:
-                return redirect('inicio')
+            # Validar si esta habilitado o no
+            if usuario.habilitado.id == 1:
+                # Crear la sesion del usuario
+                request.session['user'] = usuario.documento
+                if usuario.perfil.id == 1 or usuario.perfil.id == 2:
+                    return redirect('dashboard_usuarios')
+                else:
+                    return redirect('inicio') # Si es cliente
+                
+            data['mensaje'] = f"¡El usuario {usuario.nombre} no esta habilitado!"
+            data['title'] = "¡Ups!"
+            data['icono'] = "error"
         except Exception as err:
-            data['mensaje'] = 0
+            data['mensaje'] = "Oops, ¡Credenciales incorrectos!"
+            data['title'] = "¡Ups!"
+            data['icono'] = "error"
             
     return render(request, "cliente/login.html",data)
 
@@ -87,6 +94,7 @@ def recuperar_pass(request):
 
 # Registro usuarios
 def registroView(request):
+    data={}
     if request.method == "POST":
         # Validar la existencia del documento
         try:
@@ -120,7 +128,10 @@ def registroView(request):
             message = "Gracias por formar parte de nuestra comunidad."
             html_correo("¡Bienvenido!","Registro Exitoso",message,correo)
             usuario.save()
-        return redirect('login')
+            data['mensaje'] = "¡Registro exitoso!"
+            data['title'] = "¡Hurra!"
+            data['icono'] = "success"
+        return render(request,'cliente/login.html',data)
     return render(request,'cliente/registro.html')
 # Cierre sesion
 def cerrar_sesion(request):

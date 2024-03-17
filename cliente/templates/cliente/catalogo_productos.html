@@ -20,11 +20,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/b06d3acf28.js" crossorigin="anonymous"></script>
   </head>
+  <style>
+    body {
+        background-color: var(--color-fondo);
+    }
+</style>
   <body>
     <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 15%;display:flex; justify-content: flex-end;position: relative; ">
       
       <div class="navega flex-colum flex-md-row" style="display:flex;justify-content:space-around;  width:72%;align-items:center">
-          <a class="navbar-brand mr-auto" style="top: 0; text-align: center;" href="#">
+          <a class="navbar-brand mr-auto" style="top: 0; text-align: center;" href="{% url 'inicio' %}">
               <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="top: 0; max-height: 100px; margin: auto;" />          
           </a>
           <div class="icono-carrito" style="color: white; font-size:20px; ">
@@ -35,6 +40,8 @@
       </div>   
       </div>
   </nav>
+
+  <a style="color:black; " href="{% url 'inicio' %}"><i class="fa-solid fa-arrow-left" style="position:relative;left:18px;top:18px;cursor: pointer; font-size:25px"></i></a>
     
     {% if notificacion == 0 %}
     <script>

@@ -89,7 +89,7 @@ class Entrada_Insumo(models.Model):
         
     fk_insumo = models.ForeignKey(Insumo, on_delete=models.CASCADE)
     cantidad_entrada= models.BigIntegerField(null = False)
-    fecha_entrada= models.DateField(null=False,default=timezone.now)
+    fecha_entrada= models.DateField(null=False,default=timezone.now )
     fecha_vencimiento=models.DateField(null=False)
     estado_vencido=models.CharField(max_length=30 , null=False)
     

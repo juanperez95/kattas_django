@@ -5,12 +5,16 @@ from django.conf import settings
 from cliente.models import *
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+# Paginacion para cada tabla
+# Recuperar sesion del usuario logueado
 from .view_catalogo import sesion, paginacion
 
 
 # Insumos para productos
 global datos_insumo
 datos_insumo = {}
+
 
 def limpiar_lista(request):
     datos_insumo.clear()
@@ -29,42 +33,35 @@ def dashboard_base(request):
         return redirect('login')
     return render(request,"cliente/dashboard.html")
 
-def dashboard_insumos(request):
+def dashboard_insumos(request,m={}):
     if request.session.get('user') is None:
         return redirect('login')
     data={
         'n_insumos':Insumo.objects.count(),
         'n_disponibles':len(Insumo.objects.filter(fk_estado=Estado.objects.get(id=1))),
         'n_vencido':len(Entrada_Insumo.objects.filter(estado_vencido="Vencido")),
+        'notificacion':m,
         }
-    usuario = Usuario.objects.get(documento=request.session.get('user'))
     categorias = Categoria.objects.all()
-    insumos=Insumo.objects.all()
-    data['datos']=usuario
+    data['datos']=sesion(request)
     data['categorias']=categorias    
-    paginacion = Paginator(insumos,7)
-    pagina = request.GET.get('pagina')
-    paginador = paginacion.get_page(pagina)
-    data['entidad']=paginador
+    data['entidad']=paginacion(request,Insumo.objects.all(),7)
     return render(request,"cliente/dashboard_insumo.html",data)
 
-def dashboard_usuarios(request):
+def dashboard_usuarios(request,m={}):
     if request.session.get('user') is None:
         return redirect('login')
     usuarios = Usuario.objects.all()
     if request.method == "POST":
         usuarios = Usuario.objects.filter(documento__icontains=request.POST['documento'])
-    usuario =  Usuario.objects.get(documento=request.session.get('user'))
-    paginacion = Paginator(usuarios,8)
-    pagina = request.GET.get('pagina')
-    paginador = paginacion.get_page(pagina)
     data={
-        'entidad':paginador,
-        'datos':usuario,
+        'entidad':paginacion(request,usuarios,8),
+        'datos':sesion(request),
         'n_usuarios':Usuario.objects.count(),
         'n_deshabilitados':len(Usuario.objects.filter(habilitado=Habilitado.objects.get(id=2))),
         'n_clientes':len(Usuario.objects.filter(perfil=Perfil.objects.get(id=3))),
         'n_empleados':len(Usuario.objects.filter(perfil=Perfil.objects.get(id=2))),
+        'notificacion':m,
         }
     
     return render(request,"cliente/dashboard_usuarios.html",data)
@@ -72,13 +69,9 @@ def dashboard_usuarios(request):
 def dashboard_productos(request):
     if request.session.get('user') is None:
         return redirect('login')
-    login = Usuario.objects.get(documento=request.session.get('user'))
-    paginacion = Paginator(Producto.objects.all(),8)
-    pagina = request.GET.get('pagina')
-    paginador = paginacion.get_page(pagina)
     data={
-        'datos':login,
-        'entidad':paginador,
+        'datos':sesion(request),
+        'entidad':paginacion(request,Producto.objects.all(),8),
         'n_productos':Producto.objects.count(),
         'n_disponibles':len(Producto.objects.filter(fk_estado=Estado.objects.get(id=1)))
         }
@@ -87,7 +80,6 @@ def dashboard_productos(request):
 def actualizar_usuario(request, id):
     if request.session.get('user') is None:
         return redirect('login')
-    login = Usuario.objects.get(documento=request.session.get('user'))
     if request.method == 'POST':
         usuario = Usuario.objects.get(documento=id)
         usuario.documento = request.POST['documento']
@@ -100,41 +92,63 @@ def actualizar_usuario(request, id):
         usuario.perfil = Perfil.objects.get(id=request.POST['perfil'])
         usuario.cargo = Cargo.objects.get(id=request.POST['cargo'])
         usuario.save()
-        return redirect('dashboard_usuarios')    
+        data={
+            'mensaje':f'¡Usuario {usuario.documento} ha sido actualizado!',
+            'icono':'success',
+            'title':'¡Actualizado!'
+        }
+        request.method = ""
+        return dashboard_usuarios(request,data)  
     persona = Usuario.objects.get(documento=id)
     habilitado = Habilitado.objects.all()
     perfil = Perfil.objects.all()
     cargo = Cargo.objects.all()
-    return render(request,'cliente/actualizar_usuario.html',{'datos':login,'persona':persona,'hab':habilitado,'perfil':perfil,'cargo':cargo})
+    return render(request,'cliente/actualizar_usuario.html',{'datos':sesion(request),'persona':persona,'hab':habilitado,'perfil':perfil,'cargo':cargo})
     
 
 def deshabilitar(request, documento):
+    data={
+        'icono':'success',
+        'title':"¡Deshabilitado!"
+    }
     usuario_d = Usuario.objects.get(documento=documento)
     usuario_d.habilitado = Habilitado.objects.get(id=2)
     usuario_d.save()
-    return redirect('dashboard_usuarios')    
+    return dashboard_usuarios(request,data)  
 
 
 def habilitar(request, documento):
+    data={
+        'icono':'success',
+        'title':"¡Habilitado!"
+    }
     usuario_h = Usuario.objects.get(documento=documento)
     usuario_h.habilitado = Habilitado.objects.get(id=1)
     usuario_h.save()
-    return redirect('dashboard_usuarios')    
+    return dashboard_usuarios(request,data)   
 
 def registrar_insumo(request):
+    data={}
     if request.method=="POST":
-        nombre_insumo=request.POST['n_insumo']
-        c_minima=request.POST['c_minima']
-        categoriaInsumo=request.POST['categoria']
-        insumo=Insumo(
-            nombre_insumo=nombre_insumo,
-            cantidad_existente=0,
-            cantidad_minimo=c_minima,
-            fk_categoria=Categoria.objects.get(id=categoriaInsumo),
-            fk_estado=Estado.objects.get(id=3)          
-        )
-        insumo.save()
-    return redirect('dashboard_insumo')
+        try:
+            nombre_insumo=request.POST['n_insumo']
+            Insumo.objects.get(nombre_insumo=nombre_insumo) # Validar la existencia del insumo
+            data['mensaje'] = f"¡Insumo {nombre_insumo} ya esta registrado!"
+            data['icono'] = "error"
+        except Exception as err: # Si existe el insumo no se registra
+            c_minima=request.POST['c_minima']
+            categoriaInsumo=request.POST['categoria']
+            insumo=Insumo(
+                nombre_insumo=nombre_insumo,
+                cantidad_existente=0,
+                cantidad_minimo=c_minima,
+                fk_categoria=Categoria.objects.get(id=categoriaInsumo),
+                fk_estado=Estado.objects.get(id=3)          
+            )
+            insumo.save()
+            data['mensaje'] = f"¡Insumo {nombre_insumo} ha sido creado exitosamente!"
+            data['icono'] = "success"
+    return dashboard_insumos(request,data)
 
 
 
@@ -142,13 +156,12 @@ def registrar_insumo(request):
 def entrada_insumo(request, id):
     if request.session.get('user') is None:
         return redirect('login')
-    login = Usuario.objects.get(documento=request.session.get('user'))
     insumo=Insumo.objects.get(id=id)
     now = datetime.now()
     formato = now.strftime('%d/%m/%Y')
 
     data={
-        'datos':login,
+        'datos':sesion(request),
         'f_actual':formato,
         'insumo':insumo       
     }
@@ -186,8 +199,7 @@ def entrada_insumo(request, id):
 
 def dashboard_entrada(request,ids):
     if request.session.get('user') is None:
-        return redirect('login')
-    login = Usuario.objects.get(documento=request.session.get('user'))    
+        return redirect('login')  
     insumo=Insumo.objects.get(id=ids)
     entradas= Entrada_Insumo.objects.filter(fk_insumo=insumo)
     if request.method == "POST":
@@ -204,13 +216,9 @@ def dashboard_entrada(request,ids):
             
         elif request.POST.get('estado_vencido'):
             entradas = Entrada_Insumo.objects.filter(estado_vencido=request.POST.get('estado_vencido'),fk_insumo=insumo)
-    
-    paginacion = Paginator(entradas,8)
-    pagina = request.GET.get('pagina')
-    paginador = paginacion.get_page(pagina)
     data={
-        'datos':login,
-        'entidad':paginador,
+        'datos':sesion(request),
+        'entidad':paginacion(request,entradas,8),
     }
     
 
@@ -218,14 +226,11 @@ def dashboard_entrada(request,ids):
 
 # ----------------------------------------------------------------- productos-----------------------------------------------------------------
 def registrar_productos(request):
-    ob_insumos= [(k,v) for k, v in datos_insumo.items()]
-    paginacion = Paginator(ob_insumos,3)
-    pagina = request.GET.get('pagina')
-    paginador = paginacion.get_page(pagina)
+    ob_insumos= [(k,v) for k, v in datos_insumo.items()] # Diccionario de insumos
     data = {
         'datos':Usuario.objects.get(documento=request.session.get('user')),
         'insumos':Insumo.objects.all(),
-        'insumos_productos':paginador
+        'insumos_productos':paginacion(request,ob_insumos,3)
         }
     if request.method == "POST":
         nombre_producto = request.POST['n_producto']
@@ -275,12 +280,9 @@ def registrar_productos(request):
     return render(request,"cliente/registrar_producto.html",data)
 
 def insumos_productos(request,id_producto,id_p_i):
-    paginacion = Paginator(Producto_Insumo.objects.filter(productos=Producto.objects.get(id=id_producto)),8)
-    pagina = request.GET.get('pagina')
-    paginador = paginacion.get_page(pagina)
     data={
-        'entidad':paginador,
-        'datos':Usuario.objects.get(documento=request.session.get('user')),
+        'entidad':paginacion(request,Producto_Insumo.objects.filter(productos=Producto.objects.get(id=id_producto)),8),
+        'datos':sesion(request),
         'producto':Producto.objects.get(id=id_producto)
         }
     try:
@@ -298,7 +300,7 @@ def editar_insumo_producto(request,id):
     p_i.cantidad = request.POST['cantidad']
     p_i.save()
     return redirect("insumos_productos",p_i.productos.id,0)
-
+# ------------------------------------------------------------------------- Pedidos ---------------------------------------------------
 def dashboard_pedidos(request):
     
     data = {
@@ -329,7 +331,6 @@ def actualizar_estado_pedido(request,id):
         'id':Pedido.objects.get(id=id)
         }    
     
-    pagina = request.GET.get('pagina',2)
     if request.method == "POST":
         pedido = Pedido.objects.get(id=id)
         pedido.fk_estado = Estado_Pedido.objects.get(id=request.POST['estado_pedido'])

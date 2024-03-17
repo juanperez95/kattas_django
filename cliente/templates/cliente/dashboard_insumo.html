@@ -5,6 +5,17 @@
 {% block username %}{{ datos.nombre }}{% endblock  %}
 
 {% block content %}
+{% if notificacion %}
+<script>
+  Swal.fire({
+    position: "top-end",
+    icon: "{{notificacion.icono}}",
+    title: "{{notificacion.mensaje}}",
+    showConfirmButton: false,
+    timer: 3000
+  });
+</script>
+{% endif %}
 <div>
     <div style="display:flex; justify-content: space-between; align-items: flex-end">
       <h1 style="font-size: 50px; font-weight:bold">Insumos</h1>
