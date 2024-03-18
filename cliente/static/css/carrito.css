@@ -163,9 +163,9 @@ p {
 
 
     .product-cell .botonAumentar{
-        background-color:var(--color-botonesAgregar);
+        background-color:var(--color-botonesSecundarios);
         margin-top: 0;
-        color: #f9f9f9;
+        color:var(--color-texto);
         border: none;
         border-radius: 50%;
         font-size: 10px;
@@ -175,9 +175,9 @@ p {
       }
       
       .product-cell .botonRestar{
-        background-color:var(--color-botonesAgregar);
+        background-color:var(--color-botonesSecundarios);
         margin-top: 0;
-        color: #f9f9f9;
+        color:var(--color-texto);
         border: none;
         border-radius: 50%;
         font-size: 10px;
@@ -188,12 +188,12 @@ p {
 
     
     .product-cell .botonAumentar:hover{
-        background-color: var(--color-HoverBotonesAgregar);
+        background-color: var(--color-HoverBotones);
         transition: 0.5s;
     }
 
     .product-cell .botonRestar:hover{
-        background-color: var(--color-HoverBotonesAgregar);
+        background-color: var(--color-HoverBotones);
         transition: 0.5s;
     }
 

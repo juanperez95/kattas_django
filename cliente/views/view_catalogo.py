@@ -123,13 +123,29 @@ def crear_pedido(request,total):
                 precio_producto=producto[2]
             )
         pedido_producto.save()
+    productos.clear()
 
-    # quitar de inventario
-        
-    for prod in productos.values():    
-        insumo_producto = Producto_Insumo.objects.filter(productos=prod[0])
+    data['notificacion'] = 0
+                
+            
+    return render(request,'cliente/catalogo_productos.html',data)
+    
+
+def generar_venta(request, id_pedido):
+    # quitar de inventario ------------------------------------------------------------
+    pedido = Pedido_Producto.objects.filter(id=id_pedido)
+    for prod in pedido:    
+        insumo_producto = Producto_Insumo.objects.filter(productos=prod.fk_producto)
         for ins in insumo_producto:
             insumo = Insumo.objects.get(id=ins.insumos.id)
+            entrada_insumo = Entrada_Insumo.objects.filter(fk_insumo=ins)
+            # ---- Descontar entrada ------------------------------------
+            
+            
+            
+            
+            
+            
             insumo.cantidad_existente -= (ins.cantidad*prod[1])
             if insumo.cantidad_existente >= 0:
                 print("Se guardo")
@@ -155,15 +171,6 @@ def crear_pedido(request,total):
                         producto.fk_estado = Estado.objects.get(id=1)
 
                 producto.save()
-                data['notificacion'] = 0
-                
-            else:
+    else:
                 data['notificacion'] = 1
-
-
-
-
-    productos.clear()
-    return render(request,'cliente/catalogo_productos.html',data)
-    
-
+    pass

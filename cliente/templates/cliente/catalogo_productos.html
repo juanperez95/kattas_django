@@ -22,7 +22,7 @@
   </head>
   <style>
     body {
-        background-color: var(--color-fondo);
+        background-color: var(--color-fondo2);
     }
 </style>
   <body>
@@ -40,8 +40,6 @@
       </div>   
       </div>
   </nav>
-
-  <a style="color:black; " href="{% url 'inicio' %}"><i class="fa-solid fa-arrow-left" style="position:relative;left:18px;top:18px;cursor: pointer; font-size:25px"></i></a>
     
     {% if notificacion == 0 %}
     <script>
@@ -60,62 +58,56 @@
           });
     </script>
     {% endif %}
+
+    
       
+    <div class="catalogo">
+      {% for producto in entidad %}
+      <div class="producto">
+          <img src="{{producto.foto_p.url}}">
+          <div class="info">
+              <p class="nombre">{{producto.nombre_producto}}</p>
+              <p class="descripcion">{{producto.descripcion}}</p>
+              <p class="precio">${{producto.precio}}</p>
+              <div class="acciones">
+                <form action="{% url 'catalogo_productos' producto.id %}" method="post">
+                  {% csrf_token %}
+                  <input type="number" name="cantidad" class="cantidad" value="0">
+                  <input type="submit" class="agregar" value="Agregar al carrito">                  
+                </form>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+
+    <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
+      <ul class="pagination" style="gap:5px">
+          {% if page_obj.has_previous %}
+              <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>
+              <li><a class="btn btn-dark" href="?pagina={{ entidad.previous_page_number }}">&lsaquo; Anterior</a></li>
+          {% endif %}
+          {% for num in entidad.paginator.page_range %}
+              {% if entidad.number == num %}
+                  <li style="background-color: #078d65" class="btn btn-secondary"><span>{{ num }}</span></li>
+              {% else %}
+                  <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
+              {% endif %}
+          {% endfor %}
+          {% if entidad.has_next %}
+              <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.next_page_number }}">Siguiente &rsaquo;</a></li>
+              <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.paginator.num_pages }}">Última &raquo;</a></li>
+          {% endif %}
+      </ul>
+  </div>
 
 
     
 
-    
-
-    <div class="productos" style="margin-top:30px">
+    {% comment %} <div class="productos" style="margin-top:30px">
       
         {% for producto in entidad %}
-          
-
-        <div class="tarjeta" style="border: 1px solid #ccc; width: 38%; display: grid; 
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 0;
-        grid-auto-rows: minmax(100px, auto); height: 52vh; margin:10px;border-top-left-radius: 20px; border-top-right-radius: 20px;">
-            
-          <div class="titulo" style=" grid-column: 1 / 5; border-top-left-radius: 20px; border-top-right-radius: 20px;
-          grid-row: 1; display: flex; align-items: center; justify-content:center; background-color: #0F0F0F; color: white ">
-            <h1 style="font-weight:bold">{{producto.nombre_producto}}</h1>
-          </div>    
-          <div class="descripcion" style=" grid-column: 1/3;
-          grid-row: 2 / 4; padding: 15px;overflow: auto; text-align: justify; background-color: white">
-            <p>{{producto.descripcion}}</p>
-          </div>
-          <div class="imagen" style="grid-column: 3 / 5;
-          grid-row: 2 / 4; display:flex; align-items:center; padding:10px">
-            <img src="{{producto.foto_p.url}}" style="max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 20px">
-          </div>
-          
-          <div class="boton" style="grid-column: 1 /5; margin:0px;padding:0px;
-          grid-row: 4; display: flex; align-items: center; justify-content:space-around; border: 1px solid #ccc; background-color: #0F0F0F; color: white">
-          <div >
-          
-          <p style="font-weight:bold; color: white; margin:0px">Precio:</p>
-          <p style="font-weight:bold; color: white;margin:0px">$ {{producto.precio}}</p>
-          </div>
-          
-          <div style="display:flex;flex-direction:column">
-              <form action="{% url 'catalogo_productos' producto.id %}" method="post">
-                {% csrf_token %}
-              <label style="font-weight:bold;;color: white">Cantidad:</label>
-              <input style="background: none; border: none; width: 40px; color: white" class="contadorNumero" type="number" id="contador" name="cantidad" value="0" min="1">
-            </div>
-            <input type="submit" class="btn btn-success" value="Agregar al carrito">
-          </form> 
-          </div>
-          
-    
-        </div>
-
-
-
-           
-        {% endfor %}
-
 
         <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
             <ul class="pagination" style="gap:5px">
@@ -135,12 +127,12 @@
                     <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.paginator.num_pages }}">Última &raquo;</a></li>
                 {% endif %}
             </ul>
-        </div>
+        </div> {% endcomment %}
             
             
             
               
-        </div>
+        {% comment %} </div> {% endcomment %}
         <script src="carta.js"></script>
         
         <script
