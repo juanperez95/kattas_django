@@ -5,12 +5,25 @@
 {% block username %}{{ datos.nombre }}{% endblock  %}
 
 {% block content %}
-<div style="display:flex; justify-content: space-between; align-items: flex-end">
-  <h1 style="font-size: 50px; font-weight:bold">Pedidos</h1>
-  <a href="{% url 'registrar_producto' %}" ><button type="button" class="btn btn-primary" style="margin-bottom: 15px; height:45px; background-color: #078d65">Registrar producto</button> </a> 
-</div>
+{% if notificacion %}
+<script>
+  Swal.fire({
+    position: "top-end",
+    icon: "{{notificacion.icono}}",
+    title: "{{notificacion.title}}",
+    text:"{{notificacion.mensaje}}",
+    showConfirmButton: false,
+    timer: 3000
+  });
+</script>
+{% endif %}
+
 <div>
-    <form method="post" action=>
+    <div style="display:flex; justify-content: space-between; align-items: flex-end">
+        <h1 style="font-size: 50px; font-weight:bold">Pedidos</h1>
+      </div>  
+
+    <form method="post" action="{% url 'dashboard_pedidos' %}">
         {% csrf_token %}
         <div style="display:flex; justify-content: space-between; align-items: flex-end">
             <div>
@@ -18,11 +31,43 @@
                 <i class="pi pi-filter"></i>
                 <input type="text" class="filtrodash" id="globalFilter" style="width: 300px;" name="filtro_pedido" placeholder="Filtrar usuarios por documento" />
                 <input  style="background-color: #23434F" type="submit" id="globalFil" style="width: 160px;" value="Buscar" class="btn btn-success"  />
+                
+            </form>
             </div>
+            <form action="{% url 'pdf_dashboard' %}" method="post">
+                {% csrf_token %}
+            <div style="display:flex; align-items:flex-end; gap: 20px">
+                <div class="form-group" style="margin-bottom:10px">
+                    <label for="f_vencimiento">Fecha inicial:</label>
+                    <input type="date" class="form-control" id="f_vencimiento" name="f_inicial" style="background-color: white; border-style: none" required>
+                </div>
+                <div class="form-group" style="margin-bottom:10px">
+                    <label for="f_vencimiento">Fecha fin:</label>
+                    <input type="date" class="form-control" id="f_vencimiento" name="f_fin" style="background-color: white; border-style: none" required>
+                </div>
+                <div class="form-group" style="margin-bottom:10px">
+                    <label for="f_vencimiento">Estado:</label>
+                    <select name="estado" class="form-control">
+                        <option value="1">Entregado</option>
+                        <option value="2">En espera</option>
+                        <option value="3">Preparando</option>
+                        <option value="4">Cancelado</option>
+                    </select>
+                </div>
+                <div>
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 10px; height:45px; background-color: #078d65">Generar PDF</button> 
+            </div>
+             </form>
+            </div>
+            
+
           </div>
         
-    </form>
+    
+    
+
 </div>
+
 <table id="datatable">
     <thead style="background-color: #23434F">
         <tr>

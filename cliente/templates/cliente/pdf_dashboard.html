@@ -43,27 +43,46 @@
         }
     </style>
 </head>
-<body>
+<body style="font-size: 12px;">
+    
+    <h1 style="text-align:center;font-size: 30px;">Katta´s Pizza</h1>
+    
+        <div style="position: relative; display: flex; flex-direction: row; ">
+            
+                <p style="left: 0; width: 30%;">Reporte pedidos - ({{f_inicial}} - {{f_final}})</p>
+                                
+                
+        </div>
+    
     <h1>{{ titulo }}</h1>
-
+    
     <table>
         <thead>
             <tr>
-                <th>Documento</th>
-                <th>Nombre de usuario</th>
-                <th>Correo electrónico</th>
+                <th>N° Pedido</th>
+                <th>N° Documento</th>
+                <th>Fecha</th>
+                <th>Estado pedido</th>
+                <th>total pedido</th>
             </tr>
         </thead>
         <tbody>
-            {% for usuario in usuarios %}
+            {% for pedido in pedidos %}
             <tr>
-                <td>{{ usuario.documento }}</td>
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.email }}</td>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.fk_documento.documento }}</td>
+                <td>{{ pedido.fecha_pedido }}</td>
+                <td>{{ pedido.fk_estado.tipo_estado }}</td>
+                <td>${{ pedido.total }}</td>
             </tr>
             {% endfor %}
+            <tr>
+                
+                <td colspan="5" style="text-align: right; font-weight: bold;">Total consolidado:  ${{total}}</td>
+            </tr>
         </tbody>
     </table>
+    <p style="text-align: right;">Fecha Reporte - {{fecha_actual}}</p>  
 </body>
 
 </html>

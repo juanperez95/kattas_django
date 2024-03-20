@@ -5,15 +5,23 @@
 {% block username %}{{ datos.nombre }}{% endblock  %}
 
 {% block content %}
+{% if notificacion %}
+<script>
+  Swal.fire({
+    position: "top-end",
+    icon: "{{notificacion.icono}}",
+    title: "{{notificacion.title}}",
+    text:"{{notificacion.mensaje}}",
+    showConfirmButton: false,
+    timer: 3000
+  });
+</script>
+{% endif %}
 <div>
   <form method="post" >
       {% csrf_token %}
       <div style="display:flex; align-items:center">
       <i class="pi pi-filter"></i>
-      <div>
-        <label>ID</label>
-        <input type="text" class="filtrodash" id="globalFilter" style="width:300px; margin-left:0px; margin-right:50px; margin-top:0px" name="id_entrada" placeholder="Filtrar ID" />
-      </div>
        <div style="margin-left:50px">
         <label>Fecha de vencimiento</label>
         <input type="date" class="filtrodash" id="globalFilter" style="width:300px; margin-left:0px;  margin-right:50px; margin-top:0px"  name="f_vencimiento" />
@@ -40,7 +48,8 @@
     <thead style="background-color: #23434F">
         <tr>
             <th class="cabecera">N° Entrada</th>            
-            <th class="cabecera">Cantidad de Entrada</th>
+            <th class="cabecera">Cantidad de actual</th>
+            <th class="cabecera">Cantidad de entrada</th>
             <th class="cabecera">Fecha de vencimiento</th>
             <th class="cabecera">Fecha de entrada</th>
             <th class="cabecera">Estado Vencimiento</th>
@@ -54,9 +63,10 @@
           <td>{{entrada.id}}</td>
           
           <td>{{entrada.cantidad_entrada}}</td>
+          <td>{{entrada.cantidad_inicial}}</td>
 
-          <td>{{entrada.fecha_vencimiento}}</td>
-          <td>{{entrada.fecha_entrada}}</td>
+          <td>{{entrada.fecha_vencimiento|date:"d-m-Y"}}</td>
+          <td>{{entrada.fecha_entrada|date:"d-m-Y H:i"}}</td>
           <td>{{entrada.estado_vencido}}</td>                     
         </tr>
         {% endfor %}

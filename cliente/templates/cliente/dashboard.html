@@ -23,7 +23,12 @@
             <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" />
         </div>
         <div class="user--info">
-            <img src="{% static 'images/usuario.jpg' %}" />
+            
+            
+            {% block imagen %}
+            <img src="{{datos.foto_perfil.url}}" /> 
+            {% endblock %}       
+            
         </div>
         <div class="header--title">
             <a>Bienvenido/a, {% block username %}name_user{% endblock %}</a>
@@ -79,7 +84,7 @@
                 
         
             <li>
-                <a href="#">
+                <a href="{% url 'editarUsuario' %}">
                     <i class="fa-solid fa-gears"></i>
                     <span>Configuración</span>
                 </a>
@@ -97,7 +102,7 @@
         <!-- Content -->
         {% block content %}{% endblock %}
 
-        <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
+        <div class="containers" style="display: flex; justify-content: center; padding-top:20px;">
             <ul class="pagination" style="gap:5px">
                 {% if page_obj.has_previous %}
                     <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>

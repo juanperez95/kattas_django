@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correo HTML</title>
+    <style>
+        /* Definición de estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #666;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            
+            
+            
+        }
+        th {
+            background-color: #0F0F0F;
+            color: #F3F3F3;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body> 
+    <img src='https://i.postimg.cc/GhrDCHvp/Logokatta-s-sin-fondo.png' style="float: left; width: 300px;">
+    <h1 style="text-align:center; font-weight:bold">¡Muchas gracias {{ pedido.fk_documento.nombre }} tu pedido {{ pedido.id }} ha sido entregado!  </h1>
+    <p style="text-align:center">Esperamos disfrutes tu compra</p>
+    <table>
+        <thead>
+            <tr>
+                <th >Producto</th>                
+                <th >Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.fk_producto.nombre_producto }}</td>
+                <td>{{ item.cantidad_producto }}</td>
+                <td>$ {{ item.precio_producto }}</td>
+                <!-- Agrega más celdas si es necesario -->
+            </tr>
+            {% endfor %}
+             <tr>
+                <td coldspan="3" style="text-align:right">Total: $ {{ pedido.total }}</td>
+            </tr> 
+        </tbody>
+    </table>
+    <h2 style="text-align:center">¡Trabajamos para brindarte el mejor servicio!</h2>
+</body>
+</html>

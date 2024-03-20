@@ -37,6 +37,7 @@ class Usuario(models.Model):
     genero = models.CharField(max_length=30,null=False)
     telefono = models.CharField(max_length=10,null=False)
     direccion = models.CharField(max_length=50,null=False)
+    foto_perfil = models.ImageField(upload_to="perfiles", null=True, default="perfiles/imagen_usuario.jpg")
 
 # Insumos ------------------------------------------------------------
 
@@ -58,7 +59,7 @@ class Insumo(models.Model):
     fk_categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
     fk_estado = models.ForeignKey(Estado,on_delete=models.CASCADE)
     nombre_insumo = models.CharField(max_length=30)    
-    cantidad_existente = models.IntegerField(null=False)
+    cantidad_existente = models.BigIntegerField(null=False)
     cantidad_minimo = models.IntegerField(null=False)
     
 class Producto(models.Model):
@@ -89,9 +90,11 @@ class Entrada_Insumo(models.Model):
         
     fk_insumo = models.ForeignKey(Insumo, on_delete=models.CASCADE)
     cantidad_entrada= models.BigIntegerField(null = False)
-    fecha_entrada= models.DateField(null=False,default=timezone.now )
-    fecha_vencimiento=models.DateField(null=False)
+    fecha_entrada= models.DateTimeField(null=False,default=timezone.now )
+    fecha_vencimiento=models.DateTimeField(null=False)
     estado_vencido=models.CharField(max_length=30 , null=False)
+    cantidad_inicial=models.BigIntegerField(null = True)
+
     
 
 #--------------------------Pedido y Ventas----------------------------------------

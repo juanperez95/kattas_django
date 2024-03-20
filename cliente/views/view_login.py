@@ -40,7 +40,7 @@ def html_correo(titulo,asunto, contenido, correo):
     msg.send()
 
 def loginView(request):
-    data = {'mensaje':10}
+    data = {}
     if request.method == "POST":
         password = h.sha1(request.POST['clave'].encode()).hexdigest() # Encriptar clave
         try:
@@ -71,7 +71,7 @@ def loginView(request):
 def indexView(request):
     return render(request, "cliente/index.html")
 
-def recuperar_pass(request):
+def recuperar_pass(request): # Recuperar -----------------------------------------------------------------------------
     if request.method == "POST":
         data = {'m':0}
         correo = request.POST['email']
@@ -132,7 +132,7 @@ def registroView(request):
             data['title'] = "¡Hurra!"
             data['icono'] = "success"
         return render(request,'cliente/login.html',data)
-    return render(request,'cliente/registro.html')
+    return render(request,'cliente/login.html',data)
 # Cierre sesion
 def cerrar_sesion(request):
     try:
@@ -142,6 +142,8 @@ def cerrar_sesion(request):
     except KeyError: # Si no llega a encontrar la clave
         pass
     return redirect('inicio')
+
+
 
 
     

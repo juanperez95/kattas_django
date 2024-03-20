@@ -1,14 +1,17 @@
 from datetime import date, datetime
+from django.utils import timezone
 import os
 from django.shortcuts import render, redirect
 from django.conf import settings
 from cliente.models import *
 from django.core.paginator import Paginator
-from django.db.models import Q
+import hashlib as h
+from django.template.loader import render_to_string
+from django.core.mail import send_mail,EmailMultiAlternatives
 
 # Paginacion para cada tabla
 # Recuperar sesion del usuario logueado
-from .view_catalogo import sesion, paginacion
+from .view_catalogo import sesion, paginacion, generar_venta
 
 
 # Insumos para productos
@@ -45,7 +48,7 @@ def dashboard_insumos(request,m={}):
     categorias = Categoria.objects.all()
     data['datos']=sesion(request)
     data['categorias']=categorias    
-    data['entidad']=paginacion(request,Insumo.objects.all(),7)
+    data['entidad']=paginacion(request,Insumo.objects.all(),6)
     return render(request,"cliente/dashboard_insumo.html",data)
 
 def dashboard_usuarios(request,m={}):
@@ -55,7 +58,7 @@ def dashboard_usuarios(request,m={}):
     if request.method == "POST":
         usuarios = Usuario.objects.filter(documento__icontains=request.POST['documento'])
     data={
-        'entidad':paginacion(request,usuarios,8),
+        'entidad':paginacion(request,usuarios,7),
         'datos':sesion(request),
         'n_usuarios':Usuario.objects.count(),
         'n_deshabilitados':len(Usuario.objects.filter(habilitado=Habilitado.objects.get(id=2))),
@@ -66,14 +69,15 @@ def dashboard_usuarios(request,m={}):
     
     return render(request,"cliente/dashboard_usuarios.html",data)
 
-def dashboard_productos(request):
+def dashboard_productos(request,datos={}):
     if request.session.get('user') is None:
         return redirect('login')
     data={
         'datos':sesion(request),
-        'entidad':paginacion(request,Producto.objects.all(),8),
+        'entidad':paginacion(request,Producto.objects.all(),7),
         'n_productos':Producto.objects.count(),
-        'n_disponibles':len(Producto.objects.filter(fk_estado=Estado.objects.get(id=1)))
+        'n_disponibles':len(Producto.objects.filter(fk_estado=Estado.objects.get(id=1))),
+        'notificacion':datos,
         }
     return render(request,"cliente/dashboard_productos.html",data)
     
@@ -131,11 +135,16 @@ def registrar_insumo(request):
     data={}
     if request.method=="POST":
         try:
-            nombre_insumo=request.POST['n_insumo']
-            Insumo.objects.get(nombre_insumo=nombre_insumo) # Validar la existencia del insumo
-            data['mensaje'] = f"¡Insumo {nombre_insumo} ya esta registrado!"
-            data['icono'] = "error"
+            nombre_insumo=request.POST['n_insumo'].capitalize()
+            if nombre_insumo != "": # Si el insumo no tiene nombre
+                Insumo.objects.get(nombre_insumo=nombre_insumo) # Validar la existencia del insumo
+                data['mensaje'] = f"¡Insumo {nombre_insumo} ya esta registrado!"
+                data['icono'] = "error"
+            else:
+                data['mensaje'] = f"¡Nombre de insumo no valido!"
+                data['icono'] = "error"
         except Exception as err: # Si existe el insumo no se registra
+            
             c_minima=request.POST['c_minima']
             categoriaInsumo=request.POST['categoria']
             insumo=Insumo(
@@ -166,32 +175,36 @@ def entrada_insumo(request, id):
         'insumo':insumo       
     }
     if request.method == 'POST':
-        c_entrada=request.POST['c_entrada']
-        f_vencimiento=request.POST['f_vencimiento']
-        entrada_insumo=Entrada_Insumo(
-            cantidad_entrada=c_entrada,
-            fecha_vencimiento=f_vencimiento,
-            fk_insumo=insumo,
-            estado_vencido="Vigente"           
-        )
-        entrada_insumo.save()
-        insumo.cantidad_existente += int(c_entrada)
-        insumo.save()
-        
-        if insumo.cantidad_existente > insumo.cantidad_minimo:
-            insumo.fk_estado=Estado.objects.get(id=1)
-        elif insumo.cantidad_existente < insumo.cantidad_minimo:
-            insumo.fk_estado=Estado.objects.get(id=2)
+        c_entrada=int(request.POST['c_entrada'])
+        if not c_entrada < 0: # Si no es negativo el valor procede a crear la entrada
+            f_vencimiento=request.POST['f_vencimiento']
+            entrada_insumo=Entrada_Insumo(
+                cantidad_entrada=c_entrada,
+                cantidad_inicial=c_entrada,
+                fecha_vencimiento=f_vencimiento,
+                fk_insumo=insumo,
+                estado_vencido="Vigente"           
+            )
+            entrada_insumo.save()
+            insumo.cantidad_existente += int(c_entrada)
+            insumo.save()
+            data['mensaje'] = "¡Entrada creada exitosamente!"
+            data['icono'] = "success"
             
-            
-        if insumo.cantidad_existente == 0:
-            insumo.fk_estado=Estado.objects.get(id=3)    
-                  
-            
-              
-        insumo.save()
+            if insumo.cantidad_existente > insumo.cantidad_minimo:
+                insumo.fk_estado=Estado.objects.get(id=1)
+            elif insumo.cantidad_existente < insumo.cantidad_minimo:
+                insumo.fk_estado=Estado.objects.get(id=2)
+                
+                
+            if insumo.cantidad_existente == 0:
+                insumo.fk_estado=Estado.objects.get(id=3)    
+                    
+                
+                
+            insumo.save()
 
-        return redirect('dashboard_insumo')
+        return dashboard_insumos(request,data)
     
     
     
@@ -201,12 +214,17 @@ def dashboard_entrada(request,ids):
     if request.session.get('user') is None:
         return redirect('login')  
     insumo=Insumo.objects.get(id=ids)
-    entradas= Entrada_Insumo.objects.filter(fk_insumo=insumo)
-    if request.method == "POST":
-        if request.POST.get('id_entrada'):
-            entradas = Entrada_Insumo.objects.filter(id__icontains=request.POST.get('id_entrada'),fk_insumo=insumo)
+    entradas= Entrada_Insumo.objects.filter(fk_insumo=insumo).order_by("-id")
+    for entrada in entradas:
+        # fecha_actual = timezone.now().date()
+        if entrada.fecha_vencimiento < timezone.now().replace(hour=0, minute=0, second=0, microsecond=0):
+            entrada.estado_vencido = "Vencido"
+            entrada.save()
+
         
-        elif request.POST.get('f_vencimiento'):
+    if request.method == "POST":
+       
+        if request.POST.get('f_vencimiento'):
             entradas = Entrada_Insumo.objects.filter(fecha_vencimiento=request.POST.get('f_vencimiento'),fk_insumo=insumo)
 
             
@@ -233,8 +251,8 @@ def registrar_productos(request):
         'insumos_productos':paginacion(request,ob_insumos,3)
         }
     if request.method == "POST":
-        nombre_producto = request.POST['n_producto']
-        descripcion = request.POST['descripcion']
+        nombre_producto = request.POST['n_producto'].capitalize()
+        descripcion = request.POST['descripcion'].capitalize()
         tamano = request.POST['tamano']
         precio = request.POST['precio']
         imagen = request.FILES['archivo']
@@ -273,10 +291,12 @@ def registrar_productos(request):
                 producto.fk_estado = Estado.objects.get(id=1)
 
         producto.save()
-        
+        data['title']="¡Producto creado!"
+        data['icono']="success"
+        data['mensaje']=f"¡El producto {producto.nombre_producto} ha sido creado correctamente!"
         datos_insumo.clear()
 
-        return redirect('dashboard_productos')
+        return dashboard_productos(request,data)
     return render(request,"cliente/registrar_producto.html",data)
 
 def insumos_productos(request,id_producto,id_p_i):
@@ -301,12 +321,13 @@ def editar_insumo_producto(request,id):
     p_i.save()
     return redirect("insumos_productos",p_i.productos.id,0)
 # ------------------------------------------------------------------------- Pedidos ---------------------------------------------------
-def dashboard_pedidos(request):
+def dashboard_pedidos(request,m={}):
     
     data = {
         'entidad': paginacion(request,Pedido.objects.all(),8),
         'datos':sesion(request),
         'estados':Estado_Pedido.objects.all(),
+        'notificacion':m,
         }    
     if request.method == "POST":
         try:
@@ -335,14 +356,23 @@ def actualizar_estado_pedido(request,id):
         pedido = Pedido.objects.get(id=id)
         pedido.fk_estado = Estado_Pedido.objects.get(id=request.POST['estado_pedido'])
         pedido.save()
-        return redirect('dashboard_pedidos')
+        data['title'] = "¡Estado actualizado!"
+        data['icono'] = "success"
+        data['mensaje'] = f"¡El estado del pedido {pedido.id} es {pedido.fk_estado.tipo_estado}!"
+        if pedido.fk_estado.id == 1:
+            # Genera venta
+            enviar_factura(request,pedido)
+            return generar_venta(request,pedido.id)
+        
+        return dashboard_pedidos(request,data)
     return render(request,f'cliente/dashboard_pedido.html',data)
 
-# ----------------------------------------------------- Dashboard cliente---------------------------
-def mis_pedidos(request):
+# ----------------------------------------------------- Dashboard cliente--------------------------------------------
+def mis_pedidos(request,datos={}):
     data={
         'datos':sesion(request),
         'entidad':paginacion(request,Pedido.objects.filter(fk_documento=sesion(request)),8),
+        'notificacion':datos,
         }
     if request.method == "POST":
         try:
@@ -352,3 +382,75 @@ def mis_pedidos(request):
 
 
     return render(request,"cliente/dashboard_mis_pedidos.html",data)
+
+
+# Editar usuarios ----------------------------------------------------------------------------------
+
+
+
+def editarUsuario(request,datos={}):
+    usuario = sesion(request)
+    data={
+        'datos':sesion(request),
+        'notificacion':datos,
+        }
+    
+    if request.method == "POST":
+        usuario.apellidos=request.POST['apellido']
+        usuario.nombre=request.POST['Nombre']
+        usuario.email=request.POST['email']
+        usuario.telefono=request.POST['telefono']
+        usuario.direccion=request.POST['direccion']
+        try:
+            usuario.foto_perfil=request.FILES['foto_perfil']
+        except Exception as err:
+            pass
+        data['title'] = "¡Actualizado!"
+        data['icono'] = "success"
+        data['mensaje'] = f"Usuario {usuario.nombre} ha sido actualizado."
+        usuario.save()
+        request.method = ''
+        return mis_pedidos(request,data)
+    return render(request,'cliente/editarUsuario.html',data)
+
+def cambiar_password(request):
+    data={}
+    if request.method == "POST":
+        usuario = sesion(request)
+        encriptada = h.sha1(request.POST['actual'].encode()).hexdigest()
+        if usuario.password == encriptada:
+            usuario.password = h.sha1(request.POST['nueva'].encode()).hexdigest()
+            usuario.save()
+            data['title']="Cambio exitoso"
+            data['icono']="success"
+            data['mensaje']="¡Tu contraseña ha sido actualizada!"
+            request.method = ''
+            return mis_pedidos(request,data)
+        data['title']="¡Ups!"
+        data['icono']="error"
+        data['mensaje']="¡La contraseña actual no es correcta!"
+        request.method = ''
+        return editarUsuario(request,data)
+
+def enviar_factura(request,pedido=None):
+
+    data={
+        'items':Pedido_Producto.objects.filter(fk_pedido=pedido),
+        'pedido': pedido
+        }
+    html = render_to_string("cliente/factura.html",data)
+    asunto = f"Factura pedido n° {pedido.id}"
+
+    correo = Usuario.objects.get(documento=pedido.fk_documento.documento)
+    msg = EmailMultiAlternatives(
+                subject=asunto,
+                body="",
+                from_email="jplesmes19@gmail.com",
+                to=[correo.email]
+            )
+    msg.attach_alternative(html, "text/html")
+    msg.send()
+
+    return redirect('inicio')
+
+

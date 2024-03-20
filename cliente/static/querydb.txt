@@ -29,3 +29,6 @@ INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('1', 'En
 INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('2', 'En espera');
 INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('3', 'Preparando');
 INSERT INTO `kattaswebs`.`estados_pedido` (`id`, `tipo_estado`) VALUES ('4', 'Cancelado');
+
+/* ----------------- Usuarios --------------------*/
+INSERT INTO `kattaswebs`.`usuarios` (`documento`, `password`, `nombre`, `apellidos`, `email`, `fecha_registro`, `fecha_nacimiento`, `genero`, `telefono`, `direccion`, `cargo_id`, `habilitado_id`, `perfil_id`, `foto_perfil`) VALUES ('7', 'ddce5d4cd1b57f31f62f971b9882cd08d46195e8', 'Administrador', 'Kattas', 'jplesmes19@gmail.com', '2024-03-19', '1995-08-19', 'Masculino', '3106670298', 'cra 115 # 149B - 10', '4', '1', '1', 'perfiles/imagen_usuario.jpg');

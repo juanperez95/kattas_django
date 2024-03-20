@@ -18,7 +18,7 @@ urlpatterns = [
     path('deshabilitar_user/<str:documento>',view_dashboard.deshabilitar,name="deshabilitar_usuario"),
     path('habilitar_user/<str:documento>',view_dashboard.habilitar,name="habilitar_usuario"),
     path('recuperar_pass/',view_login.recuperar_pass,name="recuperar_pass"),
-    #path('reporte/', view_pdf.reporte_pdf,name="pdf_dashboard"),
+    path('reporte/', view_pdf.generar_pdf,name="pdf_dashboard"),
     path('registrar_insumo/',view_dashboard.registrar_insumo,name="registrar_insumo"),
     path('entrada_insumo/<str:id>',view_dashboard.entrada_insumo,name="entrada_insumo"),
     path('dashboard_entrada/<str:ids>',view_dashboard.dashboard_entrada,name="dashboard_entrada"),
@@ -39,6 +39,8 @@ urlpatterns = [
     path('estado_pedido/<str:id>',view_dashboard.actualizar_estado_pedido,name='estado_pedido'),
     path('mis_pedidos/',view_dashboard.mis_pedidos,name='mis_pedidos'),
     path('configuracion/',view_dashboard.actualizar_estado_pedido,name='configuracion'),
+    path('editarUsuario/',view_dashboard.editarUsuario,name='editarUsuario'),
+    path('cambiar_pass/',view_dashboard.cambiar_password,name='cambiar_pass'),
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

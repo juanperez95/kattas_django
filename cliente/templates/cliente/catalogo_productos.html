@@ -26,21 +26,146 @@
     }
 </style>
   <body>
-    <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 15%;display:flex; justify-content: flex-end;position: relative; ">
-      
-      <div class="navega flex-colum flex-md-row" style="display:flex;justify-content:space-around;  width:72%;align-items:center">
-          <a class="navbar-brand mr-auto" style="top: 0; text-align: center;" href="{% url 'inicio' %}">
-              <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="top: 0; max-height: 100px; margin: auto;" />          
-          </a>
-          <div class="icono-carrito" style="color: white; font-size:20px; ">
-            <a style="color:white" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></a>
-            <!-- Contador del carrito -->            
-            <span class="contador-carrito">{{n_productos}}</span>            
-        </div>
-      </div>   
+    <nav class="navbar fixed-top" style="background-color: var(--color-fondo); height: 15%;display:flex;justify-content:space-between">
+      <div>
+      <button class="menu_desplegable navbar-toggler mx-auto"
+              style="color: var(--color-fondo2); font-size: 150%;"
+              type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+              aria-controls="offcanvasDarkNavbar">
+              <i class="fa-solid fa-bars" style=" margin-left:20px"></i>
+          </button>
       </div>
-  </nav>
-    
+      <div class="navega flex-colum flex-md-row">
+          <a class="navbar-brand mr-auto" style="top: 0;" href="#">
+            <a href="{% url 'inicio' %}"><img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" style="top: 0; max-height: 100px;" /></a>
+          
+          </a>
+      </div>
+      <div class="icono-carrito" style="color: white; font-size:20px;margin-right:60px; ">
+        <a style="color:white;" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></a>
+        <!-- Contador del carrito -->            
+        <span class="contador-carrito">{{n_productos}}</span>            
+    </div>
+      <div class="offcanvas offcanvas-start text-bg-dark justify-content-start w-20" tabindex="-1"
+                id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'mis_pedidos' %}"
+                                style="color: var(--color-texto)">Configuracion</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catalogo_productos' 0 %}" style="color: var(--color-texto)">Carta</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'registro_usuarios' %}" style="color: var(--color-texto)">Registrarse</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}" style="color: var(--color-texto)">Iniciar sesion</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catalogo_productos' 0 %}" style="color: var(--color-texto)">Realiza tus pedidos en línea</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" style="color: var(--color-texto)">¿Quiénes somos?</a><br />
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" style="color: var(--color-texto)">Contáctanos: Comunícate
+                                aquí</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="color: var(--color-texto) ">
+                                Ver más
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu" style="background-color: var(--color-fondo)">
+                                <li><a class="dropdown-item" href="#"></a></li>
+                                <li><a class="dropdown-item" href="#"
+                                        style="color: var(--color-texto);font-family: 'Quicksand', sans-serif; font-size: 100%;">Información
+                                        legal</a></li>
+
+                                <li><a class="dropdown-item" href="#"></a></li>
+                                <li><a class="dropdown-item" href="#"
+                                        style="color: var(--color-texto);font-family: 'Quicksand', sans-serif; font-size: 100%;">Política
+                                        de
+                                        privacidad</a></li>
+                                <li>
+                                <li><a class="dropdown-item" href="#"></a></li>
+                                <li><a class="dropdown-item" href="#"
+                                        style="color: var(--color-texto);font-family: 'Quicksand', sans-serif; font-size: 100%;">Términos
+                                        y
+                                        condiciones</a></li>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li><a class="dropdown-item" href="#"></a></li>
+                        </li>
+                    </ul>
+                    </li>
+                    </ul>
+
+                    <form class="d-flex mt-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
+                        <button class="btn" type="submit"
+                            style="background-color: #C0252A; color: var(--color-texto)">Buscar</button>
+                    </form>
+                </div>
+              </div>
+      </nav><br><br><br><br>
+
+      <div id="carouselExampleCaptions" class="carousel carousel-fade slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+    </div>
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'images/fondopizza4.jpg' %}" class="imagen3" alt="imagen3"/>
+            <div class="carousel-caption d-none d-md-block">
+                <h1 style="font-size: 650%;font-family: 'ui-sans-serif', sans-serif; font-weight: bold;">
+                    Nuestro catalogo</h1>
+                <a href="#"><button type="button" class="boton1 btn-lg" style="color: var(--color-texto)">
+                    Ver más
+                </button></a>
+                <p style="font-family: 'Quicksand', sans-serif;color: var(--color-texto)">¡Realiza tu pedido!</p>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="{% static 'images/contactanos.jpg' %}" class="imagen3" alt="imagen3" />
+            <div class="carousel-caption d-none d-md-block">
+                <h1 style="font-size: 650%; font-family: 'ui-sans-serif', sans-serif; font-weight: bold;">
+                    Inicia sesión para realizar un pedido</h1>
+                    <a href="{% url 'login' %}"><button type="button" class="boton1 btn-lg" style="color: var(--color-texto)">
+                    Ver más
+                </button></a>
+                <p style="font-family: 'Quicksand', sans-serif;color: var(--color-texto)">¡Únete a nuestra familia!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+      
     {% if notificacion == 0 %}
     <script>
       Swal.fire({
@@ -101,47 +226,44 @@
           {% endif %}
       </ul>
   </div>
-
-
-    
-
-    {% comment %} <div class="productos" style="margin-top:30px">
-      
-        {% for producto in entidad %}
-
-        <div class="container" style="display: flex; justify-content: center; padding-top:20px;">
-            <ul class="pagination" style="gap:5px">
-                {% if page_obj.has_previous %}
-                    <li><a class="btn btn-dark" href="?pagina=1">&laquo; Primera</a></li>
-                    <li><a class="btn btn-dark" href="?pagina={{ entidad.previous_page_number }}">&lsaquo; Anterior</a></li>
-                {% endif %}
-                {% for num in entidad.paginator.page_range %}
-                    {% if entidad.number == num %}
-                        <li style="background-color: #078d65" class="btn btn-secondary"><span>{{ num }}</span></li>
-                    {% else %}
-                        <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ num }}">{{ num }}</a></li>
-                    {% endif %}
-                {% endfor %}
-                {% if entidad.has_next %}
-                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.next_page_number }}">Siguiente &rsaquo;</a></li>
-                    <li><a style="background-color: #23434F" class="btn btn-dark" href="?pagina={{ entidad.paginator.num_pages }}">Última &raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div> {% endcomment %}
-            
-            
-            
-              
-        {% comment %} </div> {% endcomment %}
         <script src="carta.js"></script>
-        
         <script
           src="https://kit.fontawesome.com/b06d3acf28.js"
-          crossorigin="anonymous"
-        ></script>
+          crossorigin="anonymous"></script>
         <script src="{% static "js/catalogo_productos.js" %}"></script>
       </div>
     </div>
     </div>
-  </body>
+    
+    <footer>
+
+        <div class="footer">
+            <img src="{% static 'images/Logokatta´s_sin fondo.webp' %}" />
+            <ul>
+              <li>
+                <h3>Menú</h3>
+                <a href="{% url 'catalogo_productos' 0 %}">Pizzas</a>
+                <a href="{% url 'catalogo_productos' 0 %}">Bebidas</a>
+              </li>
+              <li>
+                <h3>Ubicaciones</h3>
+                <a href="#accordionPizza">Delivery</a>
+                <a href="#accordionPizza">Eventos</a>
+                <a href="#accordionPizza">Contacto</a>
+              </li>
+              <li>
+                <div class="links-column socials-column">
+                    <h3>Redes Sociales</h3>
+                    <p style="color: var(--color-texto);">Síguenos en nuestras redes para enterarte de promociones y novedades.</p>
+                    <div class="socials">
+                      <a href="#accordionPizza" class="fa-brands fa-instagram"></a>
+                      <a href="#accordionPizza" class="fa-brands fa-tiktok"></a>
+                      <a href="#accordionPizza" class="fa-brands fa-linkedin"></a>
+                    </div>
+              </li>
+            </ul>
+        </div>
+
+      <div class="derechos">© 2024 Todos los derechos reservados</div>
+    </footer>
 </html>
